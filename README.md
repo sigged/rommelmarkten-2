@@ -23,6 +23,9 @@ Upgrade van rommelmarkten 2025
   
 ![image](https://github.com/user-attachments/assets/9899a5a0-9cc8-46dd-91ba-5772cb3261a9)
 
+- Facturatiegegevens klant
+- Zie doc Rommelmarkten update 2024-2025
+
 ### Betaalsysteem (bv Mollie)
 - integratie van automatisch betalen voor advertentie
 
