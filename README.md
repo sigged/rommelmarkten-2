@@ -3,7 +3,7 @@ Upgrade van rommelmarkten 2025
 
 ## Features
 
-### Splitsen frontend - backend
+### Splitsen frontend - backend ⭐⭐⭐⭐
 - Frontend: Blazor
 - Backend: Rest API met behoud van de databank
 - Schept mogelijkheden voor
@@ -12,14 +12,17 @@ Upgrade van rommelmarkten 2025
   - Toevoegen als mobiele website (PWA)
   - Mobile apps (toekomst)
 
-### Google Analytics 
--  Aanpassen
+### Google Analytics ⭐⭐⭐⭐
+-  Aanpassen + toegang herstellen
 
-### Advertentie looks:
+### Advertentie looks: ⭐⭐⭐⭐
 - Zal dus veel kleiner worden
 - huidige tekortkoming: [bekijk details] of affiche klik naar details is te onduidelijk
 
-### Aanpassingen business
+### Aanpassen van ad door klant ⭐⭐
+- Niet altijd duidelijk dat dit kan/waar dit kan
+
+### Aanpassingen business ⭐⭐⭐⭐
 - Categorie 2 is de enige die blijft
 - Themaiconen gaan eruit
 - Beschrijvingen inkorten
@@ -28,14 +31,28 @@ Upgrade van rommelmarkten 2025
 
 - Facturatiegegevens klant
 - Zie doc Rommelmarkten update 2024-2025
+- Ad plaatsen verder in de toekomst
+  - prijs stijgt percentueel (100% - 150)
+    - dus 100 (basisprijs) voor de eerstvolgende dag
+    - 150 voor de laatst mogelijke dag
+    - maximumpercentage EN de laatste mogelijke dag zijn instelbaar door admin
 
-### Betaalsysteem (bv Mollie)
+### Meldingssysteem van administratie op publieke site ⭐⭐
+- momenteel is er geen systeem om meldingen te geven
+- via admin paneel
+
+### Betaalsysteem (bv Mollie) ⭐⭐⭐⭐
 - integratie van automatisch betalen voor advertentie
 - 1. Klant maakt advertentie aan
   2. Klant betaalt, en aanvaardt gebruiksvoorwaarden* (toestemming om ad te wijzigen door admin)
   3. Advertentie betaald? -> wordt zichtbaar
-  4. Admin ziet overzicht van recent toegevoegde ads: te verifiëren
-  5a. Admin verifieert -> ad verdwijnt uit de lijst
+  5. Admin ziet overzicht van recent toegevoegde ads: te verifiëren
+  5a. Admin verifieert -> ad verdwijnt uit de lijst met te verifieren ads
   5b. Admin past aan -> klant krijgt melding
-  5c. 
+  5c. Admin verwijdert advertentie -> klant krijgt melding
 
+### Low prio: banners van partners ⭐
+- goed op mobile schermen (fixed hoogte)
+- minder netjes op desktop (bv: verticale bars link/rechts)
+  nakijken hoe dit eventueel netter kan
+  
