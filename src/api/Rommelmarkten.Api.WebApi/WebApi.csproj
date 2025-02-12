@@ -21,8 +21,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Rommelmarkten.Api.Application\Application.csproj" />
-	  <ProjectReference Include="..\Rommelmarkten.Api.Domain\Domain.csproj" />
 	  <ProjectReference Include="..\Rommelmarkten.Api.Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
