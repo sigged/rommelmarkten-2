@@ -17,11 +17,14 @@ namespace Rommelmarkten.Api.WebApi
             builder.Services.AddControllers();
             builder.Services.AddProblemDetails();
 
-
             builder.Services.AddApiVersioning().AddMvc().AddApiExplorer();
-            builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            builder.Services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
 
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+                builder.Services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
+            }
+                
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //builder.Services.AddEndpointsApiExplorer();
@@ -34,15 +37,15 @@ namespace Rommelmarkten.Api.WebApi
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(
-    options =>
-    {
-        foreach (var description in app.DescribeApiVersions())
-        {
-            options.SwaggerEndpoint(
-                $"/swagger/{description.GroupName}/swagger.json",
-                description.GroupName);
-        }
-    });
+                    options =>
+                    {
+                        foreach (var description in app.DescribeApiVersions())
+                        {
+                            options.SwaggerEndpoint(
+                                $"/swagger/{description.GroupName}/swagger.json",
+                                description.GroupName);
+                        }
+                    });
             }
 
             app.UseHttpsRedirection();

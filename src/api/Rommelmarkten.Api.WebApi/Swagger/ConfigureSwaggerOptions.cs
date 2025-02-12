@@ -68,9 +68,9 @@ namespace Rommelmarkten.Api.WebApi.Swagger
         {
             var info = new OpenApiInfo()
             {
-                Title = "Fetch! API",
+                Title = "Rommelmarkten API",
                 Version = description.ApiVersion.ToString(),
-                Description = "Example API with Clean Arch, CQRS, Identity and EF Core",
+                Description = "Gateway API for rommelmarkten.be",
                 Contact = new OpenApiContact() { Name = "sigged", Email = "sigged@users.noreply.github.com" }
             };
 
