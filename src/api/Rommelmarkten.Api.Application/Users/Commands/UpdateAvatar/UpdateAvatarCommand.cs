@@ -1,14 +1,16 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
+using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Domain.ValueObjects;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar
 {
     public class UpdateAvatarCommand : IRequest
     {
-        public BlobDto Avatar { get; set; }
+        public BlobDto? Avatar { get; set; }
     }
 
     public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand>
@@ -31,22 +33,29 @@ namespace Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar
             var entity = await _context.UserProfiles
                 .SingleOrDefaultAsync(e => e.UserId.Equals(_currentUserService.UserId));
 
-            if(request.Avatar == null)
+            if(entity != null)
             {
-                var userName = await _identityService.GetUserNameAsync(_currentUserService.UserId);
-                var user = await _identityService.FindByName(userName);
-                entity.Avatar = await _avatarGenerator.GenerateAvatar(user);
+                if (request.Avatar == null)
+                {
+                    var userName = await _identityService.GetUserNameAsync(_currentUserService.UserId);
+                    var user = await _identityService.FindByName(userName);
+                    entity.Avatar = await _avatarGenerator.GenerateAvatar(user);
+                }
+                else
+                {
+                    entity.Avatar = new Blob(
+                        request.Avatar.Name,
+                        request.Avatar.Type,
+                        request.Avatar.Content
+                    );
+                }
+
+                await _context.SaveChangesAsync(cancellationToken);
             }
             else
             {
-                entity.Avatar = new Blob(
-                    request.Avatar.Name,
-                    request.Avatar.Type,
-                    request.Avatar.Content
-                );
+                throw new NotFoundException(nameof(UserProfile), nameof(UserProfile.UserId));
             }
-            
-            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

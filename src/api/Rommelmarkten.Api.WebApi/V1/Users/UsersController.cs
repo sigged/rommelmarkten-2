@@ -1,17 +1,14 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser;
 using Rommelmarkten.Api.Application.Users.Commands.CreateUser;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateProfile;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Rommelmarkten.Api.WebApi.Controllers;
 using Rommelmarkten.Api.WebApi.Middlewares;
-using System.IO;
 using System.Net.Mime;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.WebApi.V1.Users
 {
