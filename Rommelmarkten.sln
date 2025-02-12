@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\api\R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\api\Rommelmarkten.Api.WebApi\WebApi.csproj", "{98C32397-FB3B-467E-988E-DD1CCD7839BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{BA69FE0B-7332-4F96-ADE9-FE8788A1FDDA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,10 +41,6 @@ Global
 		{98C32397-FB3B-467E-988E-DD1CCD7839BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98C32397-FB3B-467E-988E-DD1CCD7839BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98C32397-FB3B-467E-988E-DD1CCD7839BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA69FE0B-7332-4F96-ADE9-FE8788A1FDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA69FE0B-7332-4F96-ADE9-FE8788A1FDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA69FE0B-7332-4F96-ADE9-FE8788A1FDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA69FE0B-7332-4F96-ADE9-FE8788A1FDDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
