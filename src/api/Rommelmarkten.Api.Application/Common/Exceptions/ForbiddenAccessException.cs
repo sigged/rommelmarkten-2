@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rommelmarkten.Api.Application.Common.Exceptions
+﻿namespace Rommelmarkten.Api.Application.Common.Exceptions
 {
     public class ForbiddenAccessException : ApplicationException
     {
