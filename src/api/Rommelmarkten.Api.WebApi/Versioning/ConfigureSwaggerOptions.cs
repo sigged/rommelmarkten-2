@@ -5,7 +5,7 @@ using Rommelmarkten.Api.WebApi.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 
-namespace Rommelmarkten.Api.WebApi.Swagger
+namespace Rommelmarkten.Api.WebApi.Versioning
 {
 
     /// <summary>
