@@ -21,7 +21,7 @@ namespace Rommelmarkten.Api.Infrastructure.Services
                 string avatarText = user.UserName.First().ToString().ToUpper();
                 if (!string.IsNullOrWhiteSpace($"{user.FirstName}{user.LastName}"))
                 {
-                    avatarText = $"{user.FirstName.FirstOrDefault()}{user.LastName.FirstOrDefault()}".ToUpper();
+                    avatarText = $"{user.FirstName?.FirstOrDefault()}{user.LastName?.FirstOrDefault()}".ToUpper();
                 }
                 var randomIndex = new Random().Next(0, backgroundColors.Count - 1);
                 var backgroundColor = "#" + backgroundColors[randomIndex];

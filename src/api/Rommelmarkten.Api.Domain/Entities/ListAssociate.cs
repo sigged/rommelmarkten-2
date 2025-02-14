@@ -2,11 +2,11 @@
 {
     public class ListAssociate
     {
-        public string AssociateId { get; set; }
+        public required string AssociateId { get; set; }
 
         public int ListId { get; set; }
 
-        public ShoppingList List { get; set; }
+        public ShoppingList? List { get; set; }
 
         public DateTime? AssociatedOn { get; set; }
     }
