@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
+using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Domain.ValueObjects;
 
@@ -38,16 +39,20 @@ namespace Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar
                 if (request.Avatar == null)
                 {
                     var userName = await _identityService.GetUserNameAsync(_currentUserService.UserId);
+
+
+                    if (userName == null)
+                        throw new NotFoundException(nameof(IUser), nameof(IUser.UserName));
+
                     var user = await _identityService.FindByName(userName);
                     entity.Avatar = await _avatarGenerator.GenerateAvatar(user);
                 }
                 else
                 {
                     entity.Avatar = new Blob(
-                        request.Avatar.Name,
-                        request.Avatar.Type,
-                        request.Avatar.Content
-                    );
+                        request.Avatar.Name, 
+                        request.Avatar.Type, 
+                        request.Avatar.Content);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);

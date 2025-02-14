@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
+using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Domain.Users;
 using System.Security.Claims;
 
@@ -31,11 +32,14 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             _authorizationService = authorizationService;
         }
 
-        public async Task<string?> GetUserNameAsync(string userId)
+        public async Task<string> GetUserNameAsync(string userId)
         {
             var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
 
-            return user.UserName;
+            if (user == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.UserName));
+
+            return user.UserName ?? string.Empty;
         }
 
         public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)

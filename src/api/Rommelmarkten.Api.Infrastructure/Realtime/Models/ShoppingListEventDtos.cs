@@ -16,7 +16,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime.Models
             List = list;
         }
 
-        public ShoppingListDto List { get; set; }
+        public required ShoppingListDto List { get; set; }
     }
 
     public record ShoppingListRemovedEventDto : EventBaseDto, IMapFrom<ShoppingListRemovedEvent>
@@ -30,7 +30,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime.Models
             List = list;
         }
 
-        public ShoppingListDto List { get; set; }
+        public required ShoppingListDto List { get; set; }
     }
 
     public record ShoppingListUpdatedEventDto : EventBaseDto, IMapFrom<ShoppingListUpdatedEvent>
@@ -44,7 +44,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime.Models
             List = list;
         }
 
-        public ShoppingListDto List { get; set; }
+        public required ShoppingListDto List { get; set; }
     }
 
     public record ShoppingListShareEventDto : EventBaseDto, IMapFrom<ShoppingListShareEvent>
@@ -60,9 +60,9 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime.Models
             Shared = shared;
         }
 
-        public ShoppingListDto List { get; set; }
+        public required ShoppingListDto List { get; set; }
 
-        public UserDto Associate { get; set; }
+        public required UserDto Associate { get; set; }
 
         public bool Shared { get; set; }
     }

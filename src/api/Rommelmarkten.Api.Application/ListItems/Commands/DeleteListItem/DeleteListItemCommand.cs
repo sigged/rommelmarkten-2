@@ -42,6 +42,9 @@ namespace Rommelmarkten.Api.Application.ListItems.Commands.DeleteListItem
                .Include(e => e.Associates)
                .SingleOrDefaultAsync(e => e.Id.Equals(entity.ListId));
 
+            if (parentList == null)
+                throw new NotFoundException(nameof(ShoppingList), nameof(ShoppingList.Id));
+
             if (!await _resourceAuthorizationService.AuthorizeAny(parentList, Policies.MustHaveListAccess, Policies.MustBeAdmin))
             {
                 throw new ForbiddenAccessException();

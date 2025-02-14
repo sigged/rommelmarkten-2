@@ -5,7 +5,7 @@ namespace Rommelmarkten.Api.Application.Common.Models
 {
     public class UserDto : IMapFrom<IUser>
     {
-        string Id { get; set; }
-        string UserName { get; set; }
+        public required string Id { get; set; }
+        public required string UserName { get; set; }
     }
 }

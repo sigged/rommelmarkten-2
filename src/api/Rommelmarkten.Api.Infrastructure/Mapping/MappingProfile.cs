@@ -22,12 +22,16 @@ namespace Rommelmarkten.Api.Application.Common.Mappings
             foreach (var type in types)
             {
                 var instance = Activator.CreateInstance(type);
+                var methodInfo = type.GetMethod("Mapping");
 
-                var methodInfo = type.GetMethod("Mapping") 
-                    ?? type.GetInterface("IMapFrom`1").GetMethod("Mapping");
-                
+                if(methodInfo == null)
+                {
+                    var interfaceType = type.GetInterface("IMapFrom`1");
+                    if(interfaceType != null)
+                        methodInfo = interfaceType.GetMethod("Mapping");
+                }
+
                 methodInfo?.Invoke(instance, new object[] { this });
-
             }
         }
     }

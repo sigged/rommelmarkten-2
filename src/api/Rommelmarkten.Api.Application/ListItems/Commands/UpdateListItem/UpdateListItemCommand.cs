@@ -17,7 +17,7 @@ namespace Rommelmarkten.Api.Application.ListItems.Commands.UpdateListItem
     {
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         public int CategoryId { get; set; }
 
@@ -40,13 +40,14 @@ namespace Rommelmarkten.Api.Application.ListItems.Commands.UpdateListItem
             var entity = await _context.ListItems.FindAsync(request.Id);
 
             if (entity == null)
-            {
                 throw new NotFoundException(nameof(ListItem), request.Id);
-            }
-
+            
             var parentList = await _context.ShoppingLists
                .Include(e => e.Associates)
                .SingleOrDefaultAsync(e => e.Id.Equals(entity.ListId));
+
+            if (parentList == null)
+                throw new NotFoundException(nameof(ShoppingList), nameof(ShoppingList.Id));
 
             if (!await _resourceAuthorizationService.AuthorizeAny(parentList, Policies.MustHaveListAccess, Policies.MustBeCreator, Policies.MustBeAdmin))
             {

@@ -8,9 +8,9 @@ namespace Rommelmarkten.Api.Infrastructure.Security
 {
     public class TokenSettings
     {
-        public string ApiJwtKey { get; set; }
-        public string JwtIssuer { get; set; }
-        public string JwtAudience { get; set; }
+        public required string ApiJwtKey { get; set; }
+        public required string JwtIssuer { get; set; }
+        public required string JwtAudience { get; set; }
         public int JwtExpiryMinutes { get; set; }
         public int RefreshTokenExpiryMinutes { get; set; }
     }

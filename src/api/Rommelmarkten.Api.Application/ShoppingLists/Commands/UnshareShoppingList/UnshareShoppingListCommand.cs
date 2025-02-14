@@ -18,7 +18,7 @@ namespace Rommelmarkten.Api.Application.ShoppingLists.Commands.UnshareShoppingLi
     {
         public int Id { get; set; }
 
-        public string AssociateUserName { get; set; }
+        public required string AssociateUserName { get; set; }
     }
 
     public class UnshareShoppingListCommandHandler : IRequestHandler<UnshareShoppingListCommand>

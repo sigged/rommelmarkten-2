@@ -8,8 +8,6 @@ namespace Rommelmarkten.Api.WebApi.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public abstract class ApiControllerBase : ControllerBase
     {
-        private ISender _mediator;
-
-        protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetService<ISender>();
+        protected ISender Mediator => HttpContext.RequestServices.GetRequiredService<ISender>();
     }
 }

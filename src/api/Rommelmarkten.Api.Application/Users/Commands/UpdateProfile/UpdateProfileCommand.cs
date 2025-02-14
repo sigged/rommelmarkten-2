@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.UpdateProfile
 {
@@ -28,6 +30,8 @@ namespace Rommelmarkten.Api.Application.Users.Commands.UpdateProfile
             var entity = await _context.UserProfiles
                 .SingleOrDefaultAsync(e => e.UserId.Equals(_currentUserService.UserId));
 
+            if (entity == null)
+                throw new NotFoundException(nameof(UserProfile), nameof(UserProfile.UserId));
 
             entity.Consented = request.HasConsented;
 

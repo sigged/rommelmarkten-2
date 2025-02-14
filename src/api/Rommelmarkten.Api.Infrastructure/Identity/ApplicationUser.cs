@@ -7,9 +7,9 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
     {
 
         [PersonalData]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [PersonalData]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
     }
 }

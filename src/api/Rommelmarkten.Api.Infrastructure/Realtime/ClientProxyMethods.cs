@@ -1,8 +1,5 @@
-﻿using Rommelmarkten.Api.Infrastructure.Realtime.Models;
-using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR;
+using Rommelmarkten.Api.Infrastructure.Realtime.Models;
 
 namespace Rommelmarkten.Api.Infrastructure.Realtime
 {

@@ -40,7 +40,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
                 };
             }
 
-            await _domainEventService.Publish(new UserAuthenticatedEvent<Result>(null, result));
+            await _domainEventService.Publish(new AuthenticationFailedEvent<Result>(request.UserName, result));
             return new AuthenticationResult(false, result.Errors);
         }
     }

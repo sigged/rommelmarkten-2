@@ -6,7 +6,7 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
 {
     public interface IIdentityService
     {
-        Task<string?> GetUserNameAsync(string userId);
+        Task<string> GetUserNameAsync(string userId);
 
         Task<IUser> FindByName(string userName);
 

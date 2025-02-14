@@ -43,7 +43,7 @@ namespace Rommelmarkten.Api.WebApi.Filters
 
                 parameter.Description ??= description.ModelMetadata?.Description;
 
-                if (parameter.Schema.Default == null && description.DefaultValue != null)
+                if (parameter.Schema.Default == null && description.DefaultValue != null && description.ModelMetadata != null)
                 {
                     var json = JsonSerializer.Serialize(
                         description.DefaultValue,

@@ -12,7 +12,7 @@ namespace Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists
 
         public int? CategoryId { get; set; }
 
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         public bool Done { get; set; }
 

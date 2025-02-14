@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Rommelmarkten.Api.Domain.Users;
+using Rommelmarkten.Api.Domain.Entities;
 
 namespace Rommelmarkten.Api.Application.ListItems.Queries.GetListItemsWithPagination
 {
@@ -42,6 +44,10 @@ namespace Rommelmarkten.Api.Application.ListItems.Queries.GetListItemsWithPagina
             var entity = await _context.ShoppingLists
                 .Include(e => e.Associates)
                 .SingleOrDefaultAsync(e => e.Id.Equals(request.ListId));
+
+            if (entity == null)
+                throw new NotFoundException(nameof(ShoppingList), nameof(ShoppingList.Id));
+
 
             if (!await _resourceAuthorizationService.AuthorizeAny(entity, Policies.MustHaveListAccess, Policies.MustBeCreator, Policies.MustBeAdmin))
             {

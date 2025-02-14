@@ -15,7 +15,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime.Models
             Item = listItem;
         }
 
-        public ListItemDto Item { get; set; }
+        public required ListItemDto Item { get; set; }
     }
     public record ListItemUpdatedEventDto : EventBaseDto, IMapFrom<ListItemUpdatedEvent>
     {
@@ -28,7 +28,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime.Models
             Item = listItem;
         }
 
-        public ListItemDto Item { get; set; }
+        public required ListItemDto Item { get; set; }
     }
 
     public record ListItemRemovedEventDto : EventBaseDto, IMapFrom<ListItemRemovedEvent>
@@ -42,7 +42,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime.Models
             Item = listItem;
         }
 
-        public ListItemDto Item { get; set; }
+        public required ListItemDto Item { get; set; }
     }
 
 }

@@ -11,7 +11,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
     public class ResourceAuthorizationService : IResourceAuthorizationService
     {
         protected readonly IAuthorizationService _authorizationService;
-        protected readonly HttpContext _context;
+        protected readonly HttpContext? _context;
 
         public ResourceAuthorizationService(IAuthorizationService authorizationService, IHttpContextAccessor httpContextAccessor)
         {
@@ -21,6 +21,11 @@ namespace Rommelmarkten.Api.Infrastructure.Security
 
         public async Task<bool> Authorize(object resource, string policy)
         {
+            if(_context == null)
+            {
+                return false;
+            }
+
             var result = await _authorizationService.AuthorizeAsync(_context.User, resource, policy);
             return result.Succeeded;
         }

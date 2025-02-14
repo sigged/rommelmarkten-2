@@ -32,7 +32,7 @@ namespace Rommelmarkten.Api.Domain.ValueObjects
             }
         }
 
-        public string ContentHash { get; set; }
+        public string? ContentHash { get; set; }
 
         public string Type { get; set; }
 
@@ -45,7 +45,7 @@ namespace Rommelmarkten.Api.Domain.ValueObjects
         {
             yield return Name;
             yield return Type;
-            yield return ContentHash;
+            yield return ContentHash ?? string.Empty;
         }
 
     }

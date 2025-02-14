@@ -79,8 +79,8 @@ namespace Rommelmarkten.Api.WebApi.Middlewares
 
     public class ErrorResponse
     {
-        public string Title { get; set; }
-        public string Message { get; set; }
+        public required string Title { get; set; }
+        public required string Message { get; set; }
 
         [JsonIgnore]
         public int StatusCode { get; set; }
@@ -88,6 +88,6 @@ namespace Rommelmarkten.Api.WebApi.Middlewares
 
     public class ValidationErrorResponse : ErrorResponse
     {
-        public IReadOnlyDictionary<string, string[]> ValidationErrors { get; set; }
+        public IReadOnlyDictionary<string, string[]> ValidationErrors { get; set; } = new Dictionary<string, string[]>().AsReadOnly();
     }
 }

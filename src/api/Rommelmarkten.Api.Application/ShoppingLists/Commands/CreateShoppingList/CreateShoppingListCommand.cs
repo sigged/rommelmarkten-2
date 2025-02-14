@@ -14,8 +14,8 @@ namespace Rommelmarkten.Api.Application.ShoppingLists.Commands.CreateShoppingLis
     [Authorize]
     public class CreateShoppingListCommand : IRequest<int>
     {
-        public string Title { get; set; }
-        public string Color { get; set; }
+        public required string Title { get; set; }
+        public required string Color { get; set; }
     }
 
     public class CreateShoppingListCommandHandler : IRequestHandler<CreateShoppingListCommand, int>

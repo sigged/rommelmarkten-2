@@ -17,7 +17,7 @@ namespace Rommelmarkten.Api.Application.ListItems.Commands.CreateListItem
     {
         public int ListId { get; set; }
 
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         public int CategoryId { get; set; }
     }

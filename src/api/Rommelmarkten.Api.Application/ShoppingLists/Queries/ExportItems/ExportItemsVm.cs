@@ -2,10 +2,10 @@
 {
     public class ExportItemsVm
     {
-        public string FileName { get; set; }
+        public required string FileName { get; set; }
 
-        public string ContentType { get; set; }
+        public required string ContentType { get; set; }
 
-        public byte[] Content { get; set; }
+        public required byte[] Content { get; set; }
     }
 }

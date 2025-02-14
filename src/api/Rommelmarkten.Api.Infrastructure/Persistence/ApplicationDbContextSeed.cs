@@ -59,10 +59,10 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
             await roleManager.AddClaimAsync(userRole, new Claim(Application.Common.Security.ClaimTypes.IsUser, "true"));
 
             //add users to roles
-            await userManager.AddToRolesAsync(adminUser, new[] { administratorRole.Name });
-            await userManager.AddToRolesAsync(userA, new[] { userRole.Name });
-            await userManager.AddToRolesAsync(userB, new[] { userRole.Name });
-            await userManager.AddToRolesAsync(userC, new[] { userRole.Name });
+            await userManager.AddToRolesAsync(adminUser, new[] { administratorRole.Name ?? "" });
+            await userManager.AddToRolesAsync(userA, new[] { userRole.Name ?? "" });
+            await userManager.AddToRolesAsync(userB, new[] { userRole.Name ?? "" });
+            await userManager.AddToRolesAsync(userC, new[] { userRole.Name ?? "" });
         }
 
         public static async Task SeedSampleDataAsync(ApplicationDbContext context)

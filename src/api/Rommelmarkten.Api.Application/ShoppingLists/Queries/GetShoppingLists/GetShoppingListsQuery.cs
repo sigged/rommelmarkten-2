@@ -37,7 +37,7 @@ namespace Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists
                     .Include(e => e.Associates)
                     .Include(e => e.Items)
                     .Where(e =>
-                        e.CreatedBy.Equals(_currentUserService.UserId) ||
+                        (e.CreatedBy != null && e.CreatedBy.Equals(_currentUserService.UserId)) ||
                         e.Associates.Select(a => a.AssociateId).Contains(_currentUserService.UserId)
                     )
                     .AsNoTracking()

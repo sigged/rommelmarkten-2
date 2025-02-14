@@ -1,13 +1,10 @@
-﻿using Rommelmarkten.Api.Application.Common.Exceptions;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Domain.Events;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Application.ShoppingLists.Commands.UpdateShoppingList
 {
@@ -15,8 +12,8 @@ namespace Rommelmarkten.Api.Application.ShoppingLists.Commands.UpdateShoppingLis
     public class UpdateShoppingListCommand : IRequest
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Color { get; set; }
+        public required string Title { get; set; }
+        public required string Color { get; set; }
     }
 
     public class UpdateShoppingListCommandHandler : IRequestHandler<UpdateShoppingListCommand>

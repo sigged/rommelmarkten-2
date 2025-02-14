@@ -7,8 +7,8 @@ namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile;
 public class UserProfileDto : IMapFrom<UserProfile>
 {
 
-    public string UserId { get; set; }
-    public bool Consented { get; set; }
-    public BlobDto Avatar { get; set; }
+    public required string UserId { get; set; }
+    public required bool Consented { get; set; }
+    public required BlobDto Avatar { get; set; }
 
 }

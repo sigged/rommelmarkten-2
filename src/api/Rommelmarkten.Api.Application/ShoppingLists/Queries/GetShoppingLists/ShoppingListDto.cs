@@ -10,15 +10,15 @@ namespace Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists
         {
         }
 
-        public int Id { get; set; }
+        public required int Id { get; set; }
 
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         public bool IsShared { get; set; }
 
-        public string Owner { get; set; }
+        public required string Owner { get; set; }
 
         public DateTime Created { get; set; }
 

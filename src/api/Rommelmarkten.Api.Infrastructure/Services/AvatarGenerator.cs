@@ -26,7 +26,6 @@ namespace Rommelmarkten.Api.Infrastructure.Services
                 var randomIndex = new Random().Next(0, backgroundColors.Count - 1);
                 var backgroundColor = "#" + backgroundColors[randomIndex];
 
-
                 var bitmap = new SKBitmap(size, size,
                              SKImageInfo.PlatformColorType,
                              SKAlphaType.Premul);
@@ -39,24 +38,20 @@ namespace Rommelmarkten.Api.Infrastructure.Services
                 var family = SKTypeface.FromFamilyName("Arial",
                      SKFontStyleWeight.Normal, SKFontStyleWidth.Normal,
                      SKFontStyleSlant.Upright);
+
+                var font = new SKFont(family, midx / 1.15f);
+
                 var textSize = midx / 1.15f;
 
                 var paint = new SKPaint
                 {
                     IsAntialias = true,
                     Style = SKPaintStyle.Fill,
-                    Color = SKColor.Parse(foregroundColor),
-                    TextSize = textSize,
-                    TextAlign = SKTextAlign.Center,
-                    Typeface = family
+                    Color = SKColor.Parse(foregroundColor)
                 };
                 var rect = new SKRect();
-                paint.MeasureText(avatarText, ref rect);
-
-                canvas.DrawText(avatarText,
-                                midx,
-                                midy - rect.MidY,
-                                paint);
+                
+                canvas.DrawText(avatarText, midx, midy - rect.MidY, SKTextAlign.Center, font, paint);
 
                 var skImage = SKImage.FromBitmap(bitmap);
 

@@ -6,9 +6,9 @@ namespace Rommelmarkten.Api.Domain.Entities
     {
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         public IList<ListAssociate> Associates { get; private set; } = new List<ListAssociate>();
 
