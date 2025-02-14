@@ -5,8 +5,8 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime
 {
     internal class ClientProxyMethods
     {
-        protected IHubContext<FetchHub> _hubContext;
-        protected FetchHub _hub;
+        protected IHubContext<FetchHub>? _hubContext;
+        protected FetchHub? _hub;
 
         public ClientProxyMethods(IHubContext<FetchHub> hubContext)
         {

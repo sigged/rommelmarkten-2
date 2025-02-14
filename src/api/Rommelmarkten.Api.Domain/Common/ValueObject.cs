@@ -8,12 +8,12 @@ namespace Rommelmarkten.Api.Domain.Common
     {
         protected static bool EqualOperator(ValueObject left, ValueObject right)
         {
-            if (left is null ^ right is null)
+            if (left is null || right is null)
             {
-                return false;
+                return left == right; // Returns true if both are null, false otherwise
             }
 
-            return left?.Equals(right) != false;
+            return left.Equals(right);
         }
 
         protected static bool NotEqualOperator(ValueObject left, ValueObject right)
@@ -23,7 +23,7 @@ namespace Rommelmarkten.Api.Domain.Common
 
         protected abstract IEnumerable<object> GetEqualityComponents();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null || obj.GetType() != GetType())
             {

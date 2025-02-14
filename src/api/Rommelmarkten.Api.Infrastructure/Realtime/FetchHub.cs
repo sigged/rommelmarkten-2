@@ -58,7 +58,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime
             await base.OnConnectedAsync();
         }
 
-        public override async Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
             if(Context.UserIdentifier == null)
             {
@@ -67,7 +67,7 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime
             else
             {
                 var listsForUser = await _dbContext.ShoppingLists
-                .Where(e => e.CreatedBy.Equals(Context.UserIdentifier) ||
+                .Where(e => (e.CreatedBy != null && e.CreatedBy.Equals(Context.UserIdentifier)) ||
                             e.Associates.Select(a => a.AssociateId).Contains(Context.UserIdentifier))
                 .ToListAsync();
 
