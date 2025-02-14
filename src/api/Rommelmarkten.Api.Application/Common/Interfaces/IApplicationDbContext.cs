@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.Common.Interfaces
 {

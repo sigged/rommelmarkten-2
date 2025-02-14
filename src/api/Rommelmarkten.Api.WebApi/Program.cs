@@ -19,8 +19,6 @@ namespace Rommelmarkten.Api.WebApi
 
             builder.AddSwaggerSupportedVersioning();
 
-
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

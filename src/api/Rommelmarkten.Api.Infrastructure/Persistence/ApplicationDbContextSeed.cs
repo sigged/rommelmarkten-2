@@ -1,13 +1,9 @@
-﻿using Rommelmarkten.Api.Application.Common.Security;
+﻿using Microsoft.AspNetCore.Identity;
 using Rommelmarkten.Api.Domain.Entities;
-using Rommelmarkten.Api.Domain.ValueObjects;
+using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Infrastructure.Identity;
 using Rommelmarkten.Api.Infrastructure.Services;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Infrastructure.Persistence
 {

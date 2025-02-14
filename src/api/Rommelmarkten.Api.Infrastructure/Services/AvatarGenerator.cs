@@ -1,5 +1,5 @@
 ﻿using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Domain.ValueObjects;
 using SkiaSharp;
 using System;

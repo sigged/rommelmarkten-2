@@ -12,7 +12,7 @@ namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile
     {
     }
 
-    public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, UserProfileDto>
+    public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, UserProfileDto?>
     {
         private readonly IApplicationDbContext _context;
         private readonly ICurrentUserService _currentUserService;
@@ -25,12 +25,12 @@ namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile
             _mapper = mapper;
         }
 
-        public async Task<UserProfileDto> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
+        public async Task<UserProfileDto?> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
         {
             return await _context.UserProfiles
                 .Where(e => e.UserId.Equals(_currentUserService.UserId))
                 .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

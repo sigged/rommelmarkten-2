@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.ShoppingLists.Commands.UnshareShoppingList
 {

@@ -1,5 +1,6 @@
 ﻿using Rommelmarkten.Api.Domain.Common;
 using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Domain.Events
 {

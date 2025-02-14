@@ -1,12 +1,12 @@
 ﻿using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Domain.Users;
 using System.Security.Claims;
 
 namespace Rommelmarkten.Api.Application.Common.Interfaces
 {
     public interface IIdentityService
     {
-        Task<string> GetUserNameAsync(string userId);
+        Task<string?> GetUserNameAsync(string userId);
 
         Task<IUser> FindByName(string userName);
 

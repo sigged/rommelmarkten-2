@@ -1,14 +1,11 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Common;
 using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Infrastructure.Persistence
 {

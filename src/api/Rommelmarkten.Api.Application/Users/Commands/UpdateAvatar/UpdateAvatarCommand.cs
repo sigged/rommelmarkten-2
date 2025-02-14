@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Domain.ValueObjects;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar

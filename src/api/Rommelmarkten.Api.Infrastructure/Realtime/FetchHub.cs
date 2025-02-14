@@ -1,20 +1,17 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists;
 using Rommelmarkten.Api.Infrastructure.Realtime.Models;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Infrastructure.Realtime
 {
 
     [Authorize]
-    public class FetchHub : Hub 
+    public class FetchHub : Hub
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly IIdentityService _identityService;
@@ -33,47 +30,60 @@ namespace Rommelmarkten.Api.Infrastructure.Realtime
 
         public override async Task OnConnectedAsync()
         {
-            var listsForUser = await _dbContext.ShoppingLists
-                .Where(e => e.CreatedBy.Equals(Context.UserIdentifier) ||
-                            e.Associates.Select(a => a.AssociateId).Contains(Context.UserIdentifier))
-                .ToListAsync();
-
-            var userName = await _identityService.GetUserNameAsync(Context.UserIdentifier);
-            var user = await _identityService.FindByName(userName);
-
-            foreach (var shoppingList in listsForUser)
+            if (Context.UserIdentifier == null)
             {
-                string groupName = FetchHubHelpers.GetShoppingListGroupName(shoppingList.Id.ToString());
-                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-
-                var args = new UserJoinedGroupDto(
-                    _mapper.Map<ShoppingListDto>(shoppingList),
-                    _mapper.Map<UserDto>(user));
-                await _clientProxyMethods.OnUserJoinedGroup(groupName, args);
+                throw new UnauthorizedAccessException();
             }
-
-            await base.OnConnectedAsync();
-        }
-        
-        public override async Task OnDisconnectedAsync(Exception exception)
-        {
-            var listsForUser = await _dbContext.ShoppingLists
+            else
+            {
+                var listsForUser = await _dbContext.ShoppingLists
                 .Where(e => e.CreatedBy.Equals(Context.UserIdentifier) ||
                             e.Associates.Select(a => a.AssociateId).Contains(Context.UserIdentifier))
                 .ToListAsync();
 
-            var userName = await _identityService.GetUserNameAsync(Context.UserIdentifier);
-            var user = await _identityService.FindByName(userName);
+                var userName = await _identityService.GetUserNameAsync(Context.UserIdentifier);
+                var user = await _identityService.FindByName(userName);
 
-            foreach (var shoppingList in listsForUser)
-            {
-                string groupName = FetchHubHelpers.GetShoppingListGroupName(shoppingList.Id.ToString());
-                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+                foreach (var shoppingList in listsForUser)
+                {
+                    string groupName = FetchHubHelpers.GetShoppingListGroupName(shoppingList.Id.ToString());
+                    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-                var args = new UserLeftGroupDto(
+                    var args = new UserJoinedGroupDto(
                         _mapper.Map<ShoppingListDto>(shoppingList),
                         _mapper.Map<UserDto>(user));
-                await _clientProxyMethods.OnUserLeftGroup(groupName, args);
+                    await _clientProxyMethods.OnUserJoinedGroup(groupName, args);
+                }
+            }
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            if(Context.UserIdentifier == null)
+            {
+                throw new UnauthorizedAccessException();
+            }
+            else
+            {
+                var listsForUser = await _dbContext.ShoppingLists
+                .Where(e => e.CreatedBy.Equals(Context.UserIdentifier) ||
+                            e.Associates.Select(a => a.AssociateId).Contains(Context.UserIdentifier))
+                .ToListAsync();
+
+                var userName = await _identityService.GetUserNameAsync(Context.UserIdentifier);
+                var user = await _identityService.FindByName(userName);
+
+                foreach (var shoppingList in listsForUser)
+                {
+                    string groupName = FetchHubHelpers.GetShoppingListGroupName(shoppingList.Id.ToString());
+                    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+                    var args = new UserLeftGroupDto(
+                            _mapper.Map<ShoppingListDto>(shoppingList),
+                            _mapper.Map<UserDto>(user));
+                    await _clientProxyMethods.OnUserLeftGroup(groupName, args);
+                }
             }
 
             await base.OnDisconnectedAsync(exception);

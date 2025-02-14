@@ -1,10 +1,8 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
+using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Domain.Common;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Infrastructure.Services
 {
@@ -27,8 +25,24 @@ namespace Rommelmarkten.Api.Infrastructure.Services
 
         private INotification GetNotificationCorrespondingToDomainEvent(DomainEvent domainEvent)
         {
-            return (INotification)Activator.CreateInstance(
-                typeof(DomainEventNotification<>).MakeGenericType(domainEvent.GetType()), domainEvent);
+            var notificationType = typeof(DomainEventNotification<>).MakeGenericType(domainEvent.GetType());
+            if(notificationType != null)
+            {
+                var notificationInstance = Activator.CreateInstance(notificationType, domainEvent);
+                if(notificationInstance != null)
+                {
+                    return (INotification)notificationInstance;
+                }
+                else
+                {
+                    throw new ApplicationException("Notification instance could not be created for domain event");
+                }
+            }
+            else
+            {
+                throw new ApplicationException("Notification type not found for domain event");
+            }
+                
         }
     }
 }

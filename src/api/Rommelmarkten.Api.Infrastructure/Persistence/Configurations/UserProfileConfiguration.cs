@@ -1,6 +1,6 @@
-﻿using Rommelmarkten.Api.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
 {

@@ -1,6 +1,5 @@
 ﻿using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
-using Rommelmarkten.Api.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Infrastructure.Security
 {

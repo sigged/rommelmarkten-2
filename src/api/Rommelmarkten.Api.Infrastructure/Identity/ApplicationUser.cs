@@ -1,5 +1,5 @@
-﻿using Rommelmarkten.Api.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Infrastructure.Identity
 {

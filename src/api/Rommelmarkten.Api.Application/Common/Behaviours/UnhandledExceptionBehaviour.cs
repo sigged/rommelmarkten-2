@@ -1,12 +1,10 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Application.Common.Behaviours
 {
     public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : notnull
     {
         private readonly ILogger<TRequest> _logger;
 
@@ -25,7 +23,7 @@ namespace Rommelmarkten.Api.Application.Common.Behaviours
             {
                 var requestName = typeof(TRequest).Name;
 
-                _logger.LogError(ex, "Mde.Fetch.Api Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+                _logger.LogError(ex, "Rommelmarkten.API Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
 
                 throw;
             }

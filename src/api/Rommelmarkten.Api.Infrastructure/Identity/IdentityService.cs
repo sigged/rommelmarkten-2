@@ -1,14 +1,11 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Rommelmarkten.Api.Application.Common.Exceptions;
+using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Application.Common.Models;
+using Rommelmarkten.Api.Domain.Users;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Infrastructure.Identity
 {
@@ -34,7 +31,7 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             _authorizationService = authorizationService;
         }
 
-        public async Task<string> GetUserNameAsync(string userId)
+        public async Task<string?> GetUserNameAsync(string userId)
         {
             var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
 
@@ -58,7 +55,10 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
         {
             var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
-            return await _userManager.IsInRoleAsync(user, role);
+            if (user == null)
+                throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
+            
+            return await _userManager.IsInRoleAsync(user, role);    
         }
 
         public async Task<Result> AuthenticateAsync(string userName, string password)
@@ -70,6 +70,9 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
         public async Task<bool> AuthorizeAsync(string userId, string policyName)
         {
             var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+
+            if (user == null)
+                throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
 
             var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
 
@@ -99,7 +102,12 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
 
         public async Task<IUser> FindByName(string userName)
         {
-            return await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.UserName));
+
+            return user;
         }
 
         public IQueryable<IUser> GetUsers()
@@ -122,6 +130,10 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             foreach (var roleName in await _userManager.GetRolesAsync(applicationUser))
             {
                 var role = await _roleManager.FindByNameAsync(roleName);
+
+                if (role == null)
+                    throw new NotFoundException(nameof(IdentityRole), nameof(IdentityRole.Name));
+
                 claimsForIdentity.AddRange(await _roleManager.GetClaimsAsync(role));
             }
             

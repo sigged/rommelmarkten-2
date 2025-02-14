@@ -1,4 +1,4 @@
-﻿namespace Rommelmarkten.Api.Domain.Entities
+﻿namespace Rommelmarkten.Api.Domain.Users
 {
     public interface IUser
     {
