@@ -16,9 +16,9 @@ namespace Rommelmarkten.Api.Domain.ValueObjects
             Content = content;
         }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        private byte[] content;
+        private byte[] content = [];
         public byte[] Content
         {
             get => content;
@@ -32,9 +32,9 @@ namespace Rommelmarkten.Api.Domain.ValueObjects
             }
         }
 
-        public string? ContentHash { get; set; }
+        public string? ContentHash { get; set; } = string.Empty;
 
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
 
         public override string ToString()
         {
