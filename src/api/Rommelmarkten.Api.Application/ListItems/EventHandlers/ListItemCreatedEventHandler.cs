@@ -20,7 +20,7 @@ namespace Rommelmarkten.Api.Application.ListItems.EventHandlers
         {
             var domainEvent = notification.DomainEvent;
 
-            _logger.LogInformation("Mde.Fetch.Api Domain Event: {DomainEvent}", domainEvent.GetType().Name);
+            _logger.LogInformation("Rommelmarkten API Domain Event: {DomainEvent}", domainEvent.GetType().Name);
 
             return Task.CompletedTask;
         }

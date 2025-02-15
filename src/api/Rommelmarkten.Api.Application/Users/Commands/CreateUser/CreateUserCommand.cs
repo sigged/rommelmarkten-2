@@ -4,7 +4,11 @@ using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<string>
+
+
+
+
+    public class CreateUserCommand : IRequest<string?>
     {
         public required string UserName { get; set; }
 
