@@ -27,15 +27,15 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
             _dateTime = dateTime;
         }
 
-        public DbSet<ListItem> ListItems { get; set; }
+        public required DbSet<ListItem> ListItems { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
+        public required DbSet<Category> Categories { get; set; }
 
-        public DbSet<ShoppingList> ShoppingLists { get; set; }
+        public required DbSet<ShoppingList> ShoppingLists { get; set; }
 
-        public DbSet<ListAssociate> ListAssociates { get; set; }
+        public required DbSet<ListAssociate> ListAssociates { get; set; }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public required DbSet<UserProfile> UserProfiles { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -44,12 +44,12 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
+                        entry.Entity.CreatedBy = _currentUserService.UserId ?? string.Empty;
                         entry.Entity.Created = _dateTime.Now;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                        entry.Entity.LastModifiedBy = _currentUserService.UserId ?? string.Empty;
                         entry.Entity.LastModified = _dateTime.Now;
                         break;
                 }

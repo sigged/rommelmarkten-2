@@ -45,7 +45,7 @@ namespace Rommelmarkten.Api.Infrastructure
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("Mde.Fetch.ApiDb"));
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
             }
             else
             {

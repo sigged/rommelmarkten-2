@@ -18,7 +18,7 @@ namespace Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists
 
         public bool IsShared { get; set; }
 
-        public required string Owner { get; set; }
+        public string? Owner { get; set; }
 
         public DateTime Created { get; set; }
 

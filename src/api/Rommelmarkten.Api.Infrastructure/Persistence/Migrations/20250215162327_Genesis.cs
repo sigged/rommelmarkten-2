@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Rommelmarkten.Api.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    /// <inheritdoc />
+    public partial class Genesis : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -84,6 +86,22 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoppingLists", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserProfiles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Consented = table.Column<bool>(type: "bit", nullable: false),
+                    Avatar_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Avatar_Content = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Avatar_ContentHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Avatar_Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProfiles", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -291,6 +309,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 column: "ListId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -313,6 +332,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ListItems");
+
+            migrationBuilder.DropTable(
+                name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

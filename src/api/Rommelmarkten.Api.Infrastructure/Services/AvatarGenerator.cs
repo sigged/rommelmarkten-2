@@ -18,6 +18,11 @@ namespace Rommelmarkten.Api.Infrastructure.Services
         {
             return Task.Run(() =>
             {
+                if(user.UserName == null)
+                {
+                    throw new ArgumentNullException(nameof(user.UserName));
+                }
+
                 string avatarText = user.UserName.First().ToString().ToUpper();
                 if (!string.IsNullOrWhiteSpace($"{user.FirstName}{user.LastName}"))
                 {
