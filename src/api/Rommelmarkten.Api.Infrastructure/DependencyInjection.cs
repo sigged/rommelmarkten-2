@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
+using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Infrastructure.Identity;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 using Rommelmarkten.Api.Infrastructure.Security;
@@ -56,6 +57,7 @@ namespace Rommelmarkten.Api.Infrastructure
             }
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 

@@ -1,0 +1,141 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Rommelmarkten.Api.Application.Common.Exceptions;
+using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Application.Common.Models;
+using Rommelmarkten.Api.Infrastructure.Persistence;
+using System.Linq.Expressions;
+
+namespace Rommelmarkten.Api.Infrastructure.Services
+{
+
+    /// <summary>
+    /// Base repository class which implements much of the standard repository logic
+    /// This class is Entity Framework specific (uses DbSet & DbContext)
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    public class EFRepository<TEntity> : IEntityRepository<TEntity> where TEntity : class
+    {
+        internal DbContext context;
+        protected readonly DbSet<TEntity> dbSet;
+
+        public EFRepository(IApplicationDbContext context)
+        {
+            if(context is DbContext)
+            {
+                this.context = (DbContext)context;
+                dbSet = this.context.Set<TEntity>();
+            }
+            else
+            {
+                throw new ArgumentException($"Parameter {nameof(context)} must inherit from {nameof(DbContext)} for {nameof(EFRepository<TEntity>)} to work.");
+            }
+        }
+
+        public virtual IQueryable<TEntity> SelectAsQuery(
+            Expression<Func<TEntity, object>>[]? includes = null,
+            Expression<Func<TEntity, bool>>[]? filters = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+            bool noTracking = true
+        )
+        {
+            IQueryable<TEntity> query;
+            if (noTracking)
+            {
+                query = dbSet.AsNoTracking();
+            }
+            else
+            {
+                query = dbSet.AsQueryable();
+            }
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            if (filters != null)
+            {
+                foreach (var filter in filters)
+                {
+                    query = query.Where(filter);
+                }
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query);
+            }
+            else
+            {
+                return query;
+            }
+        }
+        public virtual void Delete(TEntity entityToDelete)
+        {
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+            dbSet.Remove(entityToDelete);
+        }
+
+        public virtual void Update(TEntity entityToUpdate)
+        {
+            dbSet.Attach(entityToUpdate);
+            context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
+
+        public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>>[]? filters = null, CancellationToken cancellationToken = default)
+        {
+            var query = SelectAsQuery(filters: filters);
+            return await query.AnyAsync(cancellationToken);
+        }
+
+        public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>>[]? filters = null, CancellationToken cancellationToken = default)
+        {
+            var query = SelectAsQuery(filters: filters);
+            return await query.CountAsync(cancellationToken);
+        }
+
+        public virtual async Task<PaginatedList<TEntity>> SelectPagedAsync(
+            int page, int pageSize,
+            Expression<Func<TEntity, object>>[]? includes = null,
+            Expression<Func<TEntity, bool>>[]? filters = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+            bool noTracking = true,
+            CancellationToken cancellationToken = default
+        )
+        {
+            IQueryable<TEntity> query = SelectAsQuery(includes, filters, orderBy);
+            var skip = (page - 1) * pageSize;
+
+            var result = await PaginatedList<TEntity>.CreateAsync(query, page, pageSize);
+            return result;
+        }
+
+        public virtual async Task<TEntity> GetByIdAsync(object id, CancellationToken cancellationToken = default)
+        {
+            var entity = await dbSet.FindAsync([id], cancellationToken);
+            if (entity == null)
+            {
+                throw new NotFoundException($"{typeof(TEntity).Name} identified as {id} was not found");
+            }
+            return entity;
+        }
+
+        public virtual async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
+        {
+            await dbSet.AddAsync(entity, cancellationToken);
+        }
+
+        public virtual async Task DeleteByIdAsync(object id)
+        {
+            TEntity entityToDelete = await GetByIdAsync(id);
+            Delete(entityToDelete);
+        }
+
+    }
+}
