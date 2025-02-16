@@ -2,7 +2,6 @@
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Infrastructure.Persistence;
 using System.Linq.Expressions;
 
 namespace Rommelmarkten.Api.Infrastructure.Services
@@ -73,6 +72,11 @@ namespace Rommelmarkten.Api.Infrastructure.Services
                 return query;
             }
         }
+        public virtual void Insert(TEntity entity)
+        {
+            dbSet.Add(entity);
+        }
+
         public virtual void Delete(TEntity entityToDelete)
         {
             if (context.Entry(entityToDelete).State == EntityState.Detached)
@@ -112,30 +116,33 @@ namespace Rommelmarkten.Api.Infrastructure.Services
             IQueryable<TEntity> query = SelectAsQuery(includes, filters, orderBy);
             var skip = (page - 1) * pageSize;
 
-            var result = await PaginatedList<TEntity>.CreateAsync(query, page, pageSize);
+            var result = await PaginatedList<TEntity>.CreateAsync(query, page, pageSize, cancellationToken);
             return result;
         }
 
         public virtual async Task<TEntity> GetByIdAsync(object id, CancellationToken cancellationToken = default)
         {
             var entity = await dbSet.FindAsync([id], cancellationToken);
-            if (entity == null)
-            {
+            return entity ?? 
                 throw new NotFoundException($"{typeof(TEntity).Name} identified as {id} was not found");
-            }
-            return entity;
+        }
+
+        public virtual async Task DeleteByIdAsync(object id, CancellationToken cancellationToken = default)
+        {
+            TEntity entityToDelete = await GetByIdAsync(id, cancellationToken);
+            Delete(entityToDelete);
+            await context.SaveChangesAsync(cancellationToken);
         }
 
         public virtual async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await dbSet.AddAsync(entity, cancellationToken);
+            Insert(entity);
+            await context.SaveChangesAsync(cancellationToken);
         }
-
-        public virtual async Task DeleteByIdAsync(object id)
+        public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            TEntity entityToDelete = await GetByIdAsync(id);
-            Delete(entityToDelete);
+            Update(entity);
+            await context.SaveChangesAsync(cancellationToken);
         }
-
     }
 }
