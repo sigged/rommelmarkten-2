@@ -1,9 +1,21 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Domain.Markets;
 
-namespace Rommelmarkten.Api.Application.MarketConfigurations.GetPaged
+namespace Rommelmarkten.Api.Application.MarketConfigurations.Requests
 {
+    public class GetPagedConfigurationsRequest : IRequest<GetPagedConfigurationsResult>
+    {
+        public PaginatedRequest PagedRequest { get; set; }
+    }
+    public class GetPagedConfigurationsResult
+    {
+        public required PaginatedList<MarketConfiguration> Results { get; set; }
+
+    }
+
+
     public class GetPagedConfigurationsRequestHandler : IRequestHandler<GetPagedConfigurationsRequest, GetPagedConfigurationsResult>
     {
         private readonly IEntityRepository<MarketConfiguration> repository;

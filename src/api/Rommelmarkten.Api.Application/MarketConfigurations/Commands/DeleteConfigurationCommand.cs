@@ -1,11 +1,13 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Markets;
 
-namespace Rommelmarkten.Api.Application.MarketConfigurations.DeleteConfiguration
+namespace Rommelmarkten.Api.Application.MarketConfigurations.Commands
 {
+    public class DeleteConfigurationCommand : IRequest
+    {
+        public Guid Id { get; set; }
+    }
     public class DeleteConfigurationCommandHandler : IRequestHandler<DeleteConfigurationCommand>
     {
         private readonly IEntityRepository<MarketConfiguration> repository;

@@ -2,8 +2,12 @@
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Markets;
 
-namespace Rommelmarkten.Api.Application.MarketConfigurations.GetById
+namespace Rommelmarkten.Api.Application.MarketConfigurations.Requests
 {
+    public struct GetConfigurationByIdRequest : IRequest<MarketConfiguration>
+    {
+        public Guid Id { get; set; }
+    }
     public class GetConfigurationByIdRequestHandler : IRequestHandler<GetConfigurationByIdRequest, MarketConfiguration>
     {
         private readonly IEntityRepository<MarketConfiguration> repository;
