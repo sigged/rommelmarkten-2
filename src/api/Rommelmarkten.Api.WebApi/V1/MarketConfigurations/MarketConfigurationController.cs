@@ -23,7 +23,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         public async Task<ActionResult> Create(CreateMarketConfigurationCommand command)
         {
             await Mediator.Send(command);
-            return CreatedAtAction(nameof(Create), new { id = command.Configuration.Id });
+            return CreatedAtAction(nameof(Create), "This should be the Id");
         }
 
         [HttpPut]
