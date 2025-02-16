@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Application.ListItems.EventHandlers
 {
+
+
     public class ListItemCreatedEventHandler : INotificationHandler<DomainEventNotification<ListItemCreatedEvent>>
     {
         private readonly ILogger<ListItemCreatedEventHandler> _logger;

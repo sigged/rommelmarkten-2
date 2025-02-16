@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Common;
 using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Infrastructure.Identity;
 using System.Reflection;
@@ -26,6 +27,8 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
             _domainEventService = domainEventService;
             _dateTime = dateTime;
         }
+
+        public required DbSet<MarketConfiguration> MarketConfigurations { get; set; }
 
         public required DbSet<ListItem> ListItems { get; set; }
 
