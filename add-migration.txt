@@ -1,0 +1,1 @@
+ dotnet ef --startup-project .\src\api\Rommelmarkten.Api.WebApi\ --project .\src\api\Rommelmarkten.Api.Infrastructure migrations add xyz

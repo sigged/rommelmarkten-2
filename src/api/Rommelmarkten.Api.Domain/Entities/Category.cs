@@ -2,10 +2,8 @@
 
 namespace Rommelmarkten.Api.Domain.Entities
 {
-    public class Category : AuditableEntity
+    public class Category : AuditableEntity<int>
     {
-        public int Id { get; set; }
-
         public required string Name { get; set; }
 
         public required string Icon { get; set; }

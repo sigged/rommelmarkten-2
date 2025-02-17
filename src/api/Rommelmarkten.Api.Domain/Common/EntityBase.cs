@@ -8,6 +8,6 @@
     public abstract class EntityBase<T>
         where T : notnull
     {
-        public virtual required T Id { get; set; }
+        public virtual T Id { get; set; } = default!;
     }
 }

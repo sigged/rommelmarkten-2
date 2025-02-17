@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Rommelmarkten.Api.Application.MarketConfigurations;
 using Rommelmarkten.Api.Application.MarketConfigurations.Commands;
 using Rommelmarkten.Api.WebApi.Controllers;
 using Rommelmarkten.Api.WebApi.Middlewares;

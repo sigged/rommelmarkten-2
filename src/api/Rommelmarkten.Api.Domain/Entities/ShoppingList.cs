@@ -2,10 +2,8 @@
 
 namespace Rommelmarkten.Api.Domain.Entities
 {
-    public class ShoppingList : AuditableEntity, IHasDomainEvent
+    public class ShoppingList : AuditableEntity<int>, IHasDomainEvent
     {
-        public int Id { get; set; }
-
         public string Title { get; set; } = string.Empty;
 
         public string? Color { get; set; }

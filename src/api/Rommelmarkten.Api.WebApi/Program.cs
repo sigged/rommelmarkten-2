@@ -7,6 +7,7 @@ using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Infrastructure;
 using Rommelmarkten.Api.Infrastructure.Identity;
 using Rommelmarkten.Api.Infrastructure.Persistence;
+using Rommelmarkten.Api.WebApi.Middlewares;
 using Rommelmarkten.Api.WebApi.Services;
 using Rommelmarkten.Api.WebApi.Versioning;
 
@@ -28,6 +29,7 @@ namespace Rommelmarkten.Api.WebApi
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddControllers();
+            builder.Services.AddTransient<ExceptionPresenter>();
             builder.Services.AddProblemDetails();
 
             builder.AddSwaggerSupportedVersioning();
@@ -39,8 +41,10 @@ namespace Rommelmarkten.Api.WebApi
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseMiddleware<ExceptionPresenter>();
 
             app.MapControllers();
 

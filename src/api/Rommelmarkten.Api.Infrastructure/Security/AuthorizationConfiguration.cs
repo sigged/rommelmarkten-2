@@ -34,11 +34,11 @@ namespace Rommelmarkten.Api.Infrastructure.Security
 
     }
 
-    public class MustBeAdminAuthorizationHandler : AuthorizationHandler<MustBeAdminRequirement, AuditableEntity>
+    public class MustBeAdminAuthorizationHandler : AuthorizationHandler<MustBeAdminRequirement, IAuditable>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                        MustBeAdminRequirement requirement,
-                                                       AuditableEntity resource)
+                                                       IAuditable resource)
         {
             if (context.User.HasClaim(c => c.Type == Application.Common.Security.ClaimTypes.IsAdmin))
             {
@@ -48,11 +48,11 @@ namespace Rommelmarkten.Api.Infrastructure.Security
         }
     }
 
-    public class MustBeCreatorAuthorizationHandler : AuthorizationHandler<MustBeCreatorRequirement, AuditableEntity>
+    public class MustBeCreatorAuthorizationHandler : AuthorizationHandler<MustBeCreatorRequirement, IAuditable>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                        MustBeCreatorRequirement requirement,
-                                                       AuditableEntity resource)
+                                                       IAuditable resource)
         {
             if (context.User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) == resource.CreatedBy)
             {
@@ -98,11 +98,11 @@ namespace Rommelmarkten.Api.Infrastructure.Security
         }
     }
 
-    public class MustBeLastModifierAuthorizationHandler : AuthorizationHandler<MustBeLastModifierRequirement, AuditableEntity>
+    public class MustBeLastModifierAuthorizationHandler : AuthorizationHandler<MustBeLastModifierRequirement, IAuditable>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                        MustBeLastModifierRequirement requirement,
-                                                       AuditableEntity resource)
+                                                       IAuditable resource)
         {
             if (context.User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) == resource.LastModifiedBy)
             {

@@ -2,7 +2,8 @@
 
 namespace Rommelmarkten.Api.Domain.Common
 {
-    public abstract class AuditableEntity
+    public abstract class AuditableEntity<T> : EntityBase<T>, IAuditable
+        where T : notnull
     {
         public DateTime Created { get; set; }
 
