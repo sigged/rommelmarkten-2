@@ -105,22 +105,6 @@ namespace Rommelmarkten.Api.Infrastructure.Services
             return await query.CountAsync(cancellationToken);
         }
 
-        public virtual async Task<PaginatedList<TEntity>> SelectPagedAsync(
-            int page, int pageSize,
-            Expression<Func<TEntity, object>>[]? includes = null,
-            Expression<Func<TEntity, bool>>[]? filters = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            bool noTracking = true,
-            CancellationToken cancellationToken = default
-        )
-        {
-            IQueryable<TEntity> query = SelectAsQuery(includes, filters, orderBy);
-            var skip = (page - 1) * pageSize;
-
-            var result = await PaginatedList<TEntity>.CreateAsync(query, page, pageSize, cancellationToken);
-            return result;
-        }
-
         public virtual async Task<TEntity> GetByIdAsync(object id, CancellationToken cancellationToken = default)
         {
             var entity = await dbSet.FindAsync([id], cancellationToken);

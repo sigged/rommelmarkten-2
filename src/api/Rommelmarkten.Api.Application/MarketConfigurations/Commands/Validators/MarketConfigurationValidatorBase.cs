@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.MarketConfigurations.Commands.Models;
+using Rommelmarkten.Api.Application.MarketConfigurations.Models;
 
 namespace Rommelmarkten.Api.Application.MarketConfigurations.Commands.Validators
 {
     public abstract class MarketConfigurationValidatorBase<T> : AbstractValidator<T>
-        where T : MarketConfigurationDtoBase
+        where T : MarketConfigurationDto
     {
         protected readonly IApplicationDbContext _context;
 

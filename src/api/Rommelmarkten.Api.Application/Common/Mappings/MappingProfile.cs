@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Rommelmarkten.Api.Application.Common.Mappings

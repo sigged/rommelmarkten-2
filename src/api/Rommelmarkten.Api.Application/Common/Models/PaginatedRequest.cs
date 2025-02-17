@@ -1,19 +1,19 @@
 ﻿namespace Rommelmarkten.Api.Application.Common.Models
 {
-    public struct PaginatedRequest
+    public class PaginatedRequest
     {
-        public PaginatedRequest() : this(0, 50)
+        public PaginatedRequest() : this(1, 50)
         {
             
         }
 
-        public PaginatedRequest(int pageIndex, int pageSize)
+        public PaginatedRequest(int pageNumber, int pageSize)
         {
-            PageIndex = pageIndex;
+            PageNumber = pageNumber;
             PageSize = pageSize;
         }
 
-        public int PageIndex { get; set; }
+        public int PageNumber { get; set; }
         public int PageSize { get; set; }
     }
 

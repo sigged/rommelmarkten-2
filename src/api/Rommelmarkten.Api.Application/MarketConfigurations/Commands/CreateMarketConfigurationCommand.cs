@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.MarketConfigurations.Commands.Models;
+using Rommelmarkten.Api.Application.MarketConfigurations.Models;
 using Rommelmarkten.Api.Domain.Markets;
 
 namespace Rommelmarkten.Api.Application.MarketConfigurations.Commands
 {
 
-    public class CreateMarketConfigurationCommand : MarketConfigurationDtoBase, IRequest<Guid>
+    public class CreateMarketConfigurationCommand : MarketConfigurationDto, IRequest<Guid>
     {
     }
 

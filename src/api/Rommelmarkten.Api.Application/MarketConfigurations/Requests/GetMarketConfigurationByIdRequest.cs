@@ -4,11 +4,11 @@ using Rommelmarkten.Api.Domain.Markets;
 
 namespace Rommelmarkten.Api.Application.MarketConfigurations.Requests
 {
-    public struct GetConfigurationByIdRequest : IRequest<MarketConfiguration>
+    public struct GetMarketConfigurationByIdRequest : IRequest<MarketConfiguration>
     {
         public Guid Id { get; set; }
     }
-    public class GetConfigurationByIdRequestHandler : IRequestHandler<GetConfigurationByIdRequest, MarketConfiguration>
+    public class GetConfigurationByIdRequestHandler : IRequestHandler<GetMarketConfigurationByIdRequest, MarketConfiguration>
     {
         private readonly IEntityRepository<MarketConfiguration> repository;
 
@@ -17,9 +17,10 @@ namespace Rommelmarkten.Api.Application.MarketConfigurations.Requests
             this.repository = repository;
         }
 
-        public async Task<MarketConfiguration> Handle(GetConfigurationByIdRequest request, CancellationToken cancellationToken)
+        public async Task<MarketConfiguration> Handle(GetMarketConfigurationByIdRequest request, CancellationToken cancellationToken)
         {
-            return await repository.GetByIdAsync(request.Id, cancellationToken);
+            var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+            return entity;
         }
     }
 

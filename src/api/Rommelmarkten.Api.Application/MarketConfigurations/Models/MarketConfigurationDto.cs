@@ -1,6 +1,9 @@
-﻿namespace Rommelmarkten.Api.Application.MarketConfigurations.Commands.Models
+﻿using Rommelmarkten.Api.Application.Common.Mappings;
+using Rommelmarkten.Api.Domain.Markets;
+
+namespace Rommelmarkten.Api.Application.MarketConfigurations.Models
 {
-    public class MarketConfigurationDtoBase
+    public class MarketConfigurationDto : IMapFrom<MarketConfiguration>
     {
         public Guid Id { get; set; }
 

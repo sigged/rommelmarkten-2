@@ -21,12 +21,12 @@ namespace Rommelmarkten.Api.Application.Common.Models
 
         public bool HasNextPage => PageIndex < TotalPages;
 
-        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
         {
             var count = await source.CountAsync(cancellationToken);
-            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return new PaginatedList<T>(items, count, pageIndex, pageSize);
+            return new PaginatedList<T>(items, count, pageNumber, pageSize);
         }
     }
 }

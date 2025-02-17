@@ -8,10 +8,6 @@ using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Domain.Entities;
 
 namespace Rommelmarkten.Api.Application.ListItems.Queries.GetListItemsWithPagination

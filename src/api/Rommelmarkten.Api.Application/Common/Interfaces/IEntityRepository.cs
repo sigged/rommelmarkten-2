@@ -13,7 +13,7 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         IQueryable<TEntity> SelectAsQuery(Expression<Func<TEntity, object>>[]? includes = null, Expression<Func<TEntity, bool>>[]? filters = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, bool noTracking = true);
-        Task<PaginatedList<TEntity>> SelectPagedAsync(int page, int pageSize, Expression<Func<TEntity, object>>[]? includes = null, Expression<Func<TEntity, bool>>[]? filters = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, bool noTracking = true, CancellationToken cancellationToken = default);
+        //Task<PaginatedList<TEntity>> SelectPagedAsync(int page, int pageSize, Expression<Func<TEntity, object>>[]? includes = null, Expression<Func<TEntity, bool>>[]? filters = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, bool noTracking = true, CancellationToken cancellationToken = default);
         void Update(TEntity entityToUpdate);
         void Delete(TEntity entityToDelete);
         void Insert(TEntity entityToDelete);
