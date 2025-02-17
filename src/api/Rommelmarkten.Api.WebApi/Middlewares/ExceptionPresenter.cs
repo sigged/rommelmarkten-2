@@ -1,4 +1,5 @@
-﻿using Rommelmarkten.Api.Application.Common.Exceptions;
+﻿using Microsoft.AspNetCore.Mvc;
+using Rommelmarkten.Api.Application.Common.Exceptions;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -10,8 +11,17 @@ namespace Rommelmarkten.Api.WebApi.Middlewares
     /// </summary>
     internal sealed class ExceptionPresenter : IMiddleware
     {
-        private readonly ILogger<ExceptionPresenter> _logger;
-        public ExceptionPresenter(ILogger<ExceptionPresenter> logger) => _logger = logger;
+        private readonly ILogger<ExceptionPresenter> logger;
+        private static JsonSerializerOptions jsonSerializationOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        };
+
+        public ExceptionPresenter(ILogger<ExceptionPresenter> logger)
+        {
+            this.logger = logger;
+        }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
@@ -21,73 +31,87 @@ namespace Rommelmarkten.Api.WebApi.Middlewares
             }
             catch (Exception e)
             {
-                _logger.LogError(e, e.Message);
+                logger.LogError(e, e.Message);
                 await HandleExceptionAsync(context, e);
             }
         }
         private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
-            var response = GetResponse(exception);
-            httpContext.Response.StatusCode = response.StatusCode;
+            var problemDetails = GetProblemDetails(exception);
+            httpContext.Response.StatusCode = problemDetails.Status ?? StatusCodes.Status500InternalServerError;
             httpContext.Response.ContentType = "application/json";
-            await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
+
+            string json = problemDetails switch
+            {
+                ValidationProblemDetails validationProblemDetails => JsonSerializer.Serialize(validationProblemDetails, jsonSerializationOptions),
+                ExceptionProblemDetails exceptionProblemDetails => JsonSerializer.Serialize(exceptionProblemDetails, jsonSerializationOptions),
+                _ => JsonSerializer.Serialize(problemDetails, jsonSerializationOptions),
+            };
+
+            await httpContext.Response.WriteAsync(json);
         }
 
-
-        private static ErrorResponse GetResponse(Exception exception) =>
+        private static ProblemDetails GetProblemDetails(Exception exception) =>
             exception switch
             {
-                NotFoundException notFoundException => new ErrorResponse
+                NotFoundException notFoundException => new ProblemDetails
                 {
-                    StatusCode = StatusCodes.Status404NotFound,
+                    Status = StatusCodes.Status404NotFound,
                     Title = "Not Found",
-                    Message = notFoundException.Message
+                    Detail = notFoundException.Message,
+                    Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5"
                 },
-                ValidationException validationException => new ValidationErrorResponse
+                ValidationException validationException => new ValidationProblemDetails
                 {
-                    StatusCode = StatusCodes.Status422UnprocessableEntity,
+                    Status = StatusCodes.Status422UnprocessableEntity,
                     Title = "Validation Failed",
-                    Message = validationException.Message,
-                    ValidationErrors = new ReadOnlyDictionary<string, string[]>(validationException.Errors)
+                    Detail = validationException.Message,
+                    Errors = validationException.Errors,
+                    Type = "https://tools.ietf.org/html/rfc9110#section-15.5.21"
                 },
-                ForbiddenAccessException forbiddenException => new ErrorResponse
+                ForbiddenAccessException forbiddenException => new ProblemDetails
                 {
-                    StatusCode = StatusCodes.Status403Forbidden,
+                    Status = StatusCodes.Status403Forbidden,
                     Title = "Forbidden",
-                    Message = forbiddenException.Message
+                    Detail = forbiddenException.Message,
+                    Type = "https://tools.ietf.org/html/rfc9110#section-15.5.4"
                 },
-                UnauthorizedAccessException notunauthorizedException => new ErrorResponse
+                UnauthorizedAccessException notunauthorizedException => new ProblemDetails
                 {
-                    StatusCode = StatusCodes.Status401Unauthorized,
+                    Status = StatusCodes.Status401Unauthorized,
                     Title = "Unauthorized",
-                    Message = notunauthorizedException.Message
+                    Detail = notunauthorizedException.Message,
+                    Type = "https://tools.ietf.org/html/rfc9110#section-15.5.2"
                 },
-                ApplicationException applicationException => new ErrorResponse
+                ApplicationException applicationException => new ExceptionProblemDetails(exception)
                 {
-                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Status = StatusCodes.Status500InternalServerError,
                     Title = "Application Error",
-                    Message = applicationException.Message
+                    Type = "https://tools.ietf.org/html/rfc9110#section-15.6.1"
                 },
-                _ => new ErrorResponse
+                _ => new ExceptionProblemDetails(exception)
                 {
-                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Status = StatusCodes.Status500InternalServerError,
                     Title = "Server Error",
-                    Message = exception.Message
+                    Type = "https://tools.ietf.org/html/rfc9110#section-15.6.1"
                 }
             };
     }
 
-    public class ErrorResponse
+    public class ExceptionProblemDetails : ProblemDetails
     {
-        public required string Title { get; set; }
-        public required string Message { get; set; }
-
-        [JsonIgnore]
-        public int StatusCode { get; set; }
-    }
-
-    public class ValidationErrorResponse : ErrorResponse
-    {
-        public IReadOnlyDictionary<string, string[]> ValidationErrors { get; set; } = new Dictionary<string, string[]>().AsReadOnly();
+        public ExceptionProblemDetails(Exception exception)
+        {
+#if DEBUG
+            Exception? currentException = exception;
+            do
+            {
+                Detail = currentException.Message;
+                Extensions["stackTrace"] = currentException.StackTrace;
+                currentException = currentException.InnerException;
+            }
+            while (currentException != null);    
+#endif
+        }
     }
 }

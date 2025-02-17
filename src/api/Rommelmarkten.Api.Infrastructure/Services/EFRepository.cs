@@ -72,6 +72,7 @@ namespace Rommelmarkten.Api.Infrastructure.Services
                 return query;
             }
         }
+
         public virtual void Insert(TEntity entity)
         {
             dbSet.Add(entity);
@@ -139,6 +140,7 @@ namespace Rommelmarkten.Api.Infrastructure.Services
             Insert(entity);
             await context.SaveChangesAsync(cancellationToken);
         }
+
         public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             Update(entity);

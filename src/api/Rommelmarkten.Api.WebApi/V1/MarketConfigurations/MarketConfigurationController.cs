@@ -11,14 +11,14 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
     [ApiVersion("1.0")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesErrorResponseType(typeof(ErrorResponse))]
+    [ProducesErrorResponseType(typeof(ProblemDetails))]
     public class MarketConfigurationController : ApiControllerBase
     {
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Create(CreateMarketConfigurationCommand command)
         {
             await Mediator.Send(command);

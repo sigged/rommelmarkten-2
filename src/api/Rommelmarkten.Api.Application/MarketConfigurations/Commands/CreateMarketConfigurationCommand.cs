@@ -14,9 +14,9 @@ namespace Rommelmarkten.Api.Application.MarketConfigurations.Commands
         {
             _context = context;
 
-            //RuleFor(v => v.Id)
-            //    .Empty().WithMessage("Use a default Id value when creating a new entity.")
-            //    .MustAsync(BeUniqueId).WithMessage("A configuration with this Id already exists.");
+            RuleFor(v => v.Id)
+                .Empty().WithMessage("Use a default Id value when creating a new entity.")
+                .MustAsync(BeUniqueId).WithMessage("A configuration with this Id already exists.");
 
             RuleFor(v => v.Name)
                 .NotEmpty().WithMessage("Name is required.")
