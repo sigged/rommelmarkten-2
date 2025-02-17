@@ -1,13 +1,9 @@
 ﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Application.ListItems.Commands.DeleteListItem;
-using Rommelmarkten.Api.Application.ListItems.Queries.GetListItemsWithPagination;
+using Rommelmarkten.Api.Application.Common.Pagination;
 using Rommelmarkten.Api.Application.MarketConfigurations.Commands;
 using Rommelmarkten.Api.Application.MarketConfigurations.Models;
 using Rommelmarkten.Api.Application.MarketConfigurations.Requests;
-using Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists;
 using Rommelmarkten.Api.WebApi.Controllers;
 using Rommelmarkten.Api.WebApi.Middlewares;
 using System.Net.Mime;
@@ -67,11 +63,22 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<MarketConfigurationDto>>> GetPagedConfigurations([FromQuery] GetPagedMarketConfigurationsRequest query)
         {
             return await Mediator.Send(query);
+        }
+
+        [HttpGet("{id:guid}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(PaginatedList<MarketConfigurationDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<MarketConfigurationDto>> GetConfiguration(Guid id)
+        {
+            return await Mediator.Send(new GetMarketConfigurationByIdRequest { Id = id });
         }
     }
 }

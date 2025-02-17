@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Rommelmarkten.Api.Application.Common.Models
+namespace Rommelmarkten.Api.Application.Common.Pagination
 {
     public class PaginatedList<T>
     {

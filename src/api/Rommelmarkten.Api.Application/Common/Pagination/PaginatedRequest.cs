@@ -1,10 +1,10 @@
-﻿namespace Rommelmarkten.Api.Application.Common.Models
+﻿namespace Rommelmarkten.Api.Application.Common.Pagination
 {
     public class PaginatedRequest
     {
         public PaginatedRequest() : this(1, 50)
         {
-            
+
         }
 
         public PaginatedRequest(int pageNumber, int pageSize)

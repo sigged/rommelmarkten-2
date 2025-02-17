@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-
-using Rommelmarkten.Api.Application.Common.Models;
+using Rommelmarkten.Api.Application.Common.Pagination;
 
 namespace Rommelmarkten.Api.Application.Common.Mappings
 {

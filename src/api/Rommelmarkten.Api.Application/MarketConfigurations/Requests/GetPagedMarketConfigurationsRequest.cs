@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using Rommelmarkten.Api.Application.Common;
 using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Application.Common.Validators;
+using Rommelmarkten.Api.Application.Common.Pagination;
 using Rommelmarkten.Api.Application.MarketConfigurations.Models;
 using Rommelmarkten.Api.Domain.Markets;
 

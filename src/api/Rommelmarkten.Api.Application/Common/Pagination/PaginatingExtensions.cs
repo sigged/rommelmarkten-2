@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.Common.Models;
 
-namespace Rommelmarkten.Api.Application.Common
+namespace Rommelmarkten.Api.Application.Common.Pagination
 {
     public static class PaginatingExtensions
     {

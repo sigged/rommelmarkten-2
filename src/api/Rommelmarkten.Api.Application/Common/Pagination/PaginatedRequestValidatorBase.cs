@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using Rommelmarkten.Api.Application.Common.Models;
 
-namespace Rommelmarkten.Api.Application.Common.Validators
+namespace Rommelmarkten.Api.Application.Common.Pagination
 {
     public abstract class PaginatedRequestValidatorBase<T> : AbstractValidator<T>
         where T : PaginatedRequest

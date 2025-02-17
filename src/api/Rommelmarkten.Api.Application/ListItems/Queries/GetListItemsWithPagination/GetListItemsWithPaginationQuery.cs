@@ -3,12 +3,12 @@ using AutoMapper.QueryableExtensions;
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Mappings;
-using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Application.ShoppingLists.Queries.GetShoppingLists;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Application.Common.Pagination;
 
 namespace Rommelmarkten.Api.Application.ListItems.Queries.GetListItemsWithPagination
 {
