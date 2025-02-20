@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Rommelmarkten.Api.Application.Common.Pagination
 {
@@ -17,8 +18,10 @@ namespace Rommelmarkten.Api.Application.Common.Pagination
             Items = items;
         }
 
+        [JsonIgnore]
         public bool HasPreviousPage => PageIndex > 1;
 
+        [JsonIgnore]
         public bool HasNextPage => PageIndex < TotalPages;
 
         public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
