@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
@@ -119,6 +120,14 @@ namespace Rommelmarkten.Api.Infrastructure
             });
 
             services.AddApplicationAuthorization();
+
+            //add caching
+            services.AddOutputCache(options =>
+            {
+                 options.AddBasePolicy(builder => builder.Cache());
+                //options.UseStackExchangeRedis("your_redis_connection_string"); //uncomment to enable redis caching
+            });
+           
 
             return services;
         }
