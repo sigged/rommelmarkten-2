@@ -6,9 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Rommelmarkten.Api.Application.Common.Caching;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Domain.Markets;
+using Rommelmarkten.Api.Infrastructure.Caching;
 using Rommelmarkten.Api.Infrastructure.Identity;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 using Rommelmarkten.Api.Infrastructure.Security;
@@ -121,10 +123,26 @@ namespace Rommelmarkten.Api.Infrastructure
 
             services.AddApplicationAuthorization();
 
+
             //add caching
+            services.AddScoped<ICacheManager, OutputCacheManager>();
+
             services.AddOutputCache(options =>
             {
-                 options.AddBasePolicy(builder => builder.Cache());
+                options.AddBasePolicy(builder =>
+                            builder.Expire(TimeSpan.FromSeconds(60)));
+
+                options.AddPolicy(CachePolicyNames.PublicMarkets, builder =>
+                {
+                    builder.Expire(TimeSpan.FromSeconds(60));
+                    builder.Tag(new[] { CacheTagNames.Public, CacheTagNames.Markets });
+                });
+                options.AddPolicy(CachePolicyNames.OwnedMarkets, builder =>
+                {
+                    builder.Expire(TimeSpan.FromSeconds(60));
+                    builder.Tag(new[] { CacheTagNames.Owned, CacheTagNames.Markets });
+                });
+
                 //options.UseStackExchangeRedis("your_redis_connection_string"); //uncomment to enable redis caching
             });
            

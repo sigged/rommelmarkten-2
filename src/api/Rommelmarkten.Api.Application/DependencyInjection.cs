@@ -18,6 +18,7 @@ namespace Rommelmarkten.Api.Application
                 config.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
                 config.AddOpenBehavior(typeof(AuthorizationBehaviour<,>));
                 config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+                config.AddOpenBehavior(typeof(CacheInvalidationBehaviour<,>));
                 config.AddOpenBehavior(typeof(PerformanceBehaviour<,>));
             });
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));

@@ -1,10 +1,12 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Rommelmarkten.Api.Application.Common.Caching;
 using Rommelmarkten.Api.Application.Common.Pagination;
 using Rommelmarkten.Api.Application.MarketConfigurations.Commands;
 using Rommelmarkten.Api.Application.MarketConfigurations.Models;
 using Rommelmarkten.Api.Application.MarketConfigurations.Requests;
+using Rommelmarkten.Api.Infrastructure.Caching;
 using Rommelmarkten.Api.WebApi.Controllers;
 using Rommelmarkten.Api.WebApi.Middlewares;
 using System.Diagnostics;
@@ -60,7 +62,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         }
 
         [HttpGet]
-        [OutputCache(Duration = 60)]
+        [OutputCache(Tags = [CacheTagNames.MarketConfiguration])]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(PaginatedList<MarketConfigurationDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -69,11 +71,11 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<MarketConfigurationDto>>> GetPagedConfigurations([FromQuery] GetPagedMarketConfigurationsRequest query)
         {
-            Debug.WriteLine($"Live Fetch at {DateTime.Now}");
             return await Mediator.Send(query);
         }
 
         [HttpGet("{id:guid}")]
+        [OutputCache(Tags = [CacheTagNames.MarketConfiguration])]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(PaginatedList<MarketConfigurationDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Rommelmarkten.Api.Application.Common.Caching;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Application.MarketConfigurations.Models;
@@ -7,6 +8,7 @@ using Rommelmarkten.Api.Domain.Markets;
 namespace Rommelmarkten.Api.Application.MarketConfigurations.Commands
 {
     [Authorize(Policy=Policies.MustBeAdmin)]
+    [CacheInvalidator(Tags = [CacheTagNames.MarketConfiguration])]
     public class CreateMarketConfigurationCommand : MarketConfigurationDto, IRequest<Guid>
     {
     }
