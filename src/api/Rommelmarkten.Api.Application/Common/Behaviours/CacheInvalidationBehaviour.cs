@@ -15,22 +15,28 @@ namespace Rommelmarkten.Api.Application.Common.Behaviours
             this.cacheManager = cacheManager;
         }
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             //execute pipeline/handler first
-            var response = await next();
+            var task = next();
 
-            //invalidate cache
-            var cacheInvalidatorAttributes = request.GetType().GetCustomAttributes<CacheInvalidatorAttribute>();
-            if (cacheInvalidatorAttributes.Any())
+            //invalidate cache if pipeline completes successfully
+            _ = task.ContinueWith(async (task) =>
             {
-                foreach (var cacheInvalidatorAttribute in cacheInvalidatorAttributes)
+                if (task.IsCompletedSuccessfully)
                 {
-                    await cacheManager.InvalidateCacheWithTags(cancellationToken, cacheInvalidatorAttribute.Tags);
+                    var cacheInvalidatorAttributes = request.GetType().GetCustomAttributes<CacheInvalidatorAttribute>();
+                    if (cacheInvalidatorAttributes.Any())
+                    {
+                        foreach (var cacheInvalidatorAttribute in cacheInvalidatorAttributes)
+                        {
+                            await cacheManager.InvalidateCacheWithTags(cancellationToken, cacheInvalidatorAttribute.Tags);
+                        }
+                    }
                 }
-            }
+            });
 
-            return response;
+            return task;
         }
     }
 }
