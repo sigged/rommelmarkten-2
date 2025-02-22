@@ -6,19 +6,17 @@ using Rommelmarkten.Api.Application.Common.Pagination;
 using Rommelmarkten.Api.Application.MarketConfigurations.Commands;
 using Rommelmarkten.Api.Application.MarketConfigurations.Models;
 using Rommelmarkten.Api.Application.MarketConfigurations.Requests;
-using Rommelmarkten.Api.Infrastructure.Caching;
 using Rommelmarkten.Api.WebApi.Controllers;
 using Rommelmarkten.Api.WebApi.Middlewares;
-using System.Diagnostics;
 using System.Net.Mime;
 
-namespace Rommelmarkten.Api.WebApi.V1.Users
+namespace Rommelmarkten.Api.WebApi.V1.MarketConfigurations
 {
     [ApiVersion("1.0")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesErrorResponseType(typeof(ProblemDetails))]
-    public class MarketConfigurationController : ApiControllerBase
+    public class MarketConfigurationsController : ApiControllerBase
     {
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
