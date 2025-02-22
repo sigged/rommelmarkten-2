@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Rommelmarkten.Api.Application.Common.Caching;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
+using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Infrastructure.Caching;
 using Rommelmarkten.Api.Infrastructure.Identity;
@@ -61,6 +61,8 @@ namespace Rommelmarkten.Api.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
+            services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
+            services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd>>();
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 

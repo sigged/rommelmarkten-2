@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Common;
 using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Domain.Markets;
@@ -29,6 +30,8 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
         }
 
         public required DbSet<MarketConfiguration> MarketConfigurations { get; set; }
+        public required DbSet<MarketTheme> MarketThemes { get; set; }
+        public required DbSet<AffiliateAd> AffiliateAds { get; set; }
 
         public required DbSet<ListItem> ListItems { get; set; }
 

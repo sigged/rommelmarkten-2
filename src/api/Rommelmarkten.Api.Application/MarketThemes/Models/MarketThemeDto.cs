@@ -1,9 +1,12 @@
-﻿using Rommelmarkten.Api.Domain.Common;
+﻿using Rommelmarkten.Api.Application.Common.Mappings;
+using Rommelmarkten.Api.Domain.Markets;
 
-namespace Rommelmarkten.Api.Domain.Markets
+namespace Rommelmarkten.Api.Application.MarketThemes.Models
 {
-    public class MarketTheme : EntityBase<Guid>
+    public class MarketThemeDto : IMapFrom<MarketTheme>
     {
+        public Guid Id { get; set; }
+
         public required string Name { get; set; }
 
         public string? Description { get; set; }

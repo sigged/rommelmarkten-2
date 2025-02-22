@@ -2,7 +2,7 @@
 
 namespace Rommelmarkten.Api.Domain.Markets
 {
-    public class BannerType : AuditableEntity<Guid>
+    public class BannerType : EntityBase<Guid>
     {
         public required string Name { get; set; }
 

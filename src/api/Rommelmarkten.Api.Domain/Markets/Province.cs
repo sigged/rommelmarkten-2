@@ -2,7 +2,7 @@
 
 namespace Rommelmarkten.Api.Domain.Markets
 {
-    public class Province : AuditableEntity<Guid>
+    public class Province : EntityBase<Guid>
     {
         public required string Code { get; set; }
         public required string Name { get; set; }
