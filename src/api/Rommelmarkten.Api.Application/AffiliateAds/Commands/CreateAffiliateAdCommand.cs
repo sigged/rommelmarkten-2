@@ -26,8 +26,9 @@ namespace Rommelmarkten.Api.Application.AffiliateAds.Commands
         {
             Guid createdId = Guid.NewGuid();
 
-            var entity = new AffiliateAd {
-                Id = request.Id,
+            var entity = new AffiliateAd
+            {
+                Id = createdId,
                 ImageUrl = request.ImageUrl,
                 AffiliateName = request.AffiliateName,
                 AffiliateURL = request.AffiliateURL,
