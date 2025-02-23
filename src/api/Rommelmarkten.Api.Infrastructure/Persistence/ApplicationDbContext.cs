@@ -30,7 +30,11 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
         }
 
         public required DbSet<MarketConfiguration> MarketConfigurations { get; set; }
+
         public required DbSet<MarketTheme> MarketThemes { get; set; }
+
+        public required DbSet<BannerType> BannerTypes { get; set; }
+
         public required DbSet<AffiliateAd> AffiliateAds { get; set; }
 
         public required DbSet<ListItem> ListItems { get; set; }

@@ -13,6 +13,8 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
 
         DbSet<MarketTheme> MarketThemes { get; set; }
 
+        DbSet<BannerType> BannerTypes { get; set; }
+
         DbSet<AffiliateAd> AffiliateAds { get; set; }
 
         DbSet<ListItem> ListItems { get; set; }
