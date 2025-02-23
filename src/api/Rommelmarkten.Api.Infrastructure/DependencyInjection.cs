@@ -9,6 +9,7 @@ using Rommelmarkten.Api.Application.Common.Caching;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Domain.Affiliates;
+using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Infrastructure.Caching;
 using Rommelmarkten.Api.Infrastructure.Identity;

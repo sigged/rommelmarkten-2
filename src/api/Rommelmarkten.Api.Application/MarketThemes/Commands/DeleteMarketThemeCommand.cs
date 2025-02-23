@@ -2,6 +2,7 @@
 using Rommelmarkten.Api.Application.Common.Caching;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
+using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
 
 namespace Rommelmarkten.Api.Application.MarketThemes.Commands

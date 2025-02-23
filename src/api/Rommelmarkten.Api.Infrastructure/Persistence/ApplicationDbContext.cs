@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Common;
+using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Domain.Users;
@@ -36,6 +37,12 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
         public required DbSet<BannerType> BannerTypes { get; set; }
 
         public required DbSet<AffiliateAd> AffiliateAds { get; set; }
+
+        public required DbSet<NewsArticle> NewsArticles { get; set; }
+        
+        public required DbSet<FAQCategory> FAQCategories { get; set; }
+
+        public required DbSet<FAQItem> FAQItems { get; set; }
 
         public required DbSet<ListItem> ListItems { get; set; }
 

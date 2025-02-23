@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Domain.Affiliates;
+using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Domain.Users;
@@ -16,6 +17,12 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
         DbSet<BannerType> BannerTypes { get; set; }
 
         DbSet<AffiliateAd> AffiliateAds { get; set; }
+
+        DbSet<NewsArticle> NewsArticles { get; set; }
+
+        DbSet<FAQCategory> FAQCategories { get; set; }
+
+        DbSet<FAQItem> FAQItems { get; set; }
 
         DbSet<ListItem> ListItems { get; set; }
 

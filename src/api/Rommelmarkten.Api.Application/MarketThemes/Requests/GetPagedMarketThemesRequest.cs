@@ -3,6 +3,7 @@ using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Pagination;
 using Rommelmarkten.Api.Application.MarketThemes.Models;
+using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
 
 namespace Rommelmarkten.Api.Application.MarketThemes.Requests
