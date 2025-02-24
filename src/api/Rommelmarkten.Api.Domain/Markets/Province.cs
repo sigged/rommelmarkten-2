@@ -8,5 +8,7 @@ namespace Rommelmarkten.Api.Domain.Markets
         public required string Name { get; set; }
         public required string UrlSlug { get; set; }
         public required string Language { get; set; }
+
+        public ICollection<Market> Markets { get; set; } = [];
     }
 }
