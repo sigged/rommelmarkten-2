@@ -10,7 +10,8 @@ namespace Rommelmarkten.Api.Application.FAQCategories.Commands.Validators
         {
             RuleFor(v => v.Id)
                 .Empty().WithMessage("Use a default Id value when creating a new entity.")
-                .MustAsync(BeUniqueId).WithMessage("A configuration with this Id already exists.");
+                .MustAsync(BeUniqueId).WithMessage("A category with this Id already exists.");
+
         }
         public async Task<bool> BeUniqueId(Guid id, CancellationToken cancellationToken)
         {
