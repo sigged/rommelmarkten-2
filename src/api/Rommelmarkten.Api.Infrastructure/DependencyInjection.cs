@@ -65,6 +65,9 @@ namespace Rommelmarkten.Api.Infrastructure
             services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
             services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd>>();
             services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType>>();
+            services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle>>();
+            services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
+            services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 
