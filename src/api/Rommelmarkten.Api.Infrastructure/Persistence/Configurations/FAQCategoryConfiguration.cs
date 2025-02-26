@@ -16,7 +16,8 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasMany(cat => cat.FAQItems)
-                .WithOne(item => item.Category);
+                .WithOne(item => item.Category)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -2,9 +2,11 @@
 {
     public enum PaymentStatus
     {
-        NotPaid,
-        Paid,
         Free,
-        Unknown
+        NotPaid,
+        Cancelled,
+        Expired,
+        Failed,
+        Paid
     }
 }

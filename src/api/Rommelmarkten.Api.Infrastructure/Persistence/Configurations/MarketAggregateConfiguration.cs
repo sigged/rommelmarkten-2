@@ -7,25 +7,7 @@ using Rommelmarkten.Api.Domain.Markets;
 namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
 {
 
-    public class MarketWithThemeConfiguration : IEntityTypeConfiguration<MarketWithTheme>
-    {
-        public void Configure(EntityTypeBuilder<MarketWithTheme> builder)
-        {
-            builder.HasKey(e => new { e.MarketId, e.ThemeId });
 
-            builder.HasOne(e => e.Market)
-                   .WithMany()
-                   .HasForeignKey(e => e.MarketId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(e => e.Theme)
-                   .WithMany()
-                   .HasForeignKey(e => e.ThemeId)
-                   .OnDelete(DeleteBehavior.Cascade);
-        }
-    }
-
-    
 
     public class MarketAggregateConfiguration : IEntityTypeConfiguration<Market>
     {
@@ -38,14 +20,8 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
                    .HasMaxLength(4000);
 
             builder.HasOne(rm => rm.Province)
-                   .WithMany(p => p.Markets);
-
-            //builder.HasMany(e => e.Dates)
-            //       .WithOne()
-            //       .HasForeignKey(e => e.ParentMarketId)
-            //       .HasPrincipalKey(e => e.Id)
-            //       .OnDelete(DeleteBehavior.NoAction);
-
+                   .WithMany(p => p.Markets)
+                   .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(rm => rm.Themes)
                 .WithMany(th => th.Markets)
@@ -60,12 +36,6 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
             builder.OwnsOne(e => e.Pricing)
                 .Property(e => e.StandPrice).HasPrecision(18, 2);
 
-            //builder.HasOptional(e => e.BannerType).WithMany().WillCascadeOnDelete(false);
-            //builder.HasRequired(e => e.Category).WithMany().WillCascadeOnDelete(false);
-            //builder.HasRequired(e => e.MainTheme).WithMany().WillCascadeOnDelete(false);
-
-            //builder.Property(t => t.Price)
-            //       .HasPrecision(18, 2);
         }
     }
 }

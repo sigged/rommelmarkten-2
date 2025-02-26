@@ -12,7 +12,7 @@ using Rommelmarkten.Api.Infrastructure.Persistence;
 namespace Rommelmarkten.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250224233448_AddMarket")]
+    [Migration("20250225224649_AddMarket")]
     partial class AddMarket
     {
         /// <inheritdoc />
@@ -591,6 +591,30 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("MarketDate");
                 });
 
+            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketPayment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("MarketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("StatusChanged")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MarketId")
+                        .IsUnique();
+
+                    b.ToTable("MarketPayment");
+                });
+
             modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketTheme", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1035,12 +1059,23 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("ParentMarket");
                 });
 
+            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketPayment", b =>
+                {
+                    b.HasOne("Rommelmarkten.Api.Domain.Markets.Market", "Market")
+                        .WithOne()
+                        .HasForeignKey("Rommelmarkten.Api.Domain.Markets.MarketPayment", "MarketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Market");
+                });
+
             modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketWithTheme", b =>
                 {
                     b.HasOne("Rommelmarkten.Api.Domain.Markets.Market", "Market")
                         .WithMany()
                         .HasForeignKey("MarketId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Rommelmarkten.Api.Domain.Markets.Market", null)
@@ -1052,7 +1087,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketTheme", "Theme")
                         .WithMany()
                         .HasForeignKey("ThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketTheme", null)

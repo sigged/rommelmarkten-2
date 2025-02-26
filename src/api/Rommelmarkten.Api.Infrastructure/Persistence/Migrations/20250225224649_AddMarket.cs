@@ -116,6 +116,26 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MarketPayment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MarketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    StatusChanged = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MarketPayment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MarketPayment_Market_MarketId",
+                        column: x => x.MarketId,
+                        principalTable: "Market",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MarketWithTheme",
                 columns: table => new
                 {
@@ -132,8 +152,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                         name: "FK_MarketWithTheme_MarketThemes_ThemeId",
                         column: x => x.ThemeId,
                         principalTable: "MarketThemes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MarketWithTheme_MarketThemes_ThemesId",
                         column: x => x.ThemesId,
@@ -144,8 +163,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                         name: "FK_MarketWithTheme_Market_MarketId",
                         column: x => x.MarketId,
                         principalTable: "Market",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MarketWithTheme_Market_MarketsId",
                         column: x => x.MarketsId,
@@ -175,6 +193,12 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 column: "ParentMarketId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MarketPayment_MarketId",
+                table: "MarketPayment",
+                column: "MarketId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MarketWithTheme_MarketsId",
                 table: "MarketWithTheme",
                 column: "MarketsId");
@@ -201,6 +225,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "MarketDate");
+
+            migrationBuilder.DropTable(
+                name: "MarketPayment");
 
             migrationBuilder.DropTable(
                 name: "MarketWithTheme");
