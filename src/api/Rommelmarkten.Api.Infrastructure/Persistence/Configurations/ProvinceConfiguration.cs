@@ -12,16 +12,20 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
             builder.HasIndex(e => e.Code).IsUnique();
 
             builder.Property(e => e.Code)
-                .HasMaxLength(5)
+                .HasMaxLength(10)
                 .IsRequired();
 
             builder.Property(e => e.Language)
-                .HasMaxLength(5)
+                .HasMaxLength(3)
                 .IsRequired();
 
             builder.Property(e => e.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(30)
                 .IsRequired();
+
+            builder.Property(e => e.UrlSlug)
+                .HasMaxLength(30);
+
         }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Rommelmarkten.Api.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Domain.Markets
 {
@@ -13,8 +8,8 @@ namespace Rommelmarkten.Api.Domain.Markets
         public required string Name { get; set; }
         public required string Phone { get; set; }
         public required string Email { get; set; }
-        public required string URL { get; set; }
-        public required string ContactNotes { get; set; }
+        public string? URL { get; set; }
+        public string? ContactNotes { get; set; }
 
         public bool ShowName { get; set; }
 
@@ -31,7 +26,7 @@ namespace Rommelmarkten.Api.Domain.Markets
 
     public class MarketLocation
     {
-        public required string Hall { get; set; }
+        public string? Hall { get; set; }
 
         public required string Address { get; set; }
 
@@ -41,9 +36,9 @@ namespace Rommelmarkten.Api.Domain.Markets
 
         public required string Country { get; set; }
 
-        public required string CoordLatitude { get; set; }
+        public double? CoordLatitude { get; set; }
 
-        public required string CoordLongitude { get; set; }
+        public double? CoordLongitude { get; set; }
 
     }
     public class MarketPricing
@@ -54,16 +49,25 @@ namespace Rommelmarkten.Api.Domain.Markets
 
     }
 
+    public class MarketRevision
+    {
+
+        public Market? RevisedMarket { get; set; }
+
+        public Guid RevisedMarketId { get; set; }
+
+    }
+
     public class Market : AuditableEntity<Guid>
     {
         /// <summary>
         /// Legacy ID from v1 database
         /// </summary>
-        public long Id_V1 { get; set; }
+        public long? Id_V1 { get; set; }
 
-        //public long? RMTemp_Original_RMid { get; set; }
+        public required string Title { get; set; }
 
-        //public Market RMTemp_Original { get; set; }
+        public required string Description { get; set; }
 
         public Guid ConfigurationId { get; set; }
 
@@ -84,17 +88,13 @@ namespace Rommelmarkten.Api.Domain.Markets
 
         public Province? Province { get; set; }
 
-        public required string Title { get; set; }
-
-        public required string Description { get; set; }
-
-        public MarketPricing Pricing { get; set; }
+        public required MarketPricing Pricing { get; set; }
 
         public required MarketLocation Location { get; set; }
 
-        public MarketImage? Image { get; set; }
+        public required MarketImage Image { get; set; }
 
-        public Organizer Organizer { get; set; }
+        public required Organizer Organizer { get; set; }
 
         public DateTime? DateLastAdminUpdate { get; set; }
 

@@ -9,11 +9,10 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<BannerType> builder)
         {
             builder.Property(t => t.Name)
-                .HasMaxLength(200)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(t => t.Description)
-                .HasMaxLength(4000)
                 .IsRequired();
 
             builder.Property(t => t.Price)

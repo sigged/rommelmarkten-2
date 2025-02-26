@@ -13,7 +13,6 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(t => t.Content)
-                .HasMaxLength(4000)
                 .IsRequired();
 
         }
