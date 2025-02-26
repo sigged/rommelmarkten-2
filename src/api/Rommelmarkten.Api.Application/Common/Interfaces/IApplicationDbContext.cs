@@ -33,6 +33,9 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
         DbSet<ListAssociate> ListAssociates { get; set; }
 
         DbSet<UserProfile> UserProfiles { get; set; }
+        DbSet<MarketInvoice> MarketInvoices { get; set; }
+        DbSet<MarketRevision> MarketRevisions { get; set; }
+        DbSet<Market> Markets { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
 
