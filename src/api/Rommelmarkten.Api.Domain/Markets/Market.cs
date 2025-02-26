@@ -76,7 +76,7 @@ namespace Rommelmarkten.Api.Domain.Markets
 
         public ICollection<MarketDate> Dates { get; set; } = [];
 
-        //public ICollection<MarketRevision> Revisions { get; set; } = [];
+        public ICollection<MarketRevision> Revisions { get; set; } = [];
 
         public required MarketPricing Pricing { get; set; }
 

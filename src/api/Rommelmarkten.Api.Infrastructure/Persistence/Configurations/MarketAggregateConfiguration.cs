@@ -21,9 +21,9 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
                    .WithMany(p => p.Markets)
                    .OnDelete(DeleteBehavior.NoAction);
 
-            //builder.HasMany(e => e.Revisions)
-            //       .WithOne(e => e.RevisedMarket)
-            //       .OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany(e => e.Revisions)
+                   .WithOne(e => e.RevisedMarket)
+                   .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(rm => rm.Themes)
                    .WithMany(th => th.Markets)
