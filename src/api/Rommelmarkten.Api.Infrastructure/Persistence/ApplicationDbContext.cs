@@ -54,6 +54,10 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
 
         public required DbSet<UserProfile> UserProfiles { get; set; }
 
+        public required DbSet<Market> Markets { get; set; }
+
+        //public required DbSet<MarketRevision> MarketRevisions { get; set; }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<IAuditable> entry in ChangeTracker.Entries<IAuditable>())

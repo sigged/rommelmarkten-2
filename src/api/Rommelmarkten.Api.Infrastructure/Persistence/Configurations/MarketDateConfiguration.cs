@@ -8,6 +8,8 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<MarketDate> builder)
         {
+            builder.HasKey(e => e.Id);
+
             builder.Property(t => t.Date)
                 .IsRequired();
 

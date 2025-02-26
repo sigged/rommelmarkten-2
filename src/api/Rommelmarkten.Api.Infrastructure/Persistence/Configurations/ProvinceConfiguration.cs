@@ -9,6 +9,7 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Province> builder)
         {
             builder.HasKey(e => e.Id);
+
             builder.HasIndex(e => e.Code).IsUnique();
 
             builder.Property(e => e.Code)

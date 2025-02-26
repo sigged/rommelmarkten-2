@@ -17,6 +17,8 @@ namespace Rommelmarkten.Api.Domain.Markets
         public bool IsActive { get; set; }
 
         public ICollection<Market> Markets { get; set; } = [];
+
+        //public ICollection<MarketRevision> MarketRevisions { get; set; } = [];
     }
 
 }

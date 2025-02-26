@@ -8,6 +8,8 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<MarketPayment> builder)
         {
+            builder.HasKey(e => e.Id);
+
             builder.HasOne(e => e.Market)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade)

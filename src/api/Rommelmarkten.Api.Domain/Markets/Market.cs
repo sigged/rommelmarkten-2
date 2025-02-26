@@ -49,15 +49,6 @@ namespace Rommelmarkten.Api.Domain.Markets
 
     }
 
-    public class MarketRevision
-    {
-
-        public Market? RevisedMarket { get; set; }
-
-        public Guid RevisedMarketId { get; set; }
-
-    }
-
     public class Market : AuditableEntity<Guid>
     {
         /// <summary>
@@ -76,17 +67,16 @@ namespace Rommelmarkten.Api.Domain.Markets
         public Guid BannerTypeId { get; set; }
 
         public BannerType? BannerType { get; set; }
-        
-        //public Guid MainThemeId { get; set; }
-        //public MarketTheme? MainTheme { get; set; }
+
+        public Guid ProvinceId { get; set; }
+
+        public Province? Province { get; set; }
 
         public ICollection<MarketTheme> Themes { get; set; } = [];
 
         public ICollection<MarketDate> Dates { get; set; } = [];
 
-        public Guid ProvinceId { get; set; }
-
-        public Province? Province { get; set; }
+        //public ICollection<MarketRevision> Revisions { get; set; } = [];
 
         public required MarketPricing Pricing { get; set; }
 

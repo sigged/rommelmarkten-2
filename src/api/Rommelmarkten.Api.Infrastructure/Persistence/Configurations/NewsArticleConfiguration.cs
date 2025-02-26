@@ -8,6 +8,8 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<NewsArticle> builder)
         {
+            builder.HasKey(e => e.Id);
+
             builder.Property(t => t.Title)
                 .HasMaxLength(200)
                 .IsRequired();
