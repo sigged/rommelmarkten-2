@@ -78,6 +78,8 @@ namespace Rommelmarkten.Api.Domain.Markets
 
         public ICollection<MarketRevision> Revisions { get; set; } = [];
 
+        public ICollection<MarketInvoice> Invoices { get; set; } = [];
+
         public required MarketPricing Pricing { get; set; }
 
         public required MarketLocation Location { get; set; }

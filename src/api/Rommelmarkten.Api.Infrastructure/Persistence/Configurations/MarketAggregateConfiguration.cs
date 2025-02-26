@@ -21,6 +21,10 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
                    .WithMany(p => p.Markets)
                    .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasMany(rm => rm.Invoices)
+                   .WithOne(e => e.Market)
+                   .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(e => e.Revisions)
                    .WithOne(e => e.RevisedMarket)
                    .OnDelete(DeleteBehavior.NoAction);
@@ -28,6 +32,7 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
             builder.HasMany(rm => rm.Themes)
                    .WithMany(th => th.Markets)
                    .UsingEntity<MarketWithTheme>();
+
 
             var pricingBuilder = builder.OwnsOne(e => e.Pricing);
             OwnedEntityConfigurationHelper.ConfigurePricing(pricingBuilder);
