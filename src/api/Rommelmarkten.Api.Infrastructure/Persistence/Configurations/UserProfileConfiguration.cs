@@ -10,21 +10,11 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(e => e.UserId);
 
-            builder.OwnsOne(e => e.Avatar)
-                .Property(e => e.Type)
-                .IsRequired();
+            var avatarBuilder = builder.OwnsOne(e => e.Avatar);
 
-            builder.OwnsOne(e => e.Avatar)
-                .Property(e => e.Content)
-                .IsRequired();
+            OwnedEntityConfigurationHelper.ConfigureAvatar(avatarBuilder);
 
-            builder.OwnsOne(e => e.Avatar)
-                .Property(e => e.ContentHash)
-                .IsRequired();
-
-            builder.OwnsOne(e => e.Avatar)
-                .Property(e => e.Name)
-                .IsRequired();
+           
         }
     }
 }

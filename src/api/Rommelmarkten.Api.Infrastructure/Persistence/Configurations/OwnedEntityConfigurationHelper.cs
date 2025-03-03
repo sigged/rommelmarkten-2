@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pipelines.Sockets.Unofficial.Buffers;
 using Rommelmarkten.Api.Domain.Markets;
+using Rommelmarkten.Api.Domain.Users;
+using Rommelmarkten.Api.Domain.ValueObjects;
 
 namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
 {
@@ -85,6 +87,21 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
                           .HasPrecision(18, 2);
 
             return pricingBuilder;
+        }
+
+        public static void ConfigureAvatar(OwnedNavigationBuilder<UserProfile, Blob> avatarBuilder)
+        {
+            avatarBuilder.Property(e => e.Type)
+               .IsRequired();
+
+            avatarBuilder.Property(e => e.Content)
+                .IsRequired();
+
+            avatarBuilder.Property(e => e.ContentHash)
+                .IsRequired();
+
+            avatarBuilder.Property(e => e.Name)
+                .IsRequired();
         }
     }
 }

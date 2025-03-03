@@ -30,19 +30,41 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
             _dateTime = dateTime;
         }
 
-        public required DbSet<MarketConfiguration> MarketConfigurations { get; set; }
-
-        public required DbSet<MarketTheme> MarketThemes { get; set; }
-
-        public required DbSet<BannerType> BannerTypes { get; set; }
+        public required DbSet<UserProfile> UserProfiles { get; set; }
 
         public required DbSet<AffiliateAd> AffiliateAds { get; set; }
 
         public required DbSet<NewsArticle> NewsArticles { get; set; }
-        
+
         public required DbSet<FAQCategory> FAQCategories { get; set; }
 
         public required DbSet<FAQItem> FAQItems { get; set; }
+
+        public required DbSet<Province> Provinces { get; set; }
+
+        public required DbSet<BannerType> BannerTypes { get; set; }
+
+        public required DbSet<MarketConfiguration> MarketConfigurations { get; set; }
+
+        public required DbSet<MarketTheme> MarketThemes { get; set; }
+
+        public required DbSet<Market> Markets { get; set; }
+
+        public required DbSet<MarketDate> MarketDates { get; set; }
+
+        public required DbSet<MarketWithTheme> MarketWithThemes { get; set; }
+
+        public required DbSet<MarketInvoice> MarketInvoices { get; set; }
+
+        public required DbSet<MarketInvoiceLine> MarketInvoiceLines { get; set; }
+
+        public required DbSet<MarketInvoiceReminder> MarketInvoiceReminders { get; set; }
+
+        public required DbSet<MarketRevision> MarketRevisions { get; set; }
+
+        public required DbSet<MarketRevisionWithTheme> MarketRevisionsWithThemes { get; set; }
+
+
 
         public required DbSet<ListItem> ListItems { get; set; }
 
@@ -51,14 +73,6 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
         public required DbSet<ShoppingList> ShoppingLists { get; set; }
 
         public required DbSet<ListAssociate> ListAssociates { get; set; }
-
-        public required DbSet<UserProfile> UserProfiles { get; set; }
-
-        public required DbSet<Market> Markets { get; set; }
-
-        public required DbSet<MarketRevision> MarketRevisions { get; set; }
-
-        public required DbSet<MarketInvoice> MarketInvoices { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
