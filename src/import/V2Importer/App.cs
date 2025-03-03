@@ -76,7 +76,7 @@ namespace V2Importer
                     {
                         DeleteAllRecords(targetConnection, target);
                         await userImporter.Import(source);
-                        await adAfiliateImporter.Import(source);
+                        //await adAfiliateImporter.Import(source);
                     }
                     else
                     {

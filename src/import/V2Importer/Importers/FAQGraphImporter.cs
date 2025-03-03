@@ -81,18 +81,19 @@ namespace V2Importer.Importers
         private async Task ImportItems(DbConnection source)
         {
             var sourceCommand = source.CreateCommand();
-            sourceCommand.CommandText = "SELECT * FROM dingse";
+            sourceCommand.CommandText = "SELECT * FROM FAQItems";
 
             using (var reader = await sourceCommand.ExecuteReaderAsync())
             {
                 while (reader.Read())
                 {
                     //prepare parameters
-                    var parms = new Dictionary<string, object?> {
+                    var parms = new Dictionary<string, dynamic?> {
                         { "Id", null },
                         { "Question", null },
                         { "Answer", null },
                         { "Order", null },
+                        { "Category_Id", null },
                     };
 
                     //collect parameters from source record
@@ -114,10 +115,10 @@ namespace V2Importer.Importers
                     var entity = new FAQItem
                     {
                         Id = (Guid)parms["Id"]!,
-                        CategoryId = oldCategoryIdLinks[reader["CategoryId"]],
                         Question = (string)parms["Question"]!,
                         Answer = (string)parms["Answer"]!,
                         Order = (int)parms["Order"]!,
+                        CategoryId = oldCategoryIdLinks[reader["Category_Id"]],
                     };
 
                     await faqItemRepository.InsertAsync(entity);

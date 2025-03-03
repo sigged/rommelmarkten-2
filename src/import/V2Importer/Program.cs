@@ -58,6 +58,7 @@ namespace V2Importer
 
                     services.AddSingleton<App>();
                     services.AddSingleton<UserImporter>();
+                    services.AddSingleton<AffiliateAdImporter>();
                 });
     }
 }
