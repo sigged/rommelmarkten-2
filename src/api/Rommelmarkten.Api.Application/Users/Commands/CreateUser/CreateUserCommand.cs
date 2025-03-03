@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Users;
+using System.Xml.Linq;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 {
@@ -10,6 +11,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 
     public class CreateUserCommand : IRequest<string?>
     {
+        public required string Name { get; set; } 
         public required string UserName { get; set; }
 
         public required string Password { get; set; }
@@ -34,13 +36,14 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
             if (result.Result.Succeeded)
             {
                 var user = await _identityService.FindByName(request.UserName);
-                var avatar = await _avatarGenerator.GenerateAvatar(user);
+                //var avatar = await _avatarGenerator.GenerateAvatar(user);
 
                 var profile = new UserProfile
                 {
                     UserId = user.Id,
                     Consented = false,
-                    Avatar = avatar
+                    Name = request.Name
+                    //Avatar = avatar
                 };
                 _context.UserProfiles.Add(profile);
                 await _context.SaveChangesAsync();

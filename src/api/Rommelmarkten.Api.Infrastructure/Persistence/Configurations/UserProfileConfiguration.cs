@@ -10,11 +10,30 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(e => e.UserId);
 
-            var avatarBuilder = builder.OwnsOne(e => e.Avatar);
+            builder.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
 
-            OwnedEntityConfigurationHelper.ConfigureAvatar(avatarBuilder);
+            builder.Property(e => e.Address)
+                .HasMaxLength(100);
 
-           
+            builder.Property(e => e.PostalCode)
+                           .HasMaxLength(10);
+
+            builder.Property(e => e.City)
+                           .HasMaxLength(100);
+
+            builder.Property(e => e.Country)
+                           .HasMaxLength(100);
+
+            builder.Property(e => e.VAT)
+                           .HasMaxLength(30);
+
+            //var avatarBuilder = builder.OwnsOne(e => e.Avatar);
+
+            //OwnedEntityConfigurationHelper.ConfigureAvatar(avatarBuilder);
+
+
         }
     }
 }

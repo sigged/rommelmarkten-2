@@ -44,14 +44,14 @@ namespace Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar
                         throw new NotFoundException(nameof(IUser), nameof(IUser.UserName));
 
                     var user = await _identityService.FindByName(userName);
-                    entity.Avatar = await _avatarGenerator.GenerateAvatar(user);
+                    //entity.Avatar = await _avatarGenerator.GenerateAvatar(user);
                 }
                 else
                 {
-                    entity.Avatar = new Blob(
-                        request.Avatar.Name, 
-                        request.Avatar.Type, 
-                        request.Avatar.Content);
+                    //entity.Avatar = new Blob(
+                    //    request.Avatar.Name, 
+                    //    request.Avatar.Type, 
+                    //    request.Avatar.Content);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);

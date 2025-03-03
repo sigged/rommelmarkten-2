@@ -89,19 +89,19 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
             return pricingBuilder;
         }
 
-        public static void ConfigureAvatar(OwnedNavigationBuilder<UserProfile, Blob> avatarBuilder)
-        {
-            avatarBuilder.Property(e => e.Type)
-               .IsRequired();
+        //public static void ConfigureAvatar(OwnedNavigationBuilder<UserProfile, Blob> avatarBuilder)
+        //{
+        //    avatarBuilder.Property(e => e.Type)
+        //       .IsRequired();
 
-            avatarBuilder.Property(e => e.Content)
-                .IsRequired();
+        //    avatarBuilder.Property(e => e.Content)
+        //        .IsRequired();
 
-            avatarBuilder.Property(e => e.ContentHash)
-                .IsRequired();
+        //    avatarBuilder.Property(e => e.ContentHash)
+        //        .IsRequired();
 
-            avatarBuilder.Property(e => e.Name)
-                .IsRequired();
-        }
+        //    avatarBuilder.Property(e => e.Name)
+        //        .IsRequired();
+        //}
     }
 }

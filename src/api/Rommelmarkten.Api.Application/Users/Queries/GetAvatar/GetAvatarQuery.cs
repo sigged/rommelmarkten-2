@@ -27,12 +27,13 @@ namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile
 
         public async Task<BlobDto?> Handle(GetAvatarQuery request, CancellationToken cancellationToken)
         {
-            return await _context.UserProfiles
-                .Include(e => e.Avatar)
-                .Where(e => e.UserId.Equals(request.UserId))
-                .Select(e => e.Avatar)
-                .ProjectTo<BlobDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(cancellationToken);
+            return await Task.FromResult((BlobDto?)null);
+            //return await _context.UserProfiles
+            //    //.Include(e => e.Avatar)
+            //    .Where(e => e.UserId.Equals(request.UserId))
+            //    .Select(e => e.Avatar)
+            //    .ProjectTo<BlobDto>(_mapper.ConfigurationProvider)
+            //    .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }
