@@ -2,7 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Domain.Affiliates;
+using Rommelmarkten.Api.Domain.Content;
+using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Infrastructure.Persistence;
+using Rommelmarkten.Api.Infrastructure.Services;
+using V2Importer.Importers;
 
 namespace V2Importer
 {
@@ -19,7 +24,7 @@ namespace V2Importer
 
             // Resolve and run your application
             using var scope = host.Services.CreateScope();
-            var importer = scope.ServiceProvider.GetRequiredService<Importer>();
+            var importer = scope.ServiceProvider.GetRequiredService<App>();
 
             var eventService = new ImporterDomainEventService();
             var importerDatetime = new ImporterDatetime();
@@ -40,9 +45,19 @@ namespace V2Importer
 
                     services.AddDbContext<ApplicationDbContext>(options =>
                     {
-                        options.UseSqlServer(Importer.targetDatabase);
+                        options.UseSqlServer(App.targetDatabase);
                     });
-                    services.AddSingleton<Importer>();
+                    services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+                    services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
+                    services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
+                    services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd>>();
+                    services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType>>();
+                    services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle>>();
+                    services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
+                    services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
+
+                    services.AddSingleton<App>();
+                    services.AddSingleton<UserImporter>();
                 });
     }
 }

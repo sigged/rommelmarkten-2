@@ -7,7 +7,7 @@ using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.Common.Interfaces
 {
-    public interface IApplicationDbContext
+    public interface IApplicationDbContext : IDisposable
     {
 
         DbSet<MarketConfiguration> MarketConfigurations { get; set; }

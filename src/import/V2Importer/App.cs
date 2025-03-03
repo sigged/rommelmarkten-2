@@ -1,11 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 using System.Data;
 using System.Data.Common;
+using V2Importer.Importers;
 
 namespace V2Importer
 {
@@ -22,15 +24,23 @@ namespace V2Importer
 
     }
 
-    public class Importer : IDisposable
+    public class App : IDisposable
     {
         public const string sourceDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV1;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
         public const string targetDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV2;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
         private readonly ApplicationDbContext target;
+        private readonly UserImporter userImporter;
+        private readonly AffiliateAdImporter adAfiliateImporter;
 
-        public Importer(ApplicationDbContext target)
+        public App(
+            ApplicationDbContext target,
+            UserImporter userImporter,
+            AffiliateAdImporter adAfiliateImporter
+        )
         {
             this.target = target;
+            this.userImporter = userImporter;
+            this.adAfiliateImporter = adAfiliateImporter;
         }
 
         public void Dispose()
@@ -65,7 +75,8 @@ namespace V2Importer
                     if (answer == "y")
                     {
                         DeleteAllRecords(targetConnection, target);
-                        ImportUsers(source, targetConnection);
+                        await userImporter.Import(source);
+                        await adAfiliateImporter.Import(source);
                     }
                     else
                     {
@@ -138,39 +149,5 @@ EXEC sp_msforeachtable 'ALTER TABLE ? CHECK CONSTRAINT all';
             Console.WriteLine($"done ({records})");
         }
 
-        public void ImportUsers(DbConnection source, DbConnection target)
-        {
-            //var sourceCommand = source.CreateCommand();
-            //sourceCommand.CommandText = "SELECT * FROM AspNetUsers";
-            //using (var reader = await sourceCommand.ExecuteReaderAsync())
-            //{
-            //    while (reader.Read())
-            //    {
-            //        var id = reader["Id"].ToString();
-            //        var email = reader["Email"].ToString();
-            //        //var passwordHash = reader["PasswordHash"].ToString();
-            //        //var securityStamp = reader["SecurityStamp"].ToString();
-            //        //var concurrencyStamp = reader["ConcurrencyStamp"].ToString();
-            //        //var phoneNumber = reader["PhoneNumber"].ToString();
-            //        //var phoneNumberConfirmed = reader["PhoneNumberConfirmed"].ToString();
-            //        //var twoFactorEnabled = reader["TwoFactorEnabled"].ToString();
-            //        //var lockoutEnd = reader["LockoutEnd"].ToString();
-            //        //var lockoutEnabled = reader["LockoutEnabled"].ToString();
-            //        //var accessFailedCount = reader["AccessFailedCount"].ToString();
-            //        //var userName = reader["UserName"].ToString();
-            //        //var normalizedUserName = reader["NormalizedUserName"].ToString();
-            //        //var normalizedEmail = reader["NormalizedEmail"].ToString();
-            //        //var emailConfirmed = reader["EmailConfirmed"].ToString();
-            //        //var firstName = reader["FirstName"].ToString();
-            //        //var lastName = reader["LastName"].ToString();
-            //        //var street = reader["Street"].ToString();
-            //        //var houseNumber = reader["HouseNumber"].ToString();
-            //        //var postalCode = reader["PostalCode"].ToString();
-            //        //var city = reader["City"].ToString();
-            //        //var country = reader["Country"].ToString();
-            //        //var birthDate = reader["BirthDate"].ToString();
-            //    }
-            //}
-        }
     }
 }
