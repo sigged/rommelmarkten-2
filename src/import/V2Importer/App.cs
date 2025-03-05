@@ -30,18 +30,15 @@ namespace V2Importer
         public const string sourceDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV1;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
         public const string targetDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV2;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
         private readonly ApplicationDbContext target;
-        private readonly UserImporter userImporter;
-        private readonly AffiliateAdImporter adAfiliateImporter;
+        private readonly Importer importer;
 
         public App(
             ApplicationDbContext target,
-            UserImporter userImporter,
-            AffiliateAdImporter adAfiliateImporter
+            Importer importer
         )
         {
             this.target = target;
-            this.userImporter = userImporter;
-            this.adAfiliateImporter = adAfiliateImporter;
+            this.importer = importer;
         }
 
         public void Dispose()
@@ -75,9 +72,8 @@ namespace V2Importer
 
                     if (answer == "y")
                     {
-                        //DeleteAllRecords(targetConnection, target);
-                        await userImporter.Import(source);
-                        //await adAfiliateImporter.Import(source);
+                        DeleteAllRecords(targetConnection, target);
+                        await importer.Import(source);
                     }
                     else
                     {
@@ -123,14 +119,14 @@ EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
 DELETE FROM [dbo].[{targetContext.GetTableName<NewsArticle>()}];
 
 -- identity tables
--- DELETE FROM [dbo].[AspNetRoleClaims];
--- DELETE FROM [dbo].[AspNetRoles];
--- DELETE FROM [dbo].[AspNetUserClaims];
--- DELETE FROM [dbo].[AspNetUserLogins];
--- DELETE FROM [dbo].[AspNetUserRoles];
--- DELETE FROM [dbo].[AspNetUsers];
--- DELETE FROM [dbo].[AspNetUserTokens];
--- DELETE FROM [dbo].[{targetContext.GetTableName<UserProfile>()}];
+DELETE FROM [dbo].[AspNetRoleClaims];
+DELETE FROM [dbo].[AspNetRoles];
+DELETE FROM [dbo].[AspNetUserClaims];
+DELETE FROM [dbo].[AspNetUserLogins];
+DELETE FROM [dbo].[AspNetUserRoles];
+DELETE FROM [dbo].[AspNetUsers];
+DELETE FROM [dbo].[AspNetUserTokens];
+DELETE FROM [dbo].[{targetContext.GetTableName<UserProfile>()}];
 
 -- user independent tables
 DELETE FROM [dbo].[{targetContext.GetTableName<AffiliateAd>()}];
@@ -144,12 +140,12 @@ DELETE FROM [dbo].[{targetContext.GetTableName<MarketTheme>()}];
 -- market related tables
 DELETE FROM [dbo].[{targetContext.GetTableName<Market>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketDate>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoiceLine>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoiceReminder>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoice>()}];
+DELETE FROM [dbo].[{targetContext.GetTableName<MarketWithTheme>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketRevision>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketRevisionWithTheme>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<MarketWithTheme>()}];
+DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoice>()}];
+DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoiceLine>()}];
+DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoiceReminder>()}];
 
 EXEC sp_msforeachtable 'ALTER TABLE ? CHECK CONSTRAINT all';
 ";

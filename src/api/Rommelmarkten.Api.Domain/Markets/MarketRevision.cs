@@ -14,6 +14,8 @@ namespace Rommelmarkten.Api.Domain.Markets
 
         public ICollection<MarketTheme> Themes { get; set; } = [];
 
+        public required MarketPricing Pricing { get; set; }
+
         public required MarketLocation Location { get; set; }
 
         public required MarketImage Image { get; set; }

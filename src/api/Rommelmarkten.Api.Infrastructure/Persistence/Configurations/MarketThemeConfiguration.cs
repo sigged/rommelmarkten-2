@@ -20,8 +20,6 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
             builder.Property(t => t.Description)
                 .IsRequired();
 
-            builder.Property(t => t.Price)
-                .HasPrecision(18,2);
         }
     }
 }

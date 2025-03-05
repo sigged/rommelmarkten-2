@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Rommelmarkten.Api.Infrastructure.Persistence;
 namespace Rommelmarkten.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250305191744_FixDates1")]
+    partial class FixDates1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -583,9 +586,6 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
 
                     b.Property<Guid>("MarketId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("StatusChanged")
                         .HasColumnType("datetimeoffset");

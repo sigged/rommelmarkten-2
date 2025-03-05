@@ -51,11 +51,6 @@ namespace Rommelmarkten.Api.Domain.Markets
 
     public class Market : AuditableEntity<Guid>
     {
-        /// <summary>
-        /// Legacy ID from v1 database
-        /// </summary>
-        public long? Id_V1 { get; set; }
-
         public required string Title { get; set; }
 
         public required string Description { get; set; }
@@ -64,11 +59,11 @@ namespace Rommelmarkten.Api.Domain.Markets
 
         public MarketConfiguration? Configuration { get; set; }
 
-        public Guid BannerTypeId { get; set; }
+        public Guid? BannerTypeId { get; set; }
 
         public BannerType? BannerType { get; set; }
 
-        public Guid ProvinceId { get; set; }
+        public Guid? ProvinceId { get; set; }
 
         public Province? Province { get; set; }
 

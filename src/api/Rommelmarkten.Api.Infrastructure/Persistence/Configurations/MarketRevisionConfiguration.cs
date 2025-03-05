@@ -20,10 +20,13 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence.Configurations
                 .WithMany(th => th.MarketRevisions)
                 .UsingEntity<MarketRevisionWithTheme>();
 
+
+            var pricingBuilder = builder.OwnsOne(e => e.Pricing);
             var locationBuilder = builder.OwnsOne(e => e.Location);
             var imageBuilder = builder.OwnsOne(e => e.Image);
             var organizerBuilder = builder.OwnsOne(e => e.Organizer);
 
+            OwnedEntityConfigurationHelper.ConfigurePricing(pricingBuilder);
             OwnedEntityConfigurationHelper.ConfigureLocation(locationBuilder);
             OwnedEntityConfigurationHelper.ConfigureImage(imageBuilder);
             OwnedEntityConfigurationHelper.ConfigureOrganizer(organizerBuilder);

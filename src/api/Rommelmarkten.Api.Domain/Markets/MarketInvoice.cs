@@ -17,7 +17,7 @@ namespace Rommelmarkten.Api.Domain.Markets
 
         public ICollection<MarketInvoiceReminder> PaymentReminders { get; set; } = [];
 
-        PaymentStatus Status { get; set; } = PaymentStatus.NotPaid;
+        public PaymentStatus Status { get; set; } = PaymentStatus.NotPaid;
 
         public bool IsPaid => Amount == 0 && Status == PaymentStatus.Paid;
 

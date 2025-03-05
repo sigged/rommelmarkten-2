@@ -31,7 +31,6 @@ namespace Rommelmarkten.Api.Application.MarketThemes.Commands
                 Id = createdId,
                 Name = request.Name,
                 Description = request.Description,
-                Price = request.Price,
                 ImageUrl = request.ImageUrl,
                 IsDefault = request.IsDefault,
                 IsActive = request.IsActive,

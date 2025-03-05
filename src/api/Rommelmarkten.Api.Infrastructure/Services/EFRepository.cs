@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
 using System.Linq.Expressions;
+using System.Net.Mime;
 
 namespace Rommelmarkten.Api.Infrastructure.Services
 {
@@ -123,6 +125,8 @@ namespace Rommelmarkten.Api.Infrastructure.Services
         {
             Insert(entity);
             await context.SaveChangesAsync(cancellationToken);
+
+            context.ChangeTracker.Clear();
         }
 
         public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)

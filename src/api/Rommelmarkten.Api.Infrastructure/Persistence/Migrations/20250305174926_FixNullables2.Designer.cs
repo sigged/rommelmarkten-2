@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Rommelmarkten.Api.Infrastructure.Persistence;
 namespace Rommelmarkten.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250305174926_FixNullables2")]
+    partial class FixNullables2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -542,11 +545,20 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ParentMarketId")
                         .HasColumnType("uniqueidentifier");
@@ -583,9 +595,6 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
 
                     b.Property<Guid>("MarketId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("StatusChanged")
                         .HasColumnType("datetimeoffset");
@@ -1332,27 +1341,6 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                                 .HasForeignKey("MarketRevisionId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.MarketPricing", "Pricing", b1 =>
-                        {
-                            b1.Property<Guid>("MarketRevisionId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<decimal>("EntryPrice")
-                                .HasPrecision(18, 2)
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.Property<decimal>("StandPrice")
-                                .HasPrecision(18, 2)
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.HasKey("MarketRevisionId");
-
-                            b1.ToTable("MarketRevisions");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MarketRevisionId");
-                        });
-
                     b.Navigation("Image")
                         .IsRequired();
 
@@ -1360,9 +1348,6 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Organizer")
-                        .IsRequired();
-
-                    b.Navigation("Pricing")
                         .IsRequired();
 
                     b.Navigation("RevisedMarket");

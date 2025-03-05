@@ -1,5 +1,4 @@
 ﻿using Rommelmarkten.Api.Application.Common.Mappings;
-using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
 
 namespace Rommelmarkten.Api.Application.MarketThemes.Models
@@ -10,11 +9,9 @@ namespace Rommelmarkten.Api.Application.MarketThemes.Models
 
         public required string Name { get; set; }
 
-        public string? Description { get; set; }
+        public required string Description { get; set; }
 
-        public decimal Price { get; set; }
-
-        public string? ImageUrl { get; set; }
+        public required string ImageUrl { get; set; }
 
         public bool IsDefault { get; set; }
 

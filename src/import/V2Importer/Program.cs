@@ -21,7 +21,6 @@ namespace V2Importer
             Console.WriteLine("------------------------------");
             Console.WriteLine();
 
-
             var host = CreateHostBuilder(args).Build();
 
             // Resolve and run your application
@@ -54,18 +53,28 @@ namespace V2Importer
                         options.UseSqlServer(App.targetDatabase);
                     });
                     services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-                    services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
-                    services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
-                    services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd>>();
-                    services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType>>();
-                    services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle>>();
-                    services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
-                    services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
+
                     services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile>>();
 
+                    services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd>>();
+                    services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType>>();
+                    services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
+                    services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
+                    services.AddScoped<IEntityRepository<Province>, EFRepository<Province>>();
+                    services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
+                    services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
+
+                    services.AddScoped<IEntityRepository<Market>, EFRepository<Market>>();
+                    services.AddScoped<IEntityRepository<MarketDate>, EFRepository<MarketDate>>();
+                    services.AddScoped<IEntityRepository<MarketInvoiceLine>, EFRepository<MarketInvoiceLine>>();
+                    services.AddScoped<IEntityRepository<MarketInvoiceReminder>, EFRepository<MarketInvoiceReminder>>();
+                    services.AddScoped<IEntityRepository<MarketInvoice>, EFRepository<MarketInvoice>>();
+                    services.AddScoped<IEntityRepository<MarketRevision>, EFRepository<MarketRevision>>();
+                    services.AddScoped<IEntityRepository<MarketRevisionWithTheme>, EFRepository<MarketRevisionWithTheme>>();
+                    services.AddScoped<IEntityRepository<MarketWithTheme>, EFRepository<MarketWithTheme>>();
+
                     services.AddSingleton<App>();
-                    services.AddSingleton<UserImporter>();
-                    services.AddSingleton<AffiliateAdImporter>();
+                    services.AddSingleton<Importer>();
                 });
     }
 }

@@ -2,11 +2,13 @@
 
 namespace Rommelmarkten.Api.Domain.Markets
 {
-    public class MarketDate : AuditableEntity<Guid>
+    public class MarketDate : EntityBase<Guid>
     {
         public Guid ParentMarketId { get; set; }
 
         public Market? ParentMarket { get; set; }
+
+        public bool IsActive { get; set; }
 
         public DateOnly Date { get; set; }
 

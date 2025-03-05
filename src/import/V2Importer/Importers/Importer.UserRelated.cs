@@ -2,6 +2,9 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Domain.Affiliates;
+using Rommelmarkten.Api.Domain.Content;
+using Rommelmarkten.Api.Domain.Markets;
 using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 using System;
@@ -11,29 +14,10 @@ using System.Text;
 
 namespace V2Importer.Importers
 {
-
-    public class UserImporter
+    
+    public partial class Importer
     {
-        private readonly ApplicationDbContext target;
-        private readonly IEntityRepository<UserProfile> profileRepository;
-
-        public UserImporter(ApplicationDbContext target, IEntityRepository<UserProfile> profileRepository)
-        {
-            this.target = target;
-            this.profileRepository = profileRepository;
-        }
-        public async Task Import(DbConnection source)
-        {
-            
-            //await ImportUsers(source);
-            await ImportRoles(source);
-            await ImportUserRoles(source);
-        }
-        private string? Normalize(string input)
-        {
-            return input?.Normalize(NormalizationForm.FormKD).ToLowerInvariant();
-        }
-
+       
         private async Task ImportUsers(DbConnection source)
         {
             Console.Write("Importing Users...");
@@ -149,8 +133,8 @@ namespace V2Importer.Importers
                         new SqlParameter("UserName", parms["UserName"] ?? DBNull.Value),
                         new SqlParameter("NormalizedUserName", Normalize(parms["UserName"]) ?? DBNull.Value), //mimics default identity normalization
                         new SqlParameter("Email", parms["Email"] ?? DBNull.Value),
-                        new SqlParameter("NormalizedEmail", parms["Email"] ?? DBNull.Value),
-                        new SqlParameter("EmailConfirmed", Normalize(parms["EmailConfirmed"]) ?? DBNull.Value), //mimics default identity normalization
+                        new SqlParameter("NormalizedEmail",Normalize(parms["Email"]) ?? DBNull.Value), //mimics default identity normalization
+                        new SqlParameter("EmailConfirmed", parms["EmailConfirmed"] ?? DBNull.Value),
                         new SqlParameter("PasswordHash", parms["PasswordHash"] ?? DBNull.Value),
                         new SqlParameter("SecurityStamp", parms["SecurityStamp"] ?? DBNull.Value),
                         new SqlParameter("ConcurrencyStamp", Guid.NewGuid().ToString("N")), //mimics default identity concurrency stamp
@@ -253,7 +237,6 @@ namespace V2Importer.Importers
             Console.WriteLine();
 
             await Task.CompletedTask;
-
         }
 
         private async Task ImportUserRoles(DbConnection source)
@@ -310,6 +293,70 @@ namespace V2Importer.Importers
             Console.WriteLine();
 
             await Task.CompletedTask;
+        }
+
+        private async Task ImportAffiliateAds(DbConnection source)
+        {
+            Console.Write("Importing AffiliateAds...");
+            ConsoleHelpers.ShowCount(0, 0);
+
+
+            var sourceCommand = source.CreateCommand();
+            sourceCommand.CommandText = "SELECT * FROM RMAffiliateBanners";
+
+            DbDataAdapter adapter = new SqlDataAdapter();
+            adapter.SelectCommand = sourceCommand;
+            DataTable sourceTable = new DataTable();
+            adapter.Fill(sourceTable);
+
+            int totalCount = sourceTable.Rows.Count;
+            long count = 0;
+
+
+            ((ImportCurrentUserService)currentUserService).UserId = alexAdminCurrentUserService.UserId;
+            ((ImporterDatetime)dateTimeService).Now = DateTime.UtcNow;
+
+            foreach (DataRow row in sourceTable.Rows)
+            {
+                //prepare parameters
+                var parms = new Dictionary<string, dynamic?>();
+
+                //collect parameters from source record
+                parms.Add("Id", row.Field<long>("Id"));
+                parms.Add("ImageUrl", row.Field<string>("ImageUrl"));
+                parms.Add("AffiliateName", row.Field<string>("AffiliateName"));
+                parms.Add("AffiliateURL", row.Field<string>("AffiliateURL"));
+                parms.Add("Order", row.Field<int>("Order"));
+                parms.Add("IsActive", row.Field<bool>("IsActive"));
+
+
+
+                var entity = new AffiliateAd
+                {
+                    Id = LongToGuid(parms["Id"]),
+                    AdContent = null,
+                    AffiliateName = parms["AffiliateName"]!,
+                    AffiliateURL = parms["AffiliateURL"]!,
+                    IsActive = parms["IsActive"]!,
+                    Order = parms["Order"]!,
+                    ImageUrl = parms["ImageUrl"]!,
+                    LastModified = null,
+                    LastModifiedBy = null,
+                };
+
+                await affiliateAdRepository.InsertAsync(entity);
+
+
+                count++;
+
+                ConsoleHelpers.ShowCount(count, totalCount, jumpback: true);
+            }
+
+            ((ImportCurrentUserService)currentUserService).UserId = default;
+            ((ImporterDatetime)dateTimeService).Now = default;
+
+            Console.WriteLine();
+
         }
     }
 }
