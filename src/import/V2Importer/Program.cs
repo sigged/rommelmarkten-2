@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
+using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 using Rommelmarkten.Api.Infrastructure.Services;
 using V2Importer.Importers;
@@ -37,6 +39,10 @@ namespace V2Importer
         }
         static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(builder => {
+                    builder.AddConsole();
+                    builder.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+                })
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<IDomainEventService, ImporterDomainEventService>();
@@ -55,6 +61,7 @@ namespace V2Importer
                     services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle>>();
                     services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
                     services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
+                    services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile>>();
 
                     services.AddSingleton<App>();
                     services.AddSingleton<UserImporter>();

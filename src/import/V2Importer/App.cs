@@ -4,6 +4,7 @@ using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
+using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 using System.Data;
 using System.Data.Common;
@@ -74,7 +75,7 @@ namespace V2Importer
 
                     if (answer == "y")
                     {
-                        DeleteAllRecords(targetConnection, target);
+                        //DeleteAllRecords(targetConnection, target);
                         await userImporter.Import(source);
                         //await adAfiliateImporter.Import(source);
                     }
@@ -117,29 +118,38 @@ USE {target.Database};
 
 EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
 
-DELETE FROM [dbo].[AspNetRoleClaims];
-DELETE FROM [dbo].[AspNetRoles];
-DELETE FROM [dbo].[AspNetUserClaims];
-DELETE FROM [dbo].[AspNetUserLogins];
-DELETE FROM [dbo].[AspNetUserRoles];
-DELETE FROM [dbo].[AspNetUsers];
-DELETE FROM [dbo].[AspNetUserTokens];
+
+-- tables with no import
+DELETE FROM [dbo].[{targetContext.GetTableName<NewsArticle>()}];
+
+-- identity tables
+-- DELETE FROM [dbo].[AspNetRoleClaims];
+-- DELETE FROM [dbo].[AspNetRoles];
+-- DELETE FROM [dbo].[AspNetUserClaims];
+-- DELETE FROM [dbo].[AspNetUserLogins];
+-- DELETE FROM [dbo].[AspNetUserRoles];
+-- DELETE FROM [dbo].[AspNetUsers];
+-- DELETE FROM [dbo].[AspNetUserTokens];
+-- DELETE FROM [dbo].[{targetContext.GetTableName<UserProfile>()}];
+
+-- user independent tables
 DELETE FROM [dbo].[{targetContext.GetTableName<AffiliateAd>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<BannerType>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<FAQCategory>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<FAQItem>()}];
+DELETE FROM [dbo].[{targetContext.GetTableName<Province>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketConfiguration>()}];
+DELETE FROM [dbo].[{targetContext.GetTableName<MarketTheme>()}];
+
+-- market related tables
+DELETE FROM [dbo].[{targetContext.GetTableName<Market>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketDate>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoiceLine>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoiceReminder>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketInvoice>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketRevision>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketRevisionWithTheme>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<Market>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<MarketTheme>()}];
 DELETE FROM [dbo].[{targetContext.GetTableName<MarketWithTheme>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<NewsArticle>()}];
-DELETE FROM [dbo].[{targetContext.GetTableName<Province>()}];
 
 EXEC sp_msforeachtable 'ALTER TABLE ? CHECK CONSTRAINT all';
 ";
