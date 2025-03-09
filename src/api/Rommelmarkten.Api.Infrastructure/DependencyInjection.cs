@@ -77,7 +77,10 @@ namespace Rommelmarkten.Api.Infrastructure
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
-                    options.SignIn.RequireConfirmedEmail = false;
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.Stores.ProtectPersonalData = false; //todo: true!
+                    options.Lockout.MaxFailedAccessAttempts = 5; //default
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //default
                     options.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
