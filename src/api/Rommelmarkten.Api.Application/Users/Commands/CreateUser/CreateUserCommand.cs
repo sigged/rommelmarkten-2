@@ -13,6 +13,8 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
         public required string UserName { get; set; }
 
         public required string Password { get; set; }
+
+        public required string Captcha { get; set; }
     }
 
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserResult>
@@ -20,41 +22,57 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
         private readonly IApplicationDbContext _context;
         private readonly IIdentityService _identityService;
         private readonly IAvatarGenerator _avatarGenerator;
+        private readonly ICaptchaProvider captchaProvider;
 
-        public CreateUserCommandHandler(IApplicationDbContext context, IIdentityService identityService, IAvatarGenerator avatarGenerator)
+        public CreateUserCommandHandler(IApplicationDbContext context, IIdentityService identityService, IAvatarGenerator avatarGenerator, ICaptchaProvider captchaProvider)
         {
             _context = context;
             _identityService = identityService;
             _avatarGenerator = avatarGenerator;
+            this.captchaProvider = captchaProvider;
         }
 
         public async Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var result = await _identityService.CreateUserAsync(request.UserName, request.Password);
-            if (result.Result.Succeeded)
+
+            var captchaResult = await captchaProvider.VerifyChallenge(request.Captcha);
+            if (!captchaResult.Succeeded)
             {
-                var user = await _identityService.FindByName(request.UserName);
-                //var avatar = await _avatarGenerator.GenerateAvatar(user);
-
-                var profile = new UserProfile
+                return new CreateUserResult(false, captchaResult.Errors)
                 {
-                    UserId = user.Id,
-                    Consented = false,
-                    Name = request.Name
-                    //Avatar = avatar
-                };
-                _context.UserProfiles.Add(profile);
-                await _context.SaveChangesAsync();
-
-                return new CreateUserResult(true, []) { 
-                     RegisteredUserId = user.Id
+                    RegisteredUserId = null
                 };
             }
             else
             {
-                return new CreateUserResult(false, result.Result.Errors) { 
-                    RegisteredUserId = null
-                };
+                var result = await _identityService.CreateUserAsync(request.UserName, request.Password);
+                if (result.Result.Succeeded)
+                {
+                    var user = await _identityService.FindByName(request.UserName);
+                    //var avatar = await _avatarGenerator.GenerateAvatar(user);
+
+                    var profile = new UserProfile
+                    {
+                        UserId = user.Id,
+                        Consented = false,
+                        Name = request.Name
+                        //Avatar = avatar
+                    };
+                    _context.UserProfiles.Add(profile);
+                    await _context.SaveChangesAsync();
+
+                    return new CreateUserResult(true, [])
+                    {
+                        RegisteredUserId = user.Id
+                    };
+                }
+                else
+                {
+                    return new CreateUserResult(false, result.Result.Errors)
+                    {
+                        RegisteredUserId = null
+                    };
+                }
             }
         }
     }
