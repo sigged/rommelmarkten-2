@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Application.Users.Queries.CreateUser;
 using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 {
 
-    public class CreateUserCommand : IRequest<string?>
+    public class CreateUserCommand : IRequest<CreateUserResult>
     {
         public required string Name { get; set; } 
 
@@ -14,7 +15,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
         public required string Password { get; set; }
     }
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string?>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserResult>
     {
         private readonly IApplicationDbContext _context;
         private readonly IIdentityService _identityService;
@@ -27,7 +28,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
             _avatarGenerator = avatarGenerator;
         }
 
-        public async Task<string?> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var result = await _identityService.CreateUserAsync(request.UserName, request.Password);
             if (result.Result.Succeeded)
@@ -45,11 +46,15 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
                 _context.UserProfiles.Add(profile);
                 await _context.SaveChangesAsync();
 
-                return result.UserId;
+                return new CreateUserResult(true, []) { 
+                     RegisteredUserId = user.Id
+                };
             }
             else
             {
-                return null;
+                return new CreateUserResult(false, result.Result.Errors) { 
+                    RegisteredUserId = null
+                };
             }
         }
     }

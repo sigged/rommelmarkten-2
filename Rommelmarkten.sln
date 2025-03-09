@@ -17,6 +17,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\api\Rommelmar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "V2Importer", "src\import\V2Importer\V2Importer.csproj", "{DAF3C72D-DC64-4831-8AA8-DBE5F07B54B0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{F265049A-D91E-43C7-8741-07AA07CA984F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rommelmarkten.WebApp", "src\app\Rommelmarkten.WebApp\Rommelmarkten.WebApp\Rommelmarkten.WebApp.csproj", "{8218B443-1C08-4A7E-97C1-6C04003C7135}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rommelmarkten.WebApp.Client", "src\app\Rommelmarkten.WebApp\Rommelmarkten.WebApp.Client\Rommelmarkten.WebApp.Client.csproj", "{72F70978-F78C-4A85-9D98-118BFC41A8AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rommelmarkten.WebApp.Common", "src\app\Rommelmarkten.WebApp.Common\Rommelmarkten.WebApp.Common.csproj", "{C735454C-CBBC-4707-8F79-8DD415A7DFBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +55,18 @@ Global
 		{DAF3C72D-DC64-4831-8AA8-DBE5F07B54B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAF3C72D-DC64-4831-8AA8-DBE5F07B54B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAF3C72D-DC64-4831-8AA8-DBE5F07B54B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8218B443-1C08-4A7E-97C1-6C04003C7135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8218B443-1C08-4A7E-97C1-6C04003C7135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8218B443-1C08-4A7E-97C1-6C04003C7135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8218B443-1C08-4A7E-97C1-6C04003C7135}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F70978-F78C-4A85-9D98-118BFC41A8AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F70978-F78C-4A85-9D98-118BFC41A8AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F70978-F78C-4A85-9D98-118BFC41A8AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F70978-F78C-4A85-9D98-118BFC41A8AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C735454C-CBBC-4707-8F79-8DD415A7DFBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C735454C-CBBC-4707-8F79-8DD415A7DFBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C735454C-CBBC-4707-8F79-8DD415A7DFBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C735454C-CBBC-4707-8F79-8DD415A7DFBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +76,8 @@ Global
 		{3B9D93D3-73E1-4614-901B-EDF57FB6D323} = {C7E4ADAB-1070-4709-A8C6-8BD9624D0D98}
 		{0A9E5E6A-D54E-44E6-B577-47A0F86956E9} = {C7E4ADAB-1070-4709-A8C6-8BD9624D0D98}
 		{98C32397-FB3B-467E-988E-DD1CCD7839BA} = {C7E4ADAB-1070-4709-A8C6-8BD9624D0D98}
+		{8218B443-1C08-4A7E-97C1-6C04003C7135} = {F265049A-D91E-43C7-8741-07AA07CA984F}
+		{72F70978-F78C-4A85-9D98-118BFC41A8AD} = {F265049A-D91E-43C7-8741-07AA07CA984F}
+		{C735454C-CBBC-4707-8F79-8DD415A7DFBC} = {F265049A-D91E-43C7-8741-07AA07CA984F}
 	EndGlobalSection
 EndGlobal

@@ -16,6 +16,7 @@ using Rommelmarkten.Api.Infrastructure.Caching;
 using Rommelmarkten.Api.Infrastructure.Identity;
 using Rommelmarkten.Api.Infrastructure.Persistence;
 using Rommelmarkten.Api.Infrastructure.Security;
+using Rommelmarkten.Api.Infrastructure.Security.Captcha;
 using Rommelmarkten.Api.Infrastructure.Services;
 using System.Reflection;
 
@@ -154,7 +155,12 @@ namespace Rommelmarkten.Api.Infrastructure
 
                 //options.UseStackExchangeRedis("your_redis_connection_string"); //uncomment to enable redis caching
             });
-           
+
+
+            //add altcha captcha
+            //services.AddAltcha(configuration);
+            services.AddScoped<ICaptchaProvider, NullCaptchaProvider>(); 
+
 
             return services;
         }

@@ -8,6 +8,7 @@ using Rommelmarkten.Api.Application.Users.Commands.CreateUser;
 using Rommelmarkten.Api.Application.Users.Commands.DeleteUser;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateProfile;
+using Rommelmarkten.Api.Application.Users.Queries.CreateUser;
 using Rommelmarkten.Api.WebApi.Controllers;
 using System.Net.Mime;
 
@@ -21,10 +22,11 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
     {
         [HttpPost]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<string?>> Create(CreateUserCommand command)
+        public async Task<ActionResult<CreateUserResult>> Create(CreateUserCommand command)
         {
             var userId = await Mediator.Send(command);
             return CreatedAtAction(nameof(Create), userId);
