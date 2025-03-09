@@ -28,8 +28,16 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<CreateUserResult>> Create(CreateUserCommand command)
         {
-            var userId = await Mediator.Send(command);
-            return CreatedAtAction(nameof(Create), userId);
+            var result = await Mediator.Send(command);
+            if (result.Succeeded)
+            {
+                return CreatedAtAction(nameof(Create), result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+            
         }
 
         [HttpPost("authenticate")]
