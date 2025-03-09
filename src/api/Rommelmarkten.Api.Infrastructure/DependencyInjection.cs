@@ -11,6 +11,7 @@ using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
+using Rommelmarkten.Api.Domain.Users;
 using Rommelmarkten.Api.Infrastructure.Caching;
 using Rommelmarkten.Api.Infrastructure.Identity;
 using Rommelmarkten.Api.Infrastructure.Persistence;
@@ -68,6 +69,7 @@ namespace Rommelmarkten.Api.Infrastructure
             services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle>>();
             services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
             services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
+            services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile>>();
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 

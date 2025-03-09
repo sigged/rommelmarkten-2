@@ -2,10 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.UpdateProfile
 {
+
+    [Authorize(Policy = Policies.MustBeCreatorOrAdmin)]
     public class UpdateProfileCommand : IRequest
     {
         public bool HasConsented { get; set; }

@@ -23,5 +23,6 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
         Task<Result> DeleteUserAsync(string userId);
 
         Task<IEnumerable<Claim>> GetClaims(IUser user);
+        Task<Result> ConfirmEmailAsync(string userId, string token);
     }
 }

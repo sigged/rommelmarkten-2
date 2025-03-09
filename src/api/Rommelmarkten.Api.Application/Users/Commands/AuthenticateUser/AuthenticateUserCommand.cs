@@ -1,10 +1,8 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
+﻿using MediatR;
+using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Domain.Events;
-using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
 {

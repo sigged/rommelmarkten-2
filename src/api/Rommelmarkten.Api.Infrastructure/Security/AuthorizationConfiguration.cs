@@ -18,6 +18,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
             services.AddAuthorization(options => {
                 options.AddPolicy(Policies.MustBeAdmin, policy => policy.RequireClaim(Application.Common.Security.ClaimTypes.IsAdmin));
                 options.AddPolicy(Policies.MustBeCreator, policy => policy.Requirements.Add(new MustBeCreatorRequirement()));
+                options.AddPolicy(Policies.MustBeCreatorOrAdmin, policy => policy.Requirements.Add(new MustBeCreatorOrAdminRequirement()));
                 options.AddPolicy(Policies.MustBeLastModifier, policy => policy.Requirements.Add(new MustBeLastModifierRequirement()));
                 options.AddPolicy(Policies.MustHaveListAccess, policy => policy.Requirements.Add(new MustHaveListAccessRequirement()));
                 options.AddPolicy(Policies.MustMatchListAssociation, policy => policy.Requirements.Add(new MustMatchListAssociationRequirement()));
@@ -27,6 +28,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
             services.AddSingleton<IAuthorizationHandler, MustBeLastModifierAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustHaveListAccessAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustBeCreatorAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustMatchListAssociationAuthorizationHandler>();
 
             return services;
@@ -55,6 +57,20 @@ namespace Rommelmarkten.Api.Infrastructure.Security
                                                        IAuditable resource)
         {
             if (context.User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) == resource.CreatedBy)
+            {
+                context.Succeed(requirement);
+            }
+            return Task.CompletedTask;
+        }
+    }
+    public class MustBeCreatorOrAdminAuthorizationHandler : AuthorizationHandler<MustBeCreatorOrAdminRequirement, IAuditable>
+    {
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+                                                       MustBeCreatorOrAdminRequirement requirement,
+                                                       IAuditable resource)
+        {
+            if (context.User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) == resource.CreatedBy ||
+                context.User.HasClaim(c => c.Type == Application.Common.Security.ClaimTypes.IsAdmin))
             {
                 context.Succeed(requirement);
             }
@@ -113,6 +129,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
     }
 
     public class MustBeCreatorRequirement : IAuthorizationRequirement { }
+    public class MustBeCreatorOrAdminRequirement : IAuthorizationRequirement { }
     public class MustBeLastModifierRequirement : IAuthorizationRequirement { }
     public class MustHaveListAccessRequirement : IAuthorizationRequirement { }
     public class MustBeAdminRequirement : IAuthorizationRequirement { }

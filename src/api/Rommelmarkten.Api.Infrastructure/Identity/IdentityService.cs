@@ -65,6 +65,24 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             return await _userManager.IsInRoleAsync(user, role);    
         }
 
+        public async Task<Result> ConfirmEmailAsync(string userId, string token)
+        {
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+
+            if (user == null)
+                return Result.Failure(["Ongeldige confirmatiegegevens"]);
+
+            var identityResult = await _userManager.ConfirmEmailAsync(user, token);
+            if (identityResult.Succeeded)
+            {
+                return Result.Success();
+            }
+            else
+            {
+                return Result.Failure(identityResult.Errors.Select(e => e.Description));
+            }
+        }
+
         public async Task<Result> AuthenticateAsync(string userName, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);

@@ -1,17 +1,14 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Users;
-using System.Xml.Linq;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 {
 
-
-
-
     public class CreateUserCommand : IRequest<string?>
     {
         public required string Name { get; set; } 
+
         public required string UserName { get; set; }
 
         public required string Password { get; set; }

@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser;
+using Rommelmarkten.Api.Application.Users.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Application.Users.Commands.CreateUser;
+using Rommelmarkten.Api.Application.Users.Commands.DeleteUser;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateProfile;
 using Rommelmarkten.Api.WebApi.Controllers;
-using Rommelmarkten.Api.WebApi.Middlewares;
 using System.Net.Mime;
 
 namespace Rommelmarkten.Api.WebApi.V1.Users
@@ -18,15 +19,16 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
     [ProducesErrorResponseType(typeof(ProblemDetails))]
     public class UsersController : ApiControllerBase
     {
-        [HttpPost]
-        [AllowAnonymous]
-        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<string>> Create(CreateUserCommand command)
-        {
-            return await Mediator.Send(command);
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        //public async Task<ActionResult> Create(CreateUserCommand command)
+        //{
+        //    var userId = await Mediator.Send(command);
+        //    return CreatedAtAction(nameof(Create), userId);
+        //}
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
@@ -42,6 +44,34 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
             else
                 return Unauthorized(result);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> ConfirmEmail(ConfirmEmailCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Succeeded)
+                return BadRequest(result);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Delete(DeleteUserCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Succeeded)
+                return BadRequest(result);
+
+            return NoContent();
+        }
+
 
         [HttpPut("profile")]
         public async Task<ActionResult> Update(UpdateProfileCommand command)
