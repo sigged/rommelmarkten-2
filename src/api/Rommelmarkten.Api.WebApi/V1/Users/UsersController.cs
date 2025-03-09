@@ -19,16 +19,16 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
     [ProducesErrorResponseType(typeof(ProblemDetails))]
     public class UsersController : ApiControllerBase
     {
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        //public async Task<ActionResult> Create(CreateUserCommand command)
-        //{
-        //    var userId = await Mediator.Send(command);
-        //    return CreatedAtAction(nameof(Create), userId);
-        //}
+        [HttpPost]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<string?>> Create(CreateUserCommand command)
+        {
+            var userId = await Mediator.Send(command);
+            return CreatedAtAction(nameof(Create), userId);
+        }
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
@@ -45,7 +45,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
                 return Unauthorized(result);
         }
 
-        [HttpPost]
+        [HttpPost("confirm-email")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
