@@ -11,5 +11,7 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
 
         [PersonalData]
         public string? LastName { get; set; }
+
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
     }
 }

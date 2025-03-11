@@ -1,10 +1,14 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Domain.Users;
+using Rommelmarkten.Api.Infrastructure.Identity;
+using Rommelmarkten.Api.Infrastructure.Persistence;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 
 namespace Rommelmarkten.Api.Infrastructure.Security
@@ -16,18 +20,20 @@ namespace Rommelmarkten.Api.Infrastructure.Security
         private readonly TokenSettings tokenSettings;
         private readonly JwtSecurityTokenHandler tokenHandler;
         private readonly ITokenValidationParametersFactory tokenValidationParmsFactory;
+        private readonly IApplicationDbContext context;
 
         public TokenManager(
             IIdentityService identityService,
             TokenSettings tokenSettings,
-            ITokenValidationParametersFactory tokenValidationParmsFactory
+            ITokenValidationParametersFactory tokenValidationParmsFactory,
+            IApplicationDbContext context
         )
         {
             _identityService = identityService;
             //this.deviceIdGenerator = deviceIdGenerator;
             this.tokenSettings = tokenSettings;
             this.tokenValidationParmsFactory = tokenValidationParmsFactory;
-            //this.context = context;
+            this.context = context;
 
             tokenHandler = new JwtSecurityTokenHandler();
         }
@@ -44,33 +50,42 @@ namespace Rommelmarkten.Api.Infrastructure.Security
         }
 
 
-        //public async Task<IPrincipal> GetAccessTokenPrincipal(string accessToken, bool ignoreExpiration = false)
-        //{
-        //    var tokenValidationParms = tokenValidationParmsFactory.GetDefaultValidationParameters();
-        //    tokenValidationParms.ValidateLifetime = !ignoreExpiration;
-        //    var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParms, out var validatedToken);
-        //    return await Task.FromResult(principal);
-        //}
+        public async Task<IPrincipal> GetAccessTokenPrincipal(string accessToken, bool ignoreExpiration = false)
+        {
+            var tokenValidationParms = tokenValidationParmsFactory.GetDefaultValidationParameters();
+            tokenValidationParms.ValidateLifetime = !ignoreExpiration;
+            var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParms, out var validatedToken); //todo: use async version
+            return await Task.FromResult(principal);
+        }
 
-        //public async Task<bool> IsValidRefreshToken(string refreshToken)
-        //{
-        //    //var user = await _userManager.FindByNameAsync(username);
-        //    return await context.Set<RefreshToken>().AnyAsync(e =>
-        //        e.Token == refreshToken &&
-        //        e.Expires > DateTime.UtcNow //expire date is in future
-        //    );
-        //}
+        public async Task<bool> IsValidRefreshToken(string refreshToken)
+        {
+            //var user = await _userManager.FindByNameAsync(username);
 
-        //public async Task RevokeToken(string refreshToken)
-        //{
-        //    var token = await context.Set<RefreshToken>().FirstOrDefaultAsync(e =>
-        //           e.Token == refreshToken
-        //       );
-        //    context.Set<RefreshToken>().Remove(token);
-        //    await context.SaveChangesAsync();
-        //}
+            var context = (ApplicationDbContext)this.context;
 
+            return await context.Set<RefreshToken>().AnyAsync(e =>
+                e.Token == refreshToken &&
+                e.Expires > DateTime.UtcNow //expire date is in future
+            );
+        }
 
+        public async Task RevokeToken(string refreshToken)
+        {
+            var context = (ApplicationDbContext)this.context;
+
+            var token = await context.Set<RefreshToken>().FirstOrDefaultAsync(e =>
+                   e.Token == refreshToken
+               );
+
+            if(token != null)
+            {
+                context.Set<RefreshToken>().Remove(token);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        [Obsolete("Use GenerateAuthTokens instead")]
         public async Task<string> GenerateAuthTokenAsync(IUser user)
         {
             if (user == null)
@@ -86,62 +101,65 @@ namespace Rommelmarkten.Api.Infrastructure.Security
         }
 
 
-        //public async Task<AuthenticationTokenPair> GenerateAuthTokens(IUser user)
-        //{
-        //    if (user == null)
-        //        throw new ArgumentNullException(nameof(user));
+        public async Task<AuthenticationTokenPair> GenerateAuthTokensAsync(IUser user, string deviceId)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-        //    var claims = await identityService.GetClaims(user);
+            var claims = await _identityService.GetClaims(user);
 
-        //    JwtSecurityToken accessToken;
-        //    RefreshToken refreshToken;
+            JwtSecurityToken accessToken;
+            RefreshToken refreshToken;
 
-        //    //generate new refresh token
-        //    refreshToken = await CreateRefreshToken(user, tokenSettings);
-        //    //generate new access token
-        //    accessToken = CreateAccessToken(claims, tokenSettings);
+            //generate new refresh token
+            refreshToken = await CreateRefreshToken(user, deviceId, tokenSettings);
+            //generate new access token
+            accessToken = CreateAccessToken(claims, tokenSettings);
 
-        //    return new AuthenticationTokenPair
-        //    {
-        //        AccessToken = tokenHandler.WriteToken(accessToken),
-        //        RefreshToken = refreshToken.Token
-        //    };
-        //}
+            return new AuthenticationTokenPair
+            {
+                AccessToken = tokenHandler.WriteToken(accessToken),
+                RefreshToken = refreshToken.Token,
+                RefreshTokenExpiration = refreshToken.Expires
+            };
+        }
 
-        //private async Task PurgeExpiredTokens()
-        //{
-        //    var expiredRefreshTokens = await context.Set<RefreshToken>()
-        //        .Where(e =>
-        //            e.Expires > DateTime.UtcNow //expire date is in future
-        //        ).ToListAsync();
+        private async Task PurgeExpiredTokens()
+        {
+            var context = (ApplicationDbContext)this.context;
 
-        //    context.Set<RefreshToken>().RemoveRange(expiredRefreshTokens);
-        //    await context.SaveChangesAsync();
-        //}
+            var expiredRefreshTokens = await context.Set<RefreshToken>()
+                .Where(e =>
+                    e.Expires > DateTime.UtcNow //expire date is in future
+                ).ToListAsync();
 
-        //private async Task<RefreshToken> CreateRefreshToken(
-        //    //ClaimsIdentity identity,
-        //    IUser user,
-        //    TokenSettings tokenSettings)
-        //{
-        //    if (user == null)
-        //        throw new ArgumentNullException(nameof(user));
+            context.Set<RefreshToken>().RemoveRange(expiredRefreshTokens);
+            await context.SaveChangesAsync();
+        }
 
-        //    var deviceHash = deviceIdGenerator.GetDeviceId();
+        private async Task<RefreshToken> CreateRefreshToken(
+            IUser user,
+            string deviceId,
+            TokenSettings tokenSettings)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-        //    //remove any expired tokens
-        //    await PurgeExpiredTokens();
+            var context = (ApplicationDbContext) this.context;
 
-        //    string token = GenerateRandomToken();
-        //    DateTime expiration = DateTime.UtcNow.AddMinutes(tokenSettings.RefreshTokenExpiryMinutes);
+            //remove any expired tokens
+            await PurgeExpiredTokens();
 
-        //    var refreshToken = new RefreshToken(token, expiration, user.Id, deviceHash);
-        //    context.Set<RefreshToken>().Add(refreshToken);
-        //    await context.SaveChangesAsync();
+            string token = GenerateRandomToken();
+            DateTime expiration = DateTime.UtcNow.AddMinutes(tokenSettings.RefreshTokenExpiryMinutes);
 
-        //    return refreshToken;
-        //}
-        
+            var refreshToken = new RefreshToken(token, expiration, user.Id, deviceId);
+            context.Set<RefreshToken>().Add(refreshToken);
+            await context.SaveChangesAsync();
+
+            return refreshToken;
+        }
+
 
         private JwtSecurityToken CreateAccessToken(IEnumerable<Claim> claims, TokenSettings tokenSettings)
         {

@@ -40,14 +40,14 @@ namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
                 var claims = _identityService.GetClaims(user);
 
                 //now with these claims, generate auth token pair
-                var tokenPair = await _tokenManager.GenerateAuthTokenAsync(user);
-
-
+                var tokenPair = await _tokenManager.GenerateAuthTokensAsync(user, "dummy device id");
 
                 await _domainEventService.Publish(new UserAuthenticatedEvent<Result>(user, result));
                 return new AccessTokenResult(true, result.Errors)
                 {
-                    AccessToken = await _tokenManager.GenerateAuthTokenAsync(user)
+                    AccessToken = tokenPair.AccessToken,
+                    RefreshToken = tokenPair.RefreshToken,
+                    ExpiresIn = (tokenPair.RefreshTokenExpiration - DateTime.UtcNow).Minutes,
                 };
             }
 
