@@ -4,6 +4,7 @@ using Rommelmarkten.Api.Application.Common.Models;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.ResetPassword
 {
+
     public class ResetPasswordCommand : IRequest<Result>
     {
         public required string Email { get; set; }
@@ -24,9 +25,8 @@ namespace Rommelmarkten.Api.Application.Users.Commands.ResetPassword
 
         public async Task<Result> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
         {
-            _identityService
-            await Task.CompletedTask;
-            throw new NotImplementedException();
+            var result = await _identityService.ResetPasswordAsync(request.Email, request.ResetCode, request.NewPassword);
+            return result;
         }
     }
 }

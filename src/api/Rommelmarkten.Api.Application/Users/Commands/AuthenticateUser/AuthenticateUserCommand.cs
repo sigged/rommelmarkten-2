@@ -2,11 +2,12 @@
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Common.Security;
+using Rommelmarkten.Api.Application.Users.Models;
 using Rommelmarkten.Api.Domain.Events;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
 {
-    public class AuthenticateUserCommand : IRequest<AuthenticationResult>
+    public class AuthenticateUserCommand : IRequest<AccessTokenResult>
     {
         public required string UserName { get; set; }
         public required string Password { get; set; }
@@ -14,7 +15,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
         public string? TwoFactorRecoveryCode { get; set; }  // see identity API
     }
 
-    public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AuthenticationResult>
+    public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AccessTokenResult>
     {
         private readonly IIdentityService _identityService;
         private readonly ITokenManager _tokenManager;
@@ -27,21 +28,21 @@ namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
             _domainEventService = domainEventService;
         }
 
-        public async Task<AuthenticationResult> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
+        public async Task<AccessTokenResult> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
         {
             var result = await _identityService.AuthenticateAsync(request.UserName, request.Password);
             if (result.Succeeded)
             {
                 var entity = await _identityService.FindByName(request.UserName);
                 await _domainEventService.Publish(new UserAuthenticatedEvent<Result>(entity, result));
-                return new AuthenticationResult(true, result.Errors)
+                return new AccessTokenResult(true, result.Errors)
                 {
-                    Token = await _tokenManager.GenerateAuthTokenAsync(entity)
+                    AccessToken = await _tokenManager.GenerateAuthTokenAsync(entity)
                 };
             }
 
             await _domainEventService.Publish(new AuthenticationFailedEvent<Result>(request.UserName, result));
-            return new AuthenticationResult(false, result.Errors);
+            return new AccessTokenResult(false, result.Errors);
         }
     }
 }

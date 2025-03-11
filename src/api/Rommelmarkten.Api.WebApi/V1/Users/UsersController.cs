@@ -1,14 +1,21 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser;
 using Rommelmarkten.Api.Application.Users.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Application.Users.Commands.CreateUser;
 using Rommelmarkten.Api.Application.Users.Commands.DeleteUser;
+using Rommelmarkten.Api.Application.Users.Commands.ForgotPassword;
 using Rommelmarkten.Api.Application.Users.Commands.GenerateEmailConfirmationToken;
+using Rommelmarkten.Api.Application.Users.Commands.GeneratePasswordResetToken;
+using Rommelmarkten.Api.Application.Users.Commands.ResendConfirmationEmail;
+using Rommelmarkten.Api.Application.Users.Commands.ResetPassword;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateProfile;
+using Rommelmarkten.Api.Application.Users.Models;
 using Rommelmarkten.Api.WebApi.Controllers;
 using System.Net.Mime;
 
@@ -37,15 +44,14 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
             {
                 return BadRequest(result);
             }
-            
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccessTokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> Authenticate(AuthenticateUserCommand command)
+        public async Task<ActionResult<AccessTokenResult>> Authenticate(AuthenticateUserCommand command)
         {
             var result = await Mediator.Send(command);
 
@@ -53,6 +59,36 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
                 return Ok(result);
             else
                 return Unauthorized(result);
+        }
+
+        [Obsolete("Not yet implemented")]
+        [HttpPost("refresh-access-token")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(AccessTokenResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<AccessTokenResult>> RefreshAccessToken(RefreshAccessTokenCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (result.Succeeded)
+                return Ok(result);
+            else
+                return Unauthorized(result);
+        }
+
+        [HttpGet("get-email-confirm-token")]
+        [ProducesResponseType(typeof(TokenResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GenerateEmailConfirmationToken(GenerateEmailConfirmationTokenCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Succeeded)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
         [HttpPost("confirm-email")]
@@ -69,11 +105,30 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
             return NoContent();
         }
 
-        [HttpGet("get-email-token")]
-        [ProducesResponseType(typeof(GenerateEmailConfirmationTokenResult), StatusCodes.Status200OK)]
+        [HttpPost("resend-confirmation-email")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> ConfirmEmail(ResendConfirmationEmailCommand command)
+        {
+            await Mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPost("forgot-password")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordCommand command)
+        {
+            await Mediator.Send(command); //todo: prevent exposing notfoundexception!
+            return NoContent();
+        }
+
+        [HttpGet("get-password-reset-token")]
+        [ProducesResponseType(typeof(TokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> SendEmailToken(GenerateEmailConfirmationTokenCommand command)
+        public async Task<ActionResult> GeneratePasswordResetToken(GeneratePasswordResetCommand command)
         {
             var result = await Mediator.Send(command);
 
@@ -81,6 +136,35 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
                 return BadRequest(result);
 
             return Ok(result);
+        }
+
+        [HttpPost("reset-password")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> ForgotPassword(ResetPasswordCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Succeeded)
+                return BadRequest(result);
+
+            return NoContent();
+        }
+
+        [Obsolete("Not yet implemented")]
+        [HttpPost("manage-2fa")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> ManageTwoFactorAuthentication(ManageTwoFactorAuthenticationCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Succeeded)
+                return BadRequest(result);
+
+            return NoContent();
         }
 
         [HttpDelete]

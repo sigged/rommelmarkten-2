@@ -1,16 +1,15 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
-{ 
+namespace Rommelmarkten.Api.Application.Users.Commands.ForgotPassword
+{
 
-    public class ForgotPasswordCommand : IRequest<Result>
+    public class ForgotPasswordCommand : IRequest
     {
         public required string Email { get; set; }
     }
 
-    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, Result>
+    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand>
     {
         private readonly IIdentityService _identityService;
         private readonly IDomainEventService _domainEventService;
@@ -21,10 +20,13 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
             _domainEventService = domainEventService;
         }
 
-        public async Task<Result> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
+        public async Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-            throw new NotImplementedException();
+            var resetCode = await _identityService.GeneratePasswordResetTokenAsync(request.Email);
+
+            //todo: send email
+            //await SendForgotPasswordEmail(user.Email, user);
+
         }
     }
 }

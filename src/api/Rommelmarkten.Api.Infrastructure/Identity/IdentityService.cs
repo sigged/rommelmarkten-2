@@ -67,7 +67,7 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             return await _userManager.IsInRoleAsync(user, role);    
         }
 
-        public async Task<string> CreateEmailConfirmationTokenAsync(string userId)
+        public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
         {
             var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 

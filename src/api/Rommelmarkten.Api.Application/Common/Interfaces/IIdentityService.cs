@@ -24,8 +24,8 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
 
         Task<IEnumerable<Claim>> GetClaims(IUser user);
         Task<Result> ConfirmEmailAsync(string userId, string token);
-        Task<string> CreateEmailConfirmationTokenAsync(string userId);
         Task<Result> ResetPasswordAsync(string email, string resetCode, string newPassword);
+        Task<string> GenerateEmailConfirmationTokenAsync(string userId);
         Task<string> GeneratePasswordResetTokenAsync(string email);
     }
 }
