@@ -98,6 +98,7 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
         public async Task<Result> AuthenticateAsync(string userName, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
+
             return result.ToApplicationResult();
         }
 
@@ -144,6 +145,16 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             return user;
         }
 
+        public async Task<IUser> FindByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.Email));
+
+            return user;
+        }
+
         public IQueryable<IUser> GetUsers()
         {
             return _userManager.Users;
@@ -180,6 +191,16 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             return claimsForIdentity;
         }
 
+
+        public async Task<string> GenerateRefreshToken(IUser user)
+        {
+            var applicationUser = user as ApplicationUser;
+            if (applicationUser == null)
+                throw new ArgumentException("Parameter must be of type ApplicationUser", nameof(user));
+
+           string refreshToken = await _userManager.GenerateUserTokenAsync(applicationUser, "AppName", "RefreshTokenName");
+            return refreshToken;
+        }
 
         public async Task<Result> RefreshAuthTokenAsync(string refreshTokenCode)
         {

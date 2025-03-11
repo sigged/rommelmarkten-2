@@ -1,8 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser;
 using Rommelmarkten.Api.Application.Users.Commands.ConfirmEmail;

@@ -4,13 +4,13 @@ namespace Rommelmarkten.Api.Domain.Events
 {
     public class AuthenticationFailedEvent<TResult> : DomainEvent
     {
-        public AuthenticationFailedEvent(string userName, TResult result)
+        public AuthenticationFailedEvent(string email, TResult result)
         {
-            UserName = userName;
+            Email = email;
             Result = result;
         }
 
-        public string UserName { get; }
+        public string Email { get; }
         public TResult Result { get; }
     }
 }

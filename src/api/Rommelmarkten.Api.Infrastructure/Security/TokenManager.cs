@@ -1,14 +1,11 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
+﻿using Microsoft.IdentityModel.Tokens;
+using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
+using Rommelmarkten.Api.Domain.Users;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Infrastructure.Security
 {
@@ -144,6 +141,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
 
         //    return refreshToken;
         //}
+        
 
         private JwtSecurityToken CreateAccessToken(IEnumerable<Claim> claims, TokenSettings tokenSettings)
         {

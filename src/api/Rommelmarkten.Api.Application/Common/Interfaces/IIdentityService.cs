@@ -27,5 +27,7 @@ namespace Rommelmarkten.Api.Application.Common.Interfaces
         Task<Result> ResetPasswordAsync(string email, string resetCode, string newPassword);
         Task<string> GenerateEmailConfirmationTokenAsync(string userId);
         Task<string> GeneratePasswordResetTokenAsync(string email);
+        Task<IUser> FindByEmail(string email);
+        Task<string> GenerateRefreshToken(IUser user);
     }
 }
