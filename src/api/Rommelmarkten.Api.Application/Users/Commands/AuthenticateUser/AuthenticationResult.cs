@@ -10,5 +10,15 @@ namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
         }
 
         public string? Token { get; set; }
+
+        /*
+            //response in identity       
+            {
+              "tokenType": "string",
+              "accessToken": "string",
+              "expiresIn": 0,
+              "refreshToken": "string"
+            }
+         */
     }
 }

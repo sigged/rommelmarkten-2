@@ -83,7 +83,10 @@ namespace Rommelmarkten.Api.Infrastructure
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //default
                     options.User.RequireUniqueEmail = true;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddApiEndpoints();
+
 
 
             services.AddTransient<IDateTime, DateTimeService>();

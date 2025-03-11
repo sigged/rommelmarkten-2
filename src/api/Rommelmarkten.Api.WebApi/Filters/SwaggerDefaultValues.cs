@@ -36,23 +36,23 @@ namespace Rommelmarkten.Api.WebApi.Filters
                 return;
             }
 
-            foreach (var parameter in operation.Parameters)
-            {
-                var description = apiDescription.ParameterDescriptions
-                                                .First(p => p.Name == parameter.Name);
+            //foreach (var parameter in operation.Parameters)
+            //{
+            //    var description = apiDescription.ParameterDescriptions
+            //                                    .First(p => p.Name == parameter.Name);
 
-                parameter.Description ??= description.ModelMetadata?.Description;
+            //    parameter.Description ??= description.ModelMetadata?.Description;
 
-                if (parameter.Schema.Default == null && description.DefaultValue != null && description.ModelMetadata != null)
-                {
-                    var json = JsonSerializer.Serialize(
-                        description.DefaultValue,
-                        description.ModelMetadata.ModelType);
-                    parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
-                }
+            //    if (parameter.Schema.Default == null && description.DefaultValue != null && description.ModelMetadata != null)
+            //    {
+            //        var json = JsonSerializer.Serialize(
+            //            description.DefaultValue,
+            //            description.ModelMetadata.ModelType);
+            //        parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
+            //    }
 
-                parameter.Required |= description.IsRequired;
-            }
+            //    parameter.Required |= description.IsRequired;
+            //}
         }
     }
 

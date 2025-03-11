@@ -1,5 +1,6 @@
 
 
+using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application;
@@ -49,6 +50,10 @@ namespace Rommelmarkten.Api.WebApi
             app.UseOutputCache();
 
             app.MapControllers();
+
+            app.MapGroup("/account")
+                .MapIdentityApi<ApplicationUser>();
+                //.MapToApiVersion(new ApiVersion(1.0));
 
 
             using (var scope = app.Services.CreateScope())

@@ -1,10 +1,22 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Users.Queries.CreateUser;
+using Rommelmarkten.Api.Application.Common.Models;
 using Rommelmarkten.Api.Domain.Users;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 {
+
+    
+    public class CreateUserResult : Result
+    {
+        public CreateUserResult(bool succeeded, IEnumerable<string> errors) : base(succeeded, errors)
+        {
+
+        }
+
+        public required string? RegisteredUserId { get; set; }
+
+    }
 
     public class CreateUserCommand : IRequest<CreateUserResult>
     {

@@ -6,9 +6,9 @@ using Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser;
 using Rommelmarkten.Api.Application.Users.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Application.Users.Commands.CreateUser;
 using Rommelmarkten.Api.Application.Users.Commands.DeleteUser;
+using Rommelmarkten.Api.Application.Users.Commands.GenerateEmailConfirmationToken;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateProfile;
-using Rommelmarkten.Api.Application.Users.Queries.CreateUser;
 using Rommelmarkten.Api.WebApi.Controllers;
 using System.Net.Mime;
 
@@ -20,18 +20,18 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
     [ProducesErrorResponseType(typeof(ProblemDetails))]
     public class UsersController : ApiControllerBase
     {
-        [HttpPost]
+        [HttpPost("register")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<CreateUserResult>> Create(CreateUserCommand command)
+        public async Task<ActionResult<CreateUserResult>> Register(CreateUserCommand command)
         {
             var result = await Mediator.Send(command);
             if (result.Succeeded)
             {
-                return CreatedAtAction(nameof(Create), result);
+                return CreatedAtAction(nameof(Register), result);
             }
             else
             {
@@ -40,7 +40,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
             
         }
 
-        [HttpPost("authenticate")]
+        [HttpPost("login")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -67,6 +67,20 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
                 return BadRequest(result);
 
             return NoContent();
+        }
+
+        [HttpGet("get-email-token")]
+        [ProducesResponseType(typeof(GenerateEmailConfirmationTokenResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> SendEmailToken(GenerateEmailConfirmationTokenCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Succeeded)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
         [HttpDelete]

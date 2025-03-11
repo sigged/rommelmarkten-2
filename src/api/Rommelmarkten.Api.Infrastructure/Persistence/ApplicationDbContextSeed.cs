@@ -26,10 +26,10 @@ namespace Rommelmarkten.Api.Infrastructure.Persistence
                 }
             }
 
-            var adminUser = new ApplicationUser { Id = "admin-id", UserName = "admin", Email = "administrator@localhost" };
-            var userA = new ApplicationUser { Id = "thelma-id", UserName = "thelma", Email = "thelma@localhost" };
-            var userB = new ApplicationUser { Id = "louise-id", UserName = "louise", Email = "louise@localhost" };
-            var userC = new ApplicationUser { Id = "jimmy-id", UserName = "jimmy", Email = "jimmy@localhost" };
+            var adminUser = new ApplicationUser { Id = "admin-id", UserName = "admin", Email = "administrator@localhost", EmailConfirmed = true };
+            var userA = new ApplicationUser { Id = "thelma-id", UserName = "thelma", Email = "thelma@localhost", EmailConfirmed = true };
+            var userB = new ApplicationUser { Id = "louise-id", UserName = "louise", Email = "louise@localhost", EmailConfirmed = true };
+            var userC = new ApplicationUser { Id = "jimmy-id", UserName = "jimmy", Email = "jimmy@localhost", EmailConfirmed = true };
 
             var users = new[] { adminUser, userA, userB, userC };
 

@@ -10,6 +10,8 @@ namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
     {
         public required string UserName { get; set; }
         public required string Password { get; set; }
+        public string? TwoFactorCode { get; set; }          // see identity API
+        public string? TwoFactorRecoveryCode { get; set; }  // see identity API
     }
 
     public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AuthenticationResult>
