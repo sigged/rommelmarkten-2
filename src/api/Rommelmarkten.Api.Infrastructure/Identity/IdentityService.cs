@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Exceptions;
 using Rommelmarkten.Api.Application.Common.Interfaces;
@@ -176,6 +178,57 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             claimsForIdentity.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
             return claimsForIdentity;
+        }
+
+
+        public async Task<Result> RefreshAuthTokenAsync(string refreshTokenCode)
+        {
+            // Validate the refresh token
+            var refreshToken = refreshTokenCode;
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                throw new NotFoundException();
+            }
+
+            throw new NotImplementedException();
+
+            //// Find the user associated with this refresh token
+            //var userId = await _userManager.GetUserIdFromRefreshTokenAsync(refreshToken);
+            //if (userId == null)
+            //{
+            //    return Results.BadRequest();
+            //}
+
+
+
+
+            //var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
+            //return result.ToApplicationResult();
+        }
+
+
+        public async Task<string> GeneratePasswordResetTokenAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.Email));
+
+            var resetCode = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            return resetCode;
+        }
+
+        public async Task<Result> ResetPasswordAsync(string email, string resetCode, string newPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.Email));
+
+            var result = await _userManager.ResetPasswordAsync(user, resetCode, newPassword);
+
+            return result.ToApplicationResult();
         }
     }
 }

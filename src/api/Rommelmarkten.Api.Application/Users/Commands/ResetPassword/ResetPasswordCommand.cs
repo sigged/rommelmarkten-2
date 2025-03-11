@@ -2,7 +2,7 @@
 using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
+namespace Rommelmarkten.Api.Application.Users.Commands.ResetPassword
 {
     public class ResetPasswordCommand : IRequest<Result>
     {
@@ -24,6 +24,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 
         public async Task<Result> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
         {
+            _identityService
             await Task.CompletedTask;
             throw new NotImplementedException();
         }
