@@ -9,13 +9,13 @@ using Rommelmarkten.Api.Application.Users.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Application.Users.Commands.CreateUser;
 using Rommelmarkten.Api.Application.Users.Commands.DeleteUser;
 using Rommelmarkten.Api.Application.Users.Commands.ForgotPassword;
-using Rommelmarkten.Api.Application.Users.Commands.GenerateEmailConfirmationToken;
-using Rommelmarkten.Api.Application.Users.Commands.GeneratePasswordResetToken;
 using Rommelmarkten.Api.Application.Users.Commands.ResendConfirmationEmail;
 using Rommelmarkten.Api.Application.Users.Commands.ResetPassword;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Application.Users.Commands.UpdateProfile;
 using Rommelmarkten.Api.Application.Users.Models;
+using Rommelmarkten.Api.Application.Users.Queries.GenerateEmailConfirmationToken;
+using Rommelmarkten.Api.Application.Users.Queries.GeneratePasswordResetToken;
 using Rommelmarkten.Api.WebApi.Controllers;
 using System.Net.Mime;
 

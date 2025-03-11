@@ -3,9 +3,8 @@ using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Application.Users.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.GeneratePasswordResetToken
+namespace Rommelmarkten.Api.Application.Users.Queries.GeneratePasswordResetToken
 {
-
     //insecure, so only admins can do this
     [Authorize(Policy = Policies.MustBeAdmin)]
     public class GeneratePasswordResetCommand : IRequest<TokenResult>

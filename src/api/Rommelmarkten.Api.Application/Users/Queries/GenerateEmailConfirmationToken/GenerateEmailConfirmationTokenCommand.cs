@@ -3,11 +3,11 @@ using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Application.Users.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.GenerateEmailConfirmationToken
+namespace Rommelmarkten.Api.Application.Users.Queries.GenerateEmailConfirmationToken
 {
 
     //insecure, so only admins can do this
-    [Authorize(Policy=Policies.MustBeAdmin)]
+    [Authorize(Policy = Policies.MustBeAdmin)]
     public class GenerateEmailConfirmationTokenCommand : IRequest<TokenResult>
     {
         public required string UserId { get; set; }
