@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Application.Common.Security;
-using Rommelmarkten.Api.Domain.Users;
+using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Models;
+using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Features.Users.Domain;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.DeleteUser
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.DeleteUser
 {
     [Authorize(Policy = Policies.MustBeCreatorOrAdmin)]
     public class DeleteUserCommand : IRequest<Result>
@@ -19,7 +19,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.DeleteUser
 
         public DeleteUserCommandHandler(IIdentityService identityService, IEntityRepository<UserProfile> profileRepository)
         {
-            this._identityService = identityService;
+            _identityService = identityService;
             this.profileRepository = profileRepository;
         }
 

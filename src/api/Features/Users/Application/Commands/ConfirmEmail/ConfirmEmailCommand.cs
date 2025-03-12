@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
+using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.ConfirmEmail
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail
 {
-    
+
     public class ConfirmEmailCommand : IRequest<Result>
     {
         public required string UserId { get; set; }

@@ -1,12 +1,14 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Domain.Users;
+using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Models;
+using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
+using Rommelmarkten.Api.Features.Users.Application.Gateways;
+using Rommelmarkten.Api.Features.Users.Domain;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser
 {
 
-    
+
     public class CreateUserResult : Result
     {
         public CreateUserResult(bool succeeded, IEnumerable<string> errors) : base(succeeded, errors)
@@ -20,7 +22,7 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 
     public class CreateUserCommand : IRequest<CreateUserResult>
     {
-        public required string Name { get; set; } 
+        public required string Name { get; set; }
 
         public required string UserName { get; set; }
 
@@ -31,12 +33,12 @@ namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
 
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserResult>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IUsersDbContext _context;
         private readonly IIdentityService _identityService;
         private readonly IAvatarGenerator _avatarGenerator;
         private readonly ICaptchaProvider captchaProvider;
 
-        public CreateUserCommandHandler(IApplicationDbContext context, IIdentityService identityService, IAvatarGenerator avatarGenerator, ICaptchaProvider captchaProvider)
+        public CreateUserCommandHandler(IUsersDbContext context, IIdentityService identityService, IAvatarGenerator avatarGenerator, ICaptchaProvider captchaProvider)
         {
             _context = context;
             _identityService = identityService;

@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Users.Models;
+using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Features.Users.Application.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.CreateUser
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser
 {
 
     public class RefreshAccessTokenCommand : IRequest<AccessTokenResult>

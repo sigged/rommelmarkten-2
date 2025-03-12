@@ -1,12 +1,11 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Application.Common.Security;
-using Rommelmarkten.Api.Application.Users.Models;
+using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Models;
+using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Domain.Events;
-using System.Security.Claims;
+using Rommelmarkten.Api.Features.Users.Application.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.AuthenticateUser
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.AuthenticateUser
 {
     public class AuthenticateUserCommand : IRequest<AccessTokenResult>
     {

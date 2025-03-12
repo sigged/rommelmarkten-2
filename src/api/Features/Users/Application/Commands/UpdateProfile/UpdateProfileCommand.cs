@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
+using Rommelmarkten.Api.Features.Users.Domain;
 
-namespace Rommelmarkten.Api.Features.Affiliates.Application.Commands.UpdateProfile
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile
 {
 
     [Authorize(Policy = Policies.MustBeCreatorOrAdmin)]
@@ -16,11 +18,11 @@ namespace Rommelmarkten.Api.Features.Affiliates.Application.Commands.UpdateProfi
 
     public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IUsersDbContext _context;
         private readonly IIdentityService _identityService;
         private readonly ICurrentUserService _currentUserService;
 
-        public UpdateProfileCommandHandler(IApplicationDbContext context, IIdentityService identityService, ICurrentUserService currentUserService)
+        public UpdateProfileCommandHandler(IUsersDbContext context, IIdentityService identityService, ICurrentUserService currentUserService)
         {
             _context = context;
             _identityService = identityService;

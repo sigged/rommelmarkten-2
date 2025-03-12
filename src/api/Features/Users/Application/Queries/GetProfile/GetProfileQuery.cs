@@ -4,8 +4,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
 
-namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile
+namespace Rommelmarkten.Api.Features.Users.Application.Queries.GetProfile
 {
     [Authorize]
     public class GetUserProfileQuery : IRequest<UserProfileDto>
@@ -14,11 +15,11 @@ namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile
 
     public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, UserProfileDto?>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IUsersDbContext _context;
         private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
 
-        public GetUserProfileQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService, IMapper mapper)
+        public GetUserProfileQueryHandler(IUsersDbContext context, ICurrentUserService currentUserService, IMapper mapper)
         {
             _context = context;
             _currentUserService = currentUserService;

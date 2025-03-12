@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Application.Common.Models;
-using Rommelmarkten.Api.Application.Common.Security;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
 
-namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile
+namespace Rommelmarkten.Api.Features.Users.Application.Queries.GetAvatar
 {
     [Authorize]
     public class GetAvatarQuery : IRequest<BlobDto>
@@ -19,10 +15,10 @@ namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile
 
     public class GetAvatarQueryHandler : IRequestHandler<GetAvatarQuery, BlobDto?>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IUsersDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetAvatarQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetAvatarQueryHandler(IUsersDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

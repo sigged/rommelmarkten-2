@@ -1,4 +1,4 @@
-﻿namespace Rommelmarkten.Api.Features.Affiliates.Domain
+﻿namespace Rommelmarkten.Api.Features.Users.Domain
 {
     public class UserProfile
     {

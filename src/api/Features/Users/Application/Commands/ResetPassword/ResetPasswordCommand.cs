@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.ResetPassword

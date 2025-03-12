@@ -1,8 +1,8 @@
 ﻿using Rommelmarkten.Api.Common.Application.Mappings;
 using Rommelmarkten.Api.Common.Application.Models;
-using Rommelmarkten.Api.Features.Affiliates.Domain;
+using Rommelmarkten.Api.Features.Users.Domain;
 
-namespace Rommelmarkten.Api.Application.Users.Queries.GetProfile;
+namespace Rommelmarkten.Api.Features.Users.Application.Queries.GetProfile;
 
 public class UserProfileDto : IMapFrom<UserProfile>
 {

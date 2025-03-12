@@ -1,6 +1,6 @@
 ﻿using Rommelmarkten.Api.Common.Application.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Models
+namespace Rommelmarkten.Api.Features.Users.Application.Models
 {
     public class TokenResult : Result
     {

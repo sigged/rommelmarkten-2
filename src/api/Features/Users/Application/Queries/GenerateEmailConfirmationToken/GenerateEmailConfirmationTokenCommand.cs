@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Application.Users.Models;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Features.Users.Application.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Queries.GenerateEmailConfirmationToken
+namespace Rommelmarkten.Api.Features.Users.Application.Queries.GenerateEmailConfirmationToken
 {
 
     //insecure, so only admins can do this

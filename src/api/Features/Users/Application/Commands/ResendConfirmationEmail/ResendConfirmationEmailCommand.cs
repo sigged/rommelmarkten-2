@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Application.Common.Interfaces;
+using Rommelmarkten.Api.Common.Application.Interfaces;
 
 namespace Rommelmarkten.Api.Application.Users.Commands.ResendConfirmationEmail
 {
