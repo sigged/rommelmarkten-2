@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Rommelmarkten.Api.Common.Application;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
+using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using Rommelmarkten.Api.Features.Affiliates;
 using Rommelmarkten.Api.Features.Captchas;
 using Rommelmarkten.Api.Features.FAQs;
 using Rommelmarkten.Api.Features.NewsArticles;
 using Rommelmarkten.Api.Features.ShoppingLists;
 using Rommelmarkten.Api.Features.Users;
-using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
 using Rommelmarkten.Api.WebApi.Middlewares;
 using Rommelmarkten.Api.WebApi.Persistence;
 using Rommelmarkten.Api.WebApi.Services;
@@ -43,7 +42,6 @@ namespace Rommelmarkten.Api.WebApi
             }
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
 
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -85,6 +83,8 @@ namespace Rommelmarkten.Api.WebApi
             builder.Services.AddProblemDetails();
 
             builder.AddSwaggerSupportedVersioning();
+
+            var rigs = builder.Services.Select(s => s.ServiceType.FullName).ToList();
 
             var app = builder.Build();
 

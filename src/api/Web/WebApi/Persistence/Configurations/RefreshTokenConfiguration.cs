@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
+using Rommelmarkten.Api.Common.Infrastructure.Identity;
 
 namespace Rommelmarkten.Api.WebApi.Persistence.Configurations
 {

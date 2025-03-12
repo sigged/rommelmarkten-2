@@ -2,15 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Domain;
+using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using Rommelmarkten.Api.Features.Affiliates.Domain;
 using Rommelmarkten.Api.Features.FAQs.Domain;
 using Rommelmarkten.Api.Features.Markets.Domain;
 using Rommelmarkten.Api.Features.NewsArticles.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.Users.Domain;
-using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Rommelmarkten.Api.WebApi.Persistence
 {
