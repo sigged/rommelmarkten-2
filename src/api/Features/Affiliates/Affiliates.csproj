@@ -10,11 +10,13 @@
 
 	<ItemGroup>
 	  <Folder Include="Infrastructure\" />
-	  <Folder Include="Domain\" />
-	  <Folder Include="Domain\" />
-	  <Folder Include="Application\" />
 	  <Folder Include="Infrastructure\" />
-	  <Folder Include="Application\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Common\Application\Application.csproj" />
+	  <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\..\Common\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>
