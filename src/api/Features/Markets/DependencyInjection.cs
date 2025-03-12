@@ -11,7 +11,7 @@ namespace Rommelmarkten.Api.Features.NewsArticles
     {
 
 
-        public static IServiceCollection AddNMarketFeature(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMarketFeature(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

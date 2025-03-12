@@ -4,6 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Rommelmarkten.Api.Common.Application;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
+using Rommelmarkten.Api.Features.Affiliates;
+using Rommelmarkten.Api.Features.Captchas;
+using Rommelmarkten.Api.Features.FAQs;
+using Rommelmarkten.Api.Features.NewsArticles;
+using Rommelmarkten.Api.Features.ShoppingLists;
+using Rommelmarkten.Api.Features.Users;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
 using Rommelmarkten.Api.WebApi.Middlewares;
 using Rommelmarkten.Api.WebApi.Persistence;
@@ -57,6 +63,18 @@ namespace Rommelmarkten.Api.WebApi
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddRealtimeMessaging(builder.Configuration);
+
+            //add features
+            builder.Services.AddAffiliateFeature(configuration);
+            builder.Services.AddCaptchaFeature(configuration);
+            builder.Services.AddFAQFeature(configuration);
+            builder.Services.AddMarketFeature(configuration);
+            builder.Services.AddNewsArticleFeature(configuration);
+            builder.Services.AddShoppingListsFeature(configuration);
+            builder.Services.AddUsersFeature(configuration);
+
+
+
 
             builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
