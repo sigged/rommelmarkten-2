@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Rommelmarkten.Api.Features.Captchas</AssemblyName>
+		<RootNamespace>Rommelmarkten.Api.Features.Captchas</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Folder Include="Domain\" />
+	  <Folder Include="Infrastructure\" />
+	  <Folder Include="Infrastructure\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Common\Application\Application.csproj" />
+	  <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\..\Common\Infrastructure\Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>
