@@ -10,6 +10,7 @@ using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Rommelmarkten.Api.WebApi.Persistence
 {
@@ -64,8 +65,6 @@ namespace Rommelmarkten.Api.WebApi.Persistence
         public required DbSet<MarketRevision> MarketRevisions { get; set; }
 
         public required DbSet<MarketRevisionWithTheme> MarketRevisionsWithThemes { get; set; }
-
-
 
         public required DbSet<ListItem> ListItems { get; set; }
 

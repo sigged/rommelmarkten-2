@@ -4,7 +4,6 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Common.Infrastructure.Identity;
-using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -62,8 +61,6 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
         {
             //var user = await _userManager.FindByNameAsync(username);
 
-            var context = (ApplicationDbContext)this.context;
-
             return await context.Set<RefreshToken>().AnyAsync(e =>
                 e.Token == refreshToken &&
                 e.Expires > DateTime.UtcNow //expire date is in future
@@ -72,8 +69,6 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
 
         public async Task RevokeToken(string refreshToken)
         {
-            var context = (ApplicationDbContext)this.context;
-
             var token = await context.Set<RefreshToken>().FirstOrDefaultAsync(e =>
                    e.Token == refreshToken
                );
@@ -126,7 +121,7 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
 
         private async Task PurgeExpiredTokens()
         {
-            var context = (ApplicationDbContext)this.context;
+            var context = (IApplicationDbContext)this.context;
 
             var expiredRefreshTokens = await context.Set<RefreshToken>()
                 .Where(e =>
@@ -144,8 +139,6 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-
-            var context = (ApplicationDbContext)this.context;
 
             //remove any expired tokens
             await PurgeExpiredTokens();

@@ -28,7 +28,7 @@ namespace Rommelmarkten.Api.Common.Application.Interfaces
         //DbSet<MarketDate> MarketDates { get; set; }
 
         //DbSet<MarketWithTheme> MarketWithThemes { get; set; }
-        
+
         //DbSet<MarketInvoice> MarketInvoices { get; set; }
 
         //DbSet<MarketInvoiceLine> MarketInvoiceLines { get; set; }
@@ -49,7 +49,7 @@ namespace Rommelmarkten.Api.Common.Application.Interfaces
 
         //DbSet<ListAssociate> ListAssociates { get; set; }
 
-
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
 

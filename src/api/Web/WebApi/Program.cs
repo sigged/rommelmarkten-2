@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Rommelmarkten.Api.Common.Application;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
@@ -18,6 +19,41 @@ namespace Rommelmarkten.Api.WebApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            var configuration = builder.Configuration;
+            var services = builder.Services;
+
+            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                        configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            }
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+
+
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.Stores.ProtectPersonalData = false; //todo: true!
+                    options.Lockout.MaxFailedAccessAttempts = 5; //default
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //default
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddApiEndpoints();
+
+
+
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddRealtimeMessaging(builder.Configuration);
@@ -55,13 +91,13 @@ namespace Rommelmarkten.Api.WebApi
 
             using (var scope = app.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
+                var scopedServices = scope.ServiceProvider;
 
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var context = scopedServices.GetRequiredService<ApplicationDbContext>();
+                    var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
 
                     if (context.Database.IsSqlServer())
                     {
@@ -73,7 +109,7 @@ namespace Rommelmarkten.Api.WebApi
                 }
                 catch (Exception ex)
                 {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    var logger = scopedServices.GetRequiredService<ILogger<Program>>();
 
                     logger.LogError(ex, "An error occurred while migrating or seeding the database.");
 
