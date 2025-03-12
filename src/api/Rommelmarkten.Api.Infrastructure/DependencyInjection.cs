@@ -71,6 +71,7 @@ namespace Rommelmarkten.Api.Infrastructure
             services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
             services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
             services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile>>();
+            services.AddScoped<IEntityRepository<RefreshToken>, EFRepository<RefreshToken>>();
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 

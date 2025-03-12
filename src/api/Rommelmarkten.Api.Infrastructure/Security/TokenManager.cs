@@ -16,24 +16,23 @@ namespace Rommelmarkten.Api.Infrastructure.Security
 
     public class TokenManager : ITokenManager
     {
-        private readonly IIdentityService _identityService;
+        private readonly IIdentityService identityService;
+        private readonly IEntityRepository<RefreshToken> refreshTokenRepository;
         private readonly TokenSettings tokenSettings;
         private readonly JwtSecurityTokenHandler tokenHandler;
         private readonly ITokenValidationParametersFactory tokenValidationParmsFactory;
-        private readonly IApplicationDbContext context;
 
         public TokenManager(
             IIdentityService identityService,
+            IEntityRepository<RefreshToken> refreshTokenRepository,
             TokenSettings tokenSettings,
-            ITokenValidationParametersFactory tokenValidationParmsFactory,
-            IApplicationDbContext context
+            ITokenValidationParametersFactory tokenValidationParmsFactory
         )
         {
-            _identityService = identityService;
-            //this.deviceIdGenerator = deviceIdGenerator;
+            this.identityService = identityService;
+            this.refreshTokenRepository = refreshTokenRepository;
             this.tokenSettings = tokenSettings;
             this.tokenValidationParmsFactory = tokenValidationParmsFactory;
-            this.context = context;
 
             tokenHandler = new JwtSecurityTokenHandler();
         }
@@ -62,26 +61,26 @@ namespace Rommelmarkten.Api.Infrastructure.Security
         {
             //var user = await _userManager.FindByNameAsync(username);
 
-            var context = (ApplicationDbContext)this.context;
-
-            return await context.Set<RefreshToken>().AnyAsync(e =>
-                e.Token == refreshToken &&
-                e.Expires > DateTime.UtcNow //expire date is in future
-            );
+            return await refreshTokenRepository.AnyAsync([
+                e => 
+                    e.Token == refreshToken &&
+                    e.Expires > DateTime.UtcNow //expire date is in future
+            ]);
         }
 
         public async Task RevokeToken(string refreshToken)
         {
-            var context = (ApplicationDbContext)this.context;
+            var token = await refreshTokenRepository.SelectAsQuery(filters: [
+                e =>
+                    e.Token == refreshToken &&
+                    e.Expires > DateTime.UtcNow //expire date is in future
+            ])
+                .FirstOrDefaultAsync();
 
-            var token = await context.Set<RefreshToken>().FirstOrDefaultAsync(e =>
-                   e.Token == refreshToken
-               );
 
             if(token != null)
             {
-                context.Set<RefreshToken>().Remove(token);
-                await context.SaveChangesAsync();
+                await refreshTokenRepository.DeleteAsync(token);
             }
         }
 
@@ -91,7 +90,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            var claims = await _identityService.GetClaims(user);
+            var claims = await identityService.GetClaims(user);
             
 
             JwtSecurityToken accessToken;
@@ -106,7 +105,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            var claims = await _identityService.GetClaims(user);
+            var claims = await identityService.GetClaims(user);
 
             JwtSecurityToken accessToken;
             RefreshToken refreshToken;
@@ -126,15 +125,15 @@ namespace Rommelmarkten.Api.Infrastructure.Security
 
         private async Task PurgeExpiredTokens()
         {
-            var context = (ApplicationDbContext)this.context;
+            var expiredRefreshTokens = await refreshTokenRepository.SelectAsQuery(filters: [
+                e =>
+                    e.Expires <= DateTime.UtcNow //expire date is in future
+            ]).ToListAsync();
 
-            var expiredRefreshTokens = await context.Set<RefreshToken>()
-                .Where(e =>
-                    e.Expires > DateTime.UtcNow //expire date is in future
-                ).ToListAsync();
-
-            context.Set<RefreshToken>().RemoveRange(expiredRefreshTokens);
-            await context.SaveChangesAsync();
+            foreach(var token in expiredRefreshTokens)
+            {
+                await refreshTokenRepository.DeleteAsync(token);
+            }
         }
 
         private async Task<RefreshToken> CreateRefreshToken(
@@ -145,8 +144,6 @@ namespace Rommelmarkten.Api.Infrastructure.Security
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            var context = (ApplicationDbContext) this.context;
-
             //remove any expired tokens
             await PurgeExpiredTokens();
 
@@ -154,8 +151,7 @@ namespace Rommelmarkten.Api.Infrastructure.Security
             DateTime expiration = DateTime.UtcNow.AddMinutes(tokenSettings.RefreshTokenExpiryMinutes);
 
             var refreshToken = new RefreshToken(token, expiration, user.Id, deviceId);
-            context.Set<RefreshToken>().Add(refreshToken);
-            await context.SaveChangesAsync();
+            await refreshTokenRepository.InsertAsync(refreshToken);
 
             return refreshToken;
         }

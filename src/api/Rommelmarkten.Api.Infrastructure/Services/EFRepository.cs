@@ -75,12 +75,12 @@ namespace Rommelmarkten.Api.Infrastructure.Services
             }
         }
 
-        public virtual void Insert(TEntity entity)
+        protected virtual void Insert(TEntity entity)
         {
             dbSet.Add(entity);
         }
 
-        public virtual void Delete(TEntity entityToDelete)
+        protected virtual void Delete(TEntity entityToDelete)
         {
             if (context.Entry(entityToDelete).State == EntityState.Detached)
             {
@@ -89,7 +89,7 @@ namespace Rommelmarkten.Api.Infrastructure.Services
             dbSet.Remove(entityToDelete);
         }
 
-        public virtual void Update(TEntity entityToUpdate)
+        protected virtual void Update(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
@@ -121,12 +121,20 @@ namespace Rommelmarkten.Api.Infrastructure.Services
             await context.SaveChangesAsync(cancellationToken);
         }
 
+        public virtual async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+        {
+            Delete(entity);
+            await context.SaveChangesAsync(cancellationToken);
+
+            context.ChangeTracker.Clear();
+        }
+
         public virtual async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             Insert(entity);
             await context.SaveChangesAsync(cancellationToken);
 
-            context.ChangeTracker.Clear();
+            context.ChangeTracker.Clear(); 
         }
 
         public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)

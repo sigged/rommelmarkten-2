@@ -1,8 +1,9 @@
-﻿namespace Rommelmarkten.Api.Infrastructure.Identity
+﻿using Rommelmarkten.Api.Domain.Common;
+
+namespace Rommelmarkten.Api.Infrastructure.Identity
 {
-    public class RefreshToken
+    public class RefreshToken : EntityBase
     {
-        public Guid Id { get; set; }
 
         public RefreshToken(string token, DateTime expires, string userId, string deviceHash)
         {
