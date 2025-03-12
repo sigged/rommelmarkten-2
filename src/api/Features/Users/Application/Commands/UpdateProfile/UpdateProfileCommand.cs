@@ -9,7 +9,7 @@ using Rommelmarkten.Api.Features.Users.Domain;
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile
 {
 
-    [Authorize(Policy = Policies.MustBeCreatorOrAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeCreatorOrAdmin)]
     public class UpdateProfileCommand : IRequest
     {
         public bool HasConsented { get; set; }

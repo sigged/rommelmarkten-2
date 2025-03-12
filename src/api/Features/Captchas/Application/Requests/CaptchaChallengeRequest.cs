@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Features.Captchas.Application.Gateways;
 using Rommelmarkten.Api.Features.Captchas.Application.Models;
 
 namespace Rommelmarkten.Api.Features.Captchas.Application.Requests

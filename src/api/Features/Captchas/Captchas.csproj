@@ -10,8 +10,10 @@
 
 	<ItemGroup>
 	  <Folder Include="Domain\" />
-	  <Folder Include="Infrastructure\" />
-	  <Folder Include="Infrastructure\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Ixnas.AltchaNet" Version="0.4.1" />
 	</ItemGroup>
 
 	<ItemGroup>

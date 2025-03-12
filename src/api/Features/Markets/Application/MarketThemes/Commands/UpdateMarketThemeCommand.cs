@@ -8,7 +8,7 @@ using Rommelmarkten.Api.Features.Markets.Domain;
 namespace Rommelmarkten.Api.Features.Markets.Application.MarketThemes.Commands
 {
 
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     [CacheInvalidator(Tags = [CacheTagNames.MarketTheme])]
     public class UpdateMarketThemeCommand : MarketThemeDto, IRequest
     {

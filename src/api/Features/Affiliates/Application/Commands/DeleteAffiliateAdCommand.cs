@@ -6,7 +6,7 @@ using Rommelmarkten.Api.Features.Affiliates.Domain;
 
 namespace Rommelmarkten.Api.Features.Affiliates.Application.Commands
 {
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     [CacheInvalidator(Tags = [CacheTagNames.AffiliateAd])]
     public class DeleteAffiliateAdCommand : IRequest
     {

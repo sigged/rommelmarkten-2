@@ -4,6 +4,7 @@ using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
+using Rommelmarkten.Api.Features.ShoppingLists.Application.Security;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Events;
 
@@ -38,7 +39,7 @@ namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Commands.DeleteSh
                 throw new NotFoundException(nameof(ShoppingList), request.Id);
             }
 
-            if (!await _resourceAuthorizationService.AuthorizeAny(entity, Policies.MustBeCreator, Policies.MustBeAdmin))
+            if (!await _resourceAuthorizationService.AuthorizeAny(entity, CorePolicies.MustBeCreator, CorePolicies.MustBeAdmin))
             {
                 throw new ForbiddenAccessException();
             }

@@ -6,7 +6,7 @@ using Rommelmarkten.Api.Features.NewsArticles.Domain;
 
 namespace Rommelmarkten.Api.Features.NewsArticles.Application.Commands
 {
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     [CacheInvalidator(Tags = [CacheTagNames.NewsArticle])]
     public class DeleteNewsArticleCommand : IRequest
     {

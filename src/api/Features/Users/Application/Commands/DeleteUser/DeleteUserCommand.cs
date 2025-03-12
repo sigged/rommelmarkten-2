@@ -6,7 +6,7 @@ using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.DeleteUser
 {
-    [Authorize(Policy = Policies.MustBeCreatorOrAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeCreatorOrAdmin)]
     public class DeleteUserCommand : IRequest<Result>
     {
         public required string UserId { get; set; }

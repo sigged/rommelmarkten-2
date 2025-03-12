@@ -1,11 +1,10 @@
 ﻿using MediatR;
-using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
 
 namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Commands.PurgeShoppingLists
 {
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     public class PurgeShoppingListsCommand : IRequest
     {
     }

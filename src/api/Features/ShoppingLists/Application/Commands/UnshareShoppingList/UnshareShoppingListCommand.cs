@@ -5,6 +5,7 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
+using Rommelmarkten.Api.Features.ShoppingLists.Application.Security;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Events;
 
@@ -50,7 +51,7 @@ namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Commands.UnshareS
                 throw new NotFoundException(nameof(IUser), request.AssociateUserName);
             }
 
-            if (!await _resourceAuthorizationService.AuthorizeAny(entity, Policies.MustBeCreator, Policies.MustBeAdmin) &&
+            if (!await _resourceAuthorizationService.AuthorizeAny(entity, CorePolicies.MustBeCreator, CorePolicies.MustBeAdmin) &&
                 !await _resourceAuthorizationService.AuthorizeAny(Tuple.Create(associate.Id, entity), Policies.MustMatchListAssociation)
                 )
             {

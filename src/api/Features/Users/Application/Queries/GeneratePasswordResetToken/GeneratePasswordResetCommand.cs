@@ -6,7 +6,7 @@ using Rommelmarkten.Api.Features.Users.Application.Models;
 namespace Rommelmarkten.Api.Features.Users.Application.Queries.GeneratePasswordResetToken
 {
     //insecure, so only admins can do this
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     public class GeneratePasswordResetCommand : IRequest<TokenResult>
     {
         public required string Email { get; set; }

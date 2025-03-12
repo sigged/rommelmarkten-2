@@ -7,7 +7,7 @@ using Rommelmarkten.Api.Features.FAQs.Domain;
 
 namespace Rommelmarkten.Api.Features.FAQs.Application.FAQCategories.Commands
 {
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     [CacheInvalidator(Tags = [CacheTagNames.FAQ])]
     public class CreateFAQCategoryCommand : FAQCategoryDto, IRequest<Guid>
     {

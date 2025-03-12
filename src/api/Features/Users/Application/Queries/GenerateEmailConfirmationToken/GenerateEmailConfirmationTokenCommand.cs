@@ -7,7 +7,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries.GenerateEmailConf
 {
 
     //insecure, so only admins can do this
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     public class GenerateEmailConfirmationTokenCommand : IRequest<TokenResult>
     {
         public required string UserId { get; set; }

@@ -14,9 +14,5 @@
 	  <ProjectReference Include="..\..\Common\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Infrastructure\" />
-	</ItemGroup>
-
 
 </Project>

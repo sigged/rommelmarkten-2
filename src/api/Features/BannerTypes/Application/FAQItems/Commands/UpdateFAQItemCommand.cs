@@ -8,7 +8,7 @@ using Rommelmarkten.Api.Features.FAQs.Domain;
 namespace Rommelmarkten.Api.Features.FAQs.Application.FAQItems.Commands
 {
 
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     [CacheInvalidator(Tags = [CacheTagNames.FAQ])]
     public class UpdateFAQItemCommand : FAQItemDto, IRequest
     {

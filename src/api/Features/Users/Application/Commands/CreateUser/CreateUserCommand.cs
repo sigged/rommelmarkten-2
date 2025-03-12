@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
+using Rommelmarkten.Api.Features.Captchas.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
 

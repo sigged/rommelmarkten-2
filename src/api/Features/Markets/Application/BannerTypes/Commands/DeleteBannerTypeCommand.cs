@@ -6,7 +6,7 @@ using Rommelmarkten.Api.Features.Markets.Domain;
 
 namespace Rommelmarkten.Api.Features.Markets.Application.BannerTypes.Commands
 {
-    [Authorize(Policy = Policies.MustBeAdmin)]
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     [CacheInvalidator(Tags = [CacheTagNames.BannerType])]
     public class DeleteBannerTypeCommand : IRequest
     {
