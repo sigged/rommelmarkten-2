@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Rommelmarkten.Api.Common.Infrastructure.Identity;
+using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
@@ -50,7 +51,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
                         Consented = true,
                         UserId = user.Id,
                     };
-                    context.UserProfiles.Add(profile);
+                    context.Set<UserProfile>().Add(profile);
                     await context.SaveChangesAsync();
                 }
             }
@@ -69,7 +70,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
         public static async Task SeedSampleDataAsync(ApplicationDbContext context)
         {
             // Seed, if necessary
-            if (!context.Categories.Any())
+            if (!context.Set<Category>().Any())
             {
                 var mainCategories = new[]
                 {
@@ -86,11 +87,11 @@ namespace Rommelmarkten.Api.WebApi.Persistence
                     category.CreatedBy = "admin-id";
                 }
 
-                await context.Categories.AddRangeAsync(mainCategories);
+                await context.Set<Category>().AddRangeAsync(mainCategories);
                 await context.SaveChangesWithoutAutoAuditables();
             }
 
-            if (!context.ShoppingLists.Any())
+            if (!context.Set<ShoppingList>().Any())
             {
                 var thelmasList = new ShoppingList
                 {
@@ -111,7 +112,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
                     }
                 };
 
-                context.ShoppingLists.Add(thelmasList);
+                context.Set<ShoppingList>().Add(thelmasList);
                 await context.SaveChangesWithoutAutoAuditables();
 
                 var louiseAssociate = new ListAssociate
@@ -121,7 +122,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
                     ListId = thelmasList.Id
                 };
 
-                context.ListAssociates.Add(louiseAssociate);
+                context.Set<ListAssociate>().Add(louiseAssociate);
                 await context.SaveChangesAsync();
             }
         }

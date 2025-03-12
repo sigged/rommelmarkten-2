@@ -4,9 +4,11 @@ using Rommelmarkten.Api.Common.Application;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
 using Rommelmarkten.Api.Common.Infrastructure.Identity;
+using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Affiliates;
 using Rommelmarkten.Api.Features.Captchas;
 using Rommelmarkten.Api.Features.FAQs;
+using Rommelmarkten.Api.Features.Markets;
 using Rommelmarkten.Api.Features.NewsArticles;
 using Rommelmarkten.Api.Features.ShoppingLists;
 using Rommelmarkten.Api.Features.Users;
@@ -86,56 +88,70 @@ namespace Rommelmarkten.Api.WebApi
 
             var rigs = builder.Services.Select(s => s.ServiceType.FullName).ToList();
 
-            var app = builder.Build();
+            try
+            {
+                var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            app.UseSwaggerSupportedVersioning();
+                // Configure the HTTP request pipeline.
+                app.UseSwaggerSupportedVersioning();
 
-            app.UseHttpsRedirection();
+                app.UseHttpsRedirection();
 
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseMiddleware<ExceptionPresenter>();
-            
-            app.UseOutputCache();
+                app.UseAuthentication();
+                app.UseAuthorization();
+                app.UseMiddleware<ExceptionPresenter>();
 
-            app.MapControllers();
+                app.UseOutputCache();
 
-            app.MapGroup("/account")
-                .MapIdentityApi<ApplicationUser>();
+                app.MapControllers();
+
+                app.MapGroup("/account")
+                    .MapIdentityApi<ApplicationUser>();
                 //.MapToApiVersion(new ApiVersion(1.0));
 
 
-            using (var scope = app.Services.CreateScope())
-            {
-                var scopedServices = scope.ServiceProvider;
-
-                try
+                using (var scope = app.Services.CreateScope())
                 {
-                    var context = scopedServices.GetRequiredService<ApplicationDbContext>();
-                    var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
+                    var scopedServices = scope.ServiceProvider;
 
-                    if (context.Database.IsSqlServer())
+                    try
                     {
-                        context.Database.Migrate();
+                        var context = scopedServices.GetRequiredService<ApplicationDbContext>();
+                        var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
+                        var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
+
+                        if (context.Database.IsSqlServer())
+                        {
+                            context.Database.Migrate();
+                        }
+
+                        //await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager, context);
+                        //await ApplicationDbContextSeed.SeedSampleDataAsync(context);
                     }
+                    catch (Exception ex)
+                    {
+                        var logger = scopedServices.GetRequiredService<ILogger<Program>>();
 
-                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager, context);
-                    //await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+                        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+
+                        throw;
+                    }
                 }
-                catch (Exception ex)
+
+                await app.RunAsync();
+            }
+            catch(AggregateException aggregateException)
+            {
+                var exceptions = aggregateException.InnerExceptions;
+                foreach(var exception in exceptions)
                 {
-                    var logger = scopedServices.GetRequiredService<ILogger<Program>>();
-
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-
-                    throw;
+                    Console.WriteLine(exception.Message);
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                 }
+                throw;
             }
 
-            await app.RunAsync();
         }
     }
 }

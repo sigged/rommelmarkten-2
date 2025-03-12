@@ -5,7 +5,7 @@ using Rommelmarkten.Api.Common.Infrastructure.Services;
 using Rommelmarkten.Api.Features.Markets.Domain;
 using System.Reflection;
 
-namespace Rommelmarkten.Api.Features.NewsArticles
+namespace Rommelmarkten.Api.Features.Markets
 {
     public static class DependencyInjection
     {

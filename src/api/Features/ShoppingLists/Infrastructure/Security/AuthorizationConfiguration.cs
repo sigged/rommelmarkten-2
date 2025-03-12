@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Domain;
+using Rommelmarkten.Api.Common.Infrastructure.Security;
 using Rommelmarkten.Api.Features.ShoppingLists.Application.Security;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using System.Security.Claims;
 using ClaimTypes = System.Security.Claims.ClaimTypes;
 
-namespace Rommelmarkten.Api.Common.Infrastructure.Security
+namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Security
 {
     public static class AuthorizationConfiguration
     {

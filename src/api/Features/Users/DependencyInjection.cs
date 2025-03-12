@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
+using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
@@ -18,6 +19,8 @@ namespace Rommelmarkten.Api.Features.Users
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
+
+            services.AddScoped<IUsersDbContext, UsersDbContext>();
 
             services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile>>();
             services.AddTransient<IAvatarGenerator, AvatarGenerator>();
