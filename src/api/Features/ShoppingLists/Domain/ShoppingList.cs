@@ -1,7 +1,6 @@
 ﻿using Rommelmarkten.Api.Common.Domain;
-using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 
-namespace Rommelmarkten.Api.Domain.Entities
+namespace Rommelmarkten.Api.Features.ShoppingLists.Domain
 {
     public class ShoppingList : AuditableEntity<int>, IHasDomainEvent
     {
@@ -13,6 +12,6 @@ namespace Rommelmarkten.Api.Domain.Entities
 
         public IList<ListItem> Items { get; private set; } = new List<ListItem>();
 
-        public ICollection<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>(); 
+        public ICollection<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
     }
 }

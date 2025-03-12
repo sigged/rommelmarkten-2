@@ -5,7 +5,7 @@ using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.Affiliates.Application.Models;
 using Rommelmarkten.Api.Features.Affiliates.Domain;
 
-namespace Rommelmarkten.Api.Application.AffiliateAds.Commands
+namespace Rommelmarkten.Api.Features.Affiliates.Application.Commands
 {
 
     [Authorize(Policy = Policies.MustBeAdmin)]

@@ -7,7 +7,7 @@ using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Domain;
 using System.Security.Claims;
 
-namespace Rommelmarkten.Api.Infrastructure.Identity
+namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {
@@ -60,8 +60,8 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
 
             if (user == null)
                 throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
-            
-            return await _userManager.IsInRoleAsync(user, role);    
+
+            return await _userManager.IsInRoleAsync(user, role);
         }
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
@@ -178,7 +178,7 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
 
                 claimsForIdentity.AddRange(await _roleManager.GetClaimsAsync(role));
             }
-            
+
             // populate claims directly added to user
             claimsForIdentity.AddRange(await _userManager.GetClaimsAsync(applicationUser));
 
@@ -195,7 +195,7 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             if (applicationUser == null)
                 throw new ArgumentException("Parameter must be of type ApplicationUser", nameof(user));
 
-           string refreshToken = await _userManager.GenerateUserTokenAsync(applicationUser, "AppName", "RefreshTokenName");
+            string refreshToken = await _userManager.GenerateUserTokenAsync(applicationUser, "AppName", "RefreshTokenName");
             return refreshToken;
         }
 

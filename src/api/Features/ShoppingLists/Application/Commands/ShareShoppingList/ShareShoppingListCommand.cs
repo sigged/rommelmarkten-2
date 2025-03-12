@@ -4,7 +4,6 @@ using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Domain;
-using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Events;

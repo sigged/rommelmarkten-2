@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
-using Rommelmarkten.Api.Domain.Entities;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 
 namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways

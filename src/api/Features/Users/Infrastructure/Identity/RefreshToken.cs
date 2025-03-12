@@ -1,4 +1,4 @@
-﻿namespace Rommelmarkten.Api.Infrastructure.Identity
+﻿namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 {
     public class RefreshToken
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Rommelmarkten.Api.Common.Domain;
 
-namespace Rommelmarkten.Api.Infrastructure.Identity
+namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 {
     public class ApplicationUser : IdentityUser, IUser
     {
-       
+
         [PersonalData]
         public string? FirstName { get; set; }
 

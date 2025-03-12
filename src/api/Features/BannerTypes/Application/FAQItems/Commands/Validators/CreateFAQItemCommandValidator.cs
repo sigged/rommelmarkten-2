@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.FAQItems.Commands;
 using Rommelmarkten.Api.Features.FAQs.Application.Gateways;
 
 namespace Rommelmarkten.Api.Features.FAQs.Application.FAQItems.Commands.Validators

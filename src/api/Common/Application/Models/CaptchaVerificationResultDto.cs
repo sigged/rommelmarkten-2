@@ -1,6 +1,4 @@
-﻿using Rommelmarkten.Api.Common.Application.Models;
-
-namespace Rommelmarkten.Api.Application.Captcha.Models
+﻿namespace Rommelmarkten.Api.Common.Application.Models
 {
     public class CaptchaVerificationResultDto : Result
     {

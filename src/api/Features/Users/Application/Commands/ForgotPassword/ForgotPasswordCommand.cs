@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.ForgotPassword
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword
 {
 
     public class ForgotPasswordCommand : IRequest

@@ -2,7 +2,7 @@
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Security;
-using Rommelmarkten.Api.Domain.Events;
+using Rommelmarkten.Api.Common.Domain.Events;
 using Rommelmarkten.Api.Features.Users.Application.Models;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.AuthenticateUser

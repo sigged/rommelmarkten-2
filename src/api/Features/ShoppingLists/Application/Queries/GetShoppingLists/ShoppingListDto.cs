@@ -1,5 +1,5 @@
 ﻿using Rommelmarkten.Api.Common.Application.Mappings;
-using Rommelmarkten.Api.Domain.Entities;
+using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 
 namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Queries.GetShoppingLists
 {

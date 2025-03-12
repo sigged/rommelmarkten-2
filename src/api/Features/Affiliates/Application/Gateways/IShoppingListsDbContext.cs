@@ -2,7 +2,7 @@
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Features.Affiliates.Domain;
 
-namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways
+namespace Rommelmarkten.Api.Features.Affiliates.Application.Gateways
 {
     public interface IAffiliatesDbContext : IApplicationDbContext
     {
@@ -41,7 +41,7 @@ namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways
 
         //DbSet<MarketRevisionWithTheme> MarketRevisionsWithThemes { get; set; }
 
-       
+
 
     }
 }

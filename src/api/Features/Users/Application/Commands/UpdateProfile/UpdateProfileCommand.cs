@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
-using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
+using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile

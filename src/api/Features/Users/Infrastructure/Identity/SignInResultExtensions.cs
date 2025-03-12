@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Rommelmarkten.Api.Common.Application.Models;
 
-namespace Rommelmarkten.Api.Infrastructure.Identity
+namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 {
     public static class SignInResultExtensions
     {
@@ -16,7 +16,7 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             {
                 return Result.Success();
             }
-            else if(result.IsLockedOut)
+            else if (result.IsLockedOut)
             {
                 return Result.Failure(new[] { LockedOut });
             }
@@ -34,4 +34,4 @@ namespace Rommelmarkten.Api.Infrastructure.Identity
             }
         }
     }
-} 
+}

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.ResendConfirmationEmail
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.ResendConfirmationEmail
 {
     public class ResendConfirmationEmailCommand : IRequest
     {

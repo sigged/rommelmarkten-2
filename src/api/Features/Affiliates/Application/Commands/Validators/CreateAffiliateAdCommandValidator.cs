@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
+using Rommelmarkten.Api.Features.Affiliates.Application.Gateways;
 
 namespace Rommelmarkten.Api.Features.Affiliates.Application.Commands.Validators
 {

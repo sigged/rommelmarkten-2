@@ -5,9 +5,9 @@ using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.FAQs.Application.FAQItems.Models;
 using Rommelmarkten.Api.Features.FAQs.Domain;
 
-namespace Rommelmarkten.Api.Application.FAQItems.Commands
+namespace Rommelmarkten.Api.Features.FAQs.Application.FAQItems.Commands
 {
-    [Authorize(Policy=Policies.MustBeAdmin)]
+    [Authorize(Policy = Policies.MustBeAdmin)]
     [CacheInvalidator(Tags = [CacheTagNames.FAQ])]
     public class CreateFAQItemCommand : FAQItemDto, IRequest<Guid>
     {
@@ -26,7 +26,7 @@ namespace Rommelmarkten.Api.Application.FAQItems.Commands
         {
             Guid createdId = Guid.NewGuid();
 
-            var entity = new FAQItem 
+            var entity = new FAQItem
             {
                 Id = createdId,
                 CategoryId = request.CategoryId,

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Rommelmarkten.Api.Common.Application.Models;
 
-namespace Rommelmarkten.Api.Infrastructure.Identity
+namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 {
     public static class IdentityResultExtensions
     {

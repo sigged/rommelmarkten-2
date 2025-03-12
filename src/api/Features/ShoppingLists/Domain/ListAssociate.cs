@@ -1,6 +1,4 @@
-﻿using Rommelmarkten.Api.Domain.Entities;
-
-namespace Rommelmarkten.Api.Features.ShoppingLists.Domain
+﻿namespace Rommelmarkten.Api.Features.ShoppingLists.Domain
 {
     public class ListAssociate
     {

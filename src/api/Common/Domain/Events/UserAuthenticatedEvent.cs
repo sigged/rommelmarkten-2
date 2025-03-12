@@ -1,6 +1,4 @@
-﻿using Rommelmarkten.Api.Common.Domain;
-
-namespace Rommelmarkten.Api.Domain.Events
+﻿namespace Rommelmarkten.Api.Common.Domain.Events
 {
     public class UserAuthenticatedEvent<TResult> : DomainEvent
     {

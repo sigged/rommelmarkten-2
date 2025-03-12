@@ -1,7 +1,6 @@
 ﻿using Rommelmarkten.Api.Common.Domain;
-using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 
-namespace Rommelmarkten.Api.Domain.Entities
+namespace Rommelmarkten.Api.Features.ShoppingLists.Domain
 {
     public class Category : AuditableEntity<int>
     {

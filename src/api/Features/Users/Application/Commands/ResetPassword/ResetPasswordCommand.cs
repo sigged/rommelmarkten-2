@@ -2,7 +2,7 @@
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 
-namespace Rommelmarkten.Api.Application.Users.Commands.ResetPassword
+namespace Rommelmarkten.Api.Features.Users.Application.Commands.ResetPassword
 {
 
     public class ResetPasswordCommand : IRequest<Result>

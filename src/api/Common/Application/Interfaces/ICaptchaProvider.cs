@@ -1,4 +1,4 @@
-﻿using Rommelmarkten.Api.Application.Captcha.Models;
+﻿using Rommelmarkten.Api.Common.Application.Models;
 
 namespace Rommelmarkten.Api.Common.Application.Interfaces
 {
