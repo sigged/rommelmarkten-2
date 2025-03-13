@@ -6,20 +6,33 @@ using System.Reflection;
 namespace Rommelmarkten.Api.Common.Infrastructure.Persistence
 {
 
-
-    public class ApplicationDbContext : ApplicationDbContextBase, IApplicationDbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
+        private readonly ICurrentUserService currentUserService;
+        private readonly IDomainEventService domainEventService;
+        private readonly IDateTime dateTime;
 
         public ApplicationDbContext(
-            DbContextOptions options,
+            DbContextOptions<ApplicationDbContext> options,
             //IOptions<OperationalStoreOptions> operationalStoreOptions,
             ICurrentUserService currentUserService,
             IDomainEventService domainEventService,
-            IDateTime dateTime) 
-                : base(options, currentUserService, domainEventService,dateTime)
+            IDateTime dateTime
+            ) 
+                : base(options)
         {
+            this.currentUserService = currentUserService;
+            this.domainEventService = domainEventService;
+            this.dateTime = dateTime;
         }
 
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            base.OnModelCreating(builder);
+        }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -28,13 +41,13 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId ?? string.Empty;
-                        entry.Entity.Created = _dateTime.Now;
+                        entry.Entity.CreatedBy = currentUserService.UserId ?? string.Empty;
+                        entry.Entity.Created = dateTime.Now;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId ?? string.Empty;
-                        entry.Entity.LastModified = _dateTime.Now;
+                        entry.Entity.LastModifiedBy = currentUserService.UserId ?? string.Empty;
+                        entry.Entity.LastModified = dateTime.Now;
                         break;
                 }
             }
@@ -46,12 +59,29 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Persistence
             return result;
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        public async Task<int> SaveChangesWithoutAutoAuditables(CancellationToken cancellationToken = new CancellationToken())
         {
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            var result = await base.SaveChangesAsync(cancellationToken);
 
-            base.OnModelCreating(builder);
+            await DispatchEvents();
+
+            return result;
         }
 
+        protected async Task DispatchEvents()
+        {
+            while (true)
+            {
+                var domainEventEntity = ChangeTracker.Entries<IHasDomainEvent>()
+                    .Select(x => x.Entity.DomainEvents)
+                    .SelectMany(x => x)
+                    .Where(domainEvent => !domainEvent.IsPublished)
+                    .FirstOrDefault();
+                if (domainEventEntity == null) break;
+
+                domainEventEntity.IsPublished = true;
+                await domainEventService.Publish(domainEventEntity);
+            }
+        }
     }
 }

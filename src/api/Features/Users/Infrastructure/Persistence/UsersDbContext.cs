@@ -6,10 +6,10 @@ using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence
 {
-    public class UsersDbContext : ApplicationDbContextBase, IUsersDbContext
+    public class UsersDbContext : DbContext, IUsersDbContext
     {
-        public UsersDbContext(DbContextOptions options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime) 
-            : base(options, currentUserService, domainEventService, dateTime)
+        public UsersDbContext(DbContextOptions<UsersDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime) 
+            : base(options)
         {
         }
 
