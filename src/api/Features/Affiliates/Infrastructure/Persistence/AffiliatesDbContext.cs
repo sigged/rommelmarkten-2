@@ -13,6 +13,9 @@ namespace Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence
         private readonly IDomainEventService domainEventService;
         private readonly IDateTime dateTime;
 
+        public required DbSet<AffiliateAd> AffiliateAds { get; set; }
+
+
         public AffiliatesDbContext(DbContextOptions<AffiliatesDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
             : base(options)
         {
@@ -77,9 +80,6 @@ namespace Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence
                 await domainEventService.Publish(domainEventEntity);
             }
         }
-
-        public required DbSet<AffiliateAd> AffiliateAds { get; set; }
-
 
     }
 }

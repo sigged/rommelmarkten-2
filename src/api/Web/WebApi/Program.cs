@@ -6,6 +6,7 @@ using Rommelmarkten.Api.Common.Infrastructure;
 using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Affiliates;
+using Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Captchas;
 using Rommelmarkten.Api.Features.FAQs;
 using Rommelmarkten.Api.Features.Markets;
@@ -118,6 +119,10 @@ namespace Rommelmarkten.Api.WebApi
                     try
                     {
                         var context = scopedServices.GetRequiredService<ApplicationDbContext>();
+
+                        var affiliate = scopedServices.GetRequiredService<AffiliatesDbContext>();
+                        var a = affiliate.AffiliateAds.FirstOrDefault();
+
                         var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
                         var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
 

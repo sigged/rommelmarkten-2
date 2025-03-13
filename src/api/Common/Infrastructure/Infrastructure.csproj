@@ -9,6 +9,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Persistence\MigrationsOld\**" />
+	  <EmbeddedResource Remove="Persistence\MigrationsOld\**" />
+	  <None Remove="Persistence\MigrationsOld\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\Application\Application.csproj" />
 	</ItemGroup>
 	
