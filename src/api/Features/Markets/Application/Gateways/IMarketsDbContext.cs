@@ -4,7 +4,7 @@ using Rommelmarkten.Api.Features.Markets.Domain;
 
 namespace Rommelmarkten.Api.Features.Markets.Application.Gateways
 {
-    public interface IMarketsDbContext : IApplicationDbContext
+    public interface IMarketsDbContext : IApplicationDbContextBase
     {
         DbSet<BannerType> BannerTypes { get; set;  }
         DbSet<Province> Provinces { get; set; }

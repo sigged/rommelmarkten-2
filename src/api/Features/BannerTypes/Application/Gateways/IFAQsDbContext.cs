@@ -4,7 +4,7 @@ using Rommelmarkten.Api.Features.FAQs.Domain;
 
 namespace Rommelmarkten.Api.Features.FAQs.Application.Gateways
 {
-    public interface IFAQsDbContext : IApplicationDbContext
+    public interface IFAQsDbContext : IApplicationDbContextBase
     {
 
         DbSet<FAQCategory> FAQCategories { get; set; }

@@ -3,7 +3,12 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Rommelmarkten.Api.Common.Application.Interfaces
 {
-    public interface IApplicationDbContext : IDisposable
+    public interface IApplicationDbContext : IApplicationDbContextBase
+    {
+
+    }
+
+    public interface IApplicationDbContextBase : IDisposable
     {
 
         //DbSet<UserProfile> UserProfiles { get; set; }

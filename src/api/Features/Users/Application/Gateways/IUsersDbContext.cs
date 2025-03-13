@@ -4,7 +4,7 @@ using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Gateways
 {
-    public interface IUsersDbContext : IApplicationDbContext
+    public interface IUsersDbContext : IApplicationDbContextBase
     {
 
         DbSet<UserProfile> UserProfiles { get; set; }

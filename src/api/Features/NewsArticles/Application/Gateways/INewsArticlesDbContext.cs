@@ -4,7 +4,7 @@ using Rommelmarkten.Api.Features.NewsArticles.Domain;
 
 namespace Rommelmarkten.Api.Features.NewsArticles.Application.Gateways
 {
-    public interface INewsArticlesDbContext : IApplicationDbContext
+    public interface INewsArticlesDbContext : IApplicationDbContextBase
     {
 
         DbSet<NewsArticle> NewsArticles { get; set; }

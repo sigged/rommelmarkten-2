@@ -4,7 +4,7 @@ using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 
 namespace Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways
 {
-    public interface IShoppingListsDbContext : IApplicationDbContext
+    public interface IShoppingListsDbContext : IApplicationDbContextBase
     {
 
         DbSet<ListItem> ListItems { get; set; }
