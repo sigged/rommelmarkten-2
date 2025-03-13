@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Rommelmarkten.Api.Common.Application.Interfaces
 {
@@ -49,6 +50,9 @@ namespace Rommelmarkten.Api.Common.Application.Interfaces
 
         //DbSet<ListAssociate> ListAssociates { get; set; }
 
+        ChangeTracker ChangeTracker { get; }
+
+        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());

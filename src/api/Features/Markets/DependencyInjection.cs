@@ -19,9 +19,9 @@ namespace Rommelmarkten.Api.Features.Markets
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
-            services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
-            services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType>>();
+            services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration, IMarketsDbContext>>();
+            services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme, IMarketsDbContext>>();
+            services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType, IMarketsDbContext>>();
 
             services.AddScoped<IMarketsDbContext, MarketsDbContext>();
             services.AddDbContext<MarketsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

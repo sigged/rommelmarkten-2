@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Rommelmarkten.Api.Common.Application.Caching;
 using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Mappings;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Infrastructure.Caching;
 using Rommelmarkten.Api.Common.Infrastructure.Identity;
@@ -31,7 +32,8 @@ namespace Rommelmarkten.Api.Common.Infrastructure
 
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly(), typeof(IMapFrom<>).Assembly);
+
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             // configure strongly typed settings objects

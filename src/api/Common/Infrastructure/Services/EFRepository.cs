@@ -11,21 +11,23 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Services
     /// This class is Entity Framework specific (uses DbSet & DbContext)
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class EFRepository<TEntity> : IEntityRepository<TEntity> where TEntity : class
+    public class EFRepository<TEntity, TContext> : IEntityRepository<TEntity> 
+        where TEntity : class
+        where TContext : IApplicationDbContext
     {
-        internal DbContext context;
+        protected readonly TContext context;
         protected readonly DbSet<TEntity> dbSet;
 
-        public EFRepository(IApplicationDbContext context)
+        public EFRepository(TContext context)
         {
             if (context is DbContext)
             {
-                this.context = (DbContext)context;
+                this.context = context;
                 dbSet = this.context.Set<TEntity>();
             }
             else
             {
-                throw new ArgumentException($"Parameter {nameof(context)} must inherit from {nameof(DbContext)} for {nameof(EFRepository<TEntity>)} to work.");
+                throw new ArgumentException($"Parameter {nameof(context)} must inherit from {nameof(DbContext)} for {nameof(EFRepository<TEntity, TContext>)} to work.");
             }
         }
 

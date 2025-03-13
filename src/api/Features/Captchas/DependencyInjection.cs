@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Rommelmarkten.Api.Common.Infrastructure.Services;
 using Rommelmarkten.Api.Features.Captchas.Application.Gateways;
 using Rommelmarkten.Api.Features.Captchas.Infrastructure.Captcha;
 using System.Reflection;

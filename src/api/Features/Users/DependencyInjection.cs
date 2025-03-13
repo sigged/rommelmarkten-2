@@ -20,7 +20,7 @@ namespace Rommelmarkten.Api.Features.Users
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile>>();
+            services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile, IUsersDbContext>>();
             services.AddTransient<IAvatarGenerator, AvatarGenerator>();
 
             services.AddScoped<IUsersDbContext, UsersDbContext>();

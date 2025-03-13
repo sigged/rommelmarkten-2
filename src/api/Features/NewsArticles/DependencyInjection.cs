@@ -19,7 +19,7 @@ namespace Rommelmarkten.Api.Features.NewsArticles
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle>>();
+            services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle, INewsArticlesDbContext>>();
 
             services.AddScoped<INewsArticlesDbContext, NewsArticlesDbContext>();
             services.AddDbContext<NewsArticlesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

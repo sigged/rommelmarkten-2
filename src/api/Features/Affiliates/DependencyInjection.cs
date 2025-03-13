@@ -12,14 +12,12 @@ namespace Rommelmarkten.Api.Features.Affiliates
 {
     public static class DependencyInjection
     {
-
-
         public static IServiceCollection AddAffiliateFeature(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd>>();
+            services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd, IAffiliatesDbContext>>();
 
             services.AddScoped<IAffiliatesDbContext, AffiliatesDbContext>();
             services.AddDbContext<AffiliatesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -27,4 +25,5 @@ namespace Rommelmarkten.Api.Features.Affiliates
             return services;
         }
     }
+
 }
