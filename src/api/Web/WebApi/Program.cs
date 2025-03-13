@@ -31,33 +31,33 @@ namespace Rommelmarkten.Api.WebApi
             var configuration = builder.Configuration;
             var services = builder.Services;
 
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                        configuration.GetConnectionString("DefaultConnection"),
-                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
+            //if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            //{
+            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
+            //}
+            //else
+            //{
+            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //            configuration.GetConnectionString("DefaultConnection"),
+            //            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            //}
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-            services
-                .AddIdentity<ApplicationUser, IdentityRole>(options =>
-                {
-                    options.SignIn.RequireConfirmedEmail = true;
-                    options.Stores.ProtectPersonalData = false; //todo: true!
-                    options.Lockout.MaxFailedAccessAttempts = 5; //default
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //default
-                    options.User.RequireUniqueEmail = true;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders()
-                .AddApiEndpoints();
+            //services
+            //    .AddIdentity<ApplicationUser, IdentityRole>(options =>
+            //    {
+            //        options.SignIn.RequireConfirmedEmail = true;
+            //        options.Stores.ProtectPersonalData = false; //todo: true!
+            //        options.Lockout.MaxFailedAccessAttempts = 5; //default
+            //        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //default
+            //        options.User.RequireUniqueEmail = true;
+            //    })
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders()
+            //    .AddApiEndpoints();
 
 
 

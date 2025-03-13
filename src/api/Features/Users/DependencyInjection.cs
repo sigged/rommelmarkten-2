@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
 using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
@@ -25,6 +27,19 @@ namespace Rommelmarkten.Api.Features.Users
             services.AddScoped<IUsersDbContext, UsersDbContext>();
             services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.Stores.ProtectPersonalData = false; //todo: true!
+                    options.Lockout.MaxFailedAccessAttempts = 5; //default
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //default
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<UsersDbContext>()
+                .AddDefaultTokenProviders()
+                .AddApiEndpoints();
 
             return services;
         }

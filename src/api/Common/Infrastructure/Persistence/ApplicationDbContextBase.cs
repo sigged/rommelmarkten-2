@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Rommelmarkten.Api.Common.Infrastructure.Persistence
 {
-    public abstract class ApplicationDbContextBase : IdentityDbContext<ApplicationUser>, IApplicationDbContextBase
+    public abstract class ApplicationDbContextBase : DbContext, IApplicationDbContextBase
     {
         protected readonly ICurrentUserService _currentUserService;
         protected readonly IDateTime _dateTime;
