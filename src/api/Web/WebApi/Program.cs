@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
-using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Affiliates;
 using Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence;
@@ -13,8 +12,8 @@ using Rommelmarkten.Api.Features.Markets;
 using Rommelmarkten.Api.Features.NewsArticles;
 using Rommelmarkten.Api.Features.ShoppingLists;
 using Rommelmarkten.Api.Features.Users;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
 using Rommelmarkten.Api.WebApi.Middlewares;
-using Rommelmarkten.Api.WebApi.Persistence;
 using Rommelmarkten.Api.WebApi.Services;
 using Rommelmarkten.Api.WebApi.Versioning;
 

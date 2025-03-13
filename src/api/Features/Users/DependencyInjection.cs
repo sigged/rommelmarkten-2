@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
-using Rommelmarkten.Api.Common.Infrastructure.Identity;
+using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
 using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Security;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
 using System.Reflection;
 
@@ -27,6 +29,8 @@ namespace Rommelmarkten.Api.Features.Users
             services.AddScoped<IUsersDbContext, UsersDbContext>();
             services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<ITokenManager, TokenManager>();
 
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(options =>

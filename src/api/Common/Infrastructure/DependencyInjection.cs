@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Rommelmarkten.Api.Common.Application.Caching;
 using Rommelmarkten.Api.Common.Application.Interfaces;
-using Rommelmarkten.Api.Common.Application.Mappings;
-using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Infrastructure.Caching;
-using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Common.Infrastructure.Security;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
@@ -79,8 +75,6 @@ namespace Rommelmarkten.Api.Common.Infrastructure
 
             services.AddScoped<IDomainEventService, DomainEventService>();
             services.AddTransient<IDateTime, DateTimeService>();
-            services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<ITokenManager, TokenManager>();
             //services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
             var tokenValidationParmFactory = new TokenValidationParametersFactory(tokenSettings);

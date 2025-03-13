@@ -9,9 +9,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Identity\**" />
 	  <Compile Remove="Persistence\MigrationsOld\**" />
+	  <EmbeddedResource Remove="Identity\**" />
 	  <EmbeddedResource Remove="Persistence\MigrationsOld\**" />
+	  <None Remove="Identity\**" />
 	  <None Remove="Persistence\MigrationsOld\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Security\TokenManager.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

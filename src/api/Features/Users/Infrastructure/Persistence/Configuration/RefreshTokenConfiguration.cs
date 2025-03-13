@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rommelmarkten.Api.Features.Users.Domain;
 
-namespace Rommelmarkten.Api.WebApi.Persistence.Configurations
+namespace Rommelmarkten.Api.Features.Users.Infrastructure.Persistence.Configuration
 {
     public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {

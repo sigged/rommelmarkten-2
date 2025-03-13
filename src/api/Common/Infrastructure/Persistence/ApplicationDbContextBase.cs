@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Domain;
-using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using System.Reflection;
 
 namespace Rommelmarkten.Api.Common.Infrastructure.Persistence

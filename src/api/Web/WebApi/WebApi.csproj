@@ -40,6 +40,7 @@
 	  <Compile Remove="Persistence\Configurations\NewsArticleConfiguration.cs" />
 	  <Compile Remove="Persistence\Configurations\OwnedEntityConfigurationHelper.cs" />
 	  <Compile Remove="Persistence\Configurations\ProvinceConfiguration.cs" />
+	  <Compile Remove="Persistence\Configurations\RefreshTokenConfiguration.cs" />
 	  <Compile Remove="Persistence\Configurations\ShoppingListConfiguration.cs" />
 	  <Compile Remove="Persistence\Configurations\UserProfileConfiguration.cs" />
 	</ItemGroup>
@@ -66,6 +67,10 @@
 	  <ProjectReference Include="..\..\Features\NewsArticles\NewsArticles.csproj" />
 	  <ProjectReference Include="..\..\Features\ShoppingLists\ShoppingLists.csproj" />
 	  <ProjectReference Include="..\..\Features\Users\Users.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Persistence\Configurations\" />
 	</ItemGroup>
 
 
