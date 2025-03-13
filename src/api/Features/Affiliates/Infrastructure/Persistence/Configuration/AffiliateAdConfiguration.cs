@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rommelmarkten.Api.Features.Affiliates.Domain;
 
-namespace Rommelmarkten.Api.WebApi.Persistence.Configurations
+namespace Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence.Configuration
 {
     public class AffiliateAdConfiguration : IEntityTypeConfiguration<AffiliateAd>
     {

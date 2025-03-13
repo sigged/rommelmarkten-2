@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Rommelmarkten.Api.Common.Application.Mappings;
-using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -15,7 +14,6 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Mappings
         public DiscoverIMapFromProfile()
         {
             var assembliesToScan = AssemblyLoadContext.Default.Assemblies;
-            Debug.WriteLine($"{assembliesToScan.Count()} asses found");
             foreach (var assembly in assembliesToScan)
             {
                 ApplyMappingsFromAssembly(assembly);

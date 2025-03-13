@@ -4,7 +4,7 @@ using Rommelmarkten.Api.Features.Affiliates.Domain;
 
 namespace Rommelmarkten.Api.Features.Affiliates.Application.Gateways
 {
-    public interface IAffiliatesDbContext : IApplicationDbContext
+    public interface IAffiliatesDbContext 
     {
         DbSet<AffiliateAd> AffiliateAds { get; set; }
     }

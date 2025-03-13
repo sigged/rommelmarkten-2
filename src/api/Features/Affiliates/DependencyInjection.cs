@@ -16,10 +16,11 @@ namespace Rommelmarkten.Api.Features.Affiliates
         {
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd, IAffiliatesDbContext>>();
+            services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd, AffiliatesDbContext>>();
 
-            services.AddScoped<IAffiliatesDbContext, AffiliatesDbContext>();
+
             services.AddDbContext<AffiliatesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IAffiliatesDbContext, AffiliatesDbContext>();
 
             return services;
         }

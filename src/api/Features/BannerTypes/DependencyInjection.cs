@@ -18,8 +18,8 @@ namespace Rommelmarkten.Api.Features.FAQs
         {
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory, IFAQsDbContext>>();
-            services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem, IFAQsDbContext>>();
+            services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory, FAQsDbContext>>();
+            services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem, FAQsDbContext>>();
 
             services.AddScoped<IFAQsDbContext, FAQsDbContext>();
             services.AddDbContext<FAQsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

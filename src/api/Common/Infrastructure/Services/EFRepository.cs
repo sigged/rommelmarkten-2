@@ -13,7 +13,7 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Services
     /// <typeparam name="TEntity"></typeparam>
     public class EFRepository<TEntity, TContext> : IEntityRepository<TEntity> 
         where TEntity : class
-        where TContext : IApplicationDbContext
+        where TContext : DbContext
     {
         protected readonly TContext context;
         protected readonly DbSet<TEntity> dbSet;
