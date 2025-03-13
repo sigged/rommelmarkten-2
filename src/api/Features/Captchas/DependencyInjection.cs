@@ -12,7 +12,6 @@ namespace Rommelmarkten.Api.Features.Captchas
 
         public static IServiceCollection AddCaptchaFeature(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 

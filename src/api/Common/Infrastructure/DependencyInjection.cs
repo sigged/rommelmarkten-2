@@ -32,7 +32,7 @@ namespace Rommelmarkten.Api.Common.Infrastructure
 
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly(), typeof(IMapFrom<>).Assembly);
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 

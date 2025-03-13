@@ -13,7 +13,6 @@ namespace Rommelmarkten.Api.Features.ShoppingLists
 
         public static IServiceCollection AddShoppingListsFeature(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IShoppingListsDbContext, ShoppingListsDbContext>();

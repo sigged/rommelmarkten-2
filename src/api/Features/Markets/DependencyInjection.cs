@@ -16,7 +16,6 @@ namespace Rommelmarkten.Api.Features.Markets
 
         public static IServiceCollection AddMarketFeature(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration, IMarketsDbContext>>();

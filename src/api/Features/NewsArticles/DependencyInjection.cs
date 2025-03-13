@@ -16,7 +16,6 @@ namespace Rommelmarkten.Api.Features.NewsArticles
 
         public static IServiceCollection AddNewsArticleFeature(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle, INewsArticlesDbContext>>();

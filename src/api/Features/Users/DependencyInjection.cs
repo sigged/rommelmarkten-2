@@ -17,7 +17,6 @@ namespace Rommelmarkten.Api.Features.Users
 
         public static IServiceCollection AddUsersFeature(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile, IUsersDbContext>>();
