@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
+using Rommelmarkten.Api.Features.Markets.Application.Gateways;
 using Rommelmarkten.Api.Features.Markets.Domain;
+using Rommelmarkten.Api.Features.Markets.Infrastructure.Persistence;
 using System.Reflection;
 
 namespace Rommelmarkten.Api.Features.Markets
@@ -19,6 +22,9 @@ namespace Rommelmarkten.Api.Features.Markets
             services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
             services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
             services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType>>();
+
+            services.AddScoped<IMarketsDbContext, MarketsDbContext>();
+            services.AddDbContext<MarketsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }

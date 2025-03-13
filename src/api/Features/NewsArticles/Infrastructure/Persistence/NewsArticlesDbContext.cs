@@ -6,9 +6,9 @@ using Rommelmarkten.Api.Features.NewsArticles.Domain;
 
 namespace Rommelmarkten.Api.Features.NewsArticles.Infrastructure.Persistence
 {
-    public class NewsArticlesDbContext : ApplicationDbContext, INewsArticlesDbContext
+    public class NewsArticlesDbContext : ApplicationDbContextBase, INewsArticlesDbContext
     {
-        public NewsArticlesDbContext(DbContextOptions options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
+        public NewsArticlesDbContext(DbContextOptions<NewsArticlesDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
             : base(options, currentUserService, domainEventService, dateTime)
         {
             

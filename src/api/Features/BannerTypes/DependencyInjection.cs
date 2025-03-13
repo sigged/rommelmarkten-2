@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
+using Rommelmarkten.Api.Features.FAQs.Application.Gateways;
 using Rommelmarkten.Api.Features.FAQs.Domain;
+using Rommelmarkten.Api.Features.FAQs.Infrastructure.Persistence;
 using System.Reflection;
 
 namespace Rommelmarkten.Api.Features.FAQs
@@ -19,6 +22,8 @@ namespace Rommelmarkten.Api.Features.FAQs
             services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
             services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
 
+            services.AddScoped<IFAQsDbContext, FAQsDbContext>();
+            services.AddDbContext<FAQsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }

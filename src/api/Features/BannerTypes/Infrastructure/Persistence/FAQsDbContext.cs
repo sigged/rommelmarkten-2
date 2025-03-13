@@ -6,9 +6,9 @@ using Rommelmarkten.Api.Features.FAQs.Domain;
 
 namespace Rommelmarkten.Api.Features.FAQs.Infrastructure.Persistence
 {
-    public class FAQsDbContext : ApplicationDbContext, IFAQsDbContext
+    public class FAQsDbContext : ApplicationDbContextBase, IFAQsDbContext
     {
-        public FAQsDbContext(DbContextOptions options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
+        public FAQsDbContext(DbContextOptions<FAQsDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
             : base(options, currentUserService, domainEventService, dateTime)
         {
 

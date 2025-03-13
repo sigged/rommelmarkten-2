@@ -6,9 +6,9 @@ using Rommelmarkten.Api.Features.Markets.Domain;
 
 namespace Rommelmarkten.Api.Features.Markets.Infrastructure.Persistence
 {
-    public class MarketsDbContext : ApplicationDbContext, IMarketsDbContext
+    public class MarketsDbContext : ApplicationDbContextBase, IMarketsDbContext
     {
-        public MarketsDbContext(DbContextOptions options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
+        public MarketsDbContext(DbContextOptions<MarketsDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
             : base(options, currentUserService, domainEventService, dateTime)
         {
 

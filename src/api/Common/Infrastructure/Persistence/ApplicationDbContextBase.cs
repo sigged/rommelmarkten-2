@@ -1,25 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Domain;
+using Rommelmarkten.Api.Common.Infrastructure.Identity;
 using System.Reflection;
 
 namespace Rommelmarkten.Api.Common.Infrastructure.Persistence
 {
-
-
-    public class ApplicationDbContext : ApplicationDbContextBase, IApplicationDbContext
+    public abstract class ApplicationDbContextBase : IdentityDbContext<ApplicationUser>
     {
+        protected readonly ICurrentUserService _currentUserService;
+        protected readonly IDateTime _dateTime;
+        protected readonly IDomainEventService _domainEventService;
 
-        public ApplicationDbContext(
+        public ApplicationDbContextBase(
             DbContextOptions options,
-            //IOptions<OperationalStoreOptions> operationalStoreOptions,
             ICurrentUserService currentUserService,
             IDomainEventService domainEventService,
-            IDateTime dateTime) 
-                : base(options, currentUserService, domainEventService,dateTime)
+            IDateTime dateTime)
         {
+            _currentUserService = currentUserService;
+            _domainEventService = domainEventService;
+            _dateTime = dateTime;
         }
-
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -46,6 +49,15 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Persistence
             return result;
         }
 
+        public async Task<int> SaveChangesWithoutAutoAuditables(CancellationToken cancellationToken = new CancellationToken())
+        {
+            var result = await base.SaveChangesAsync(cancellationToken);
+
+            await DispatchEvents();
+
+            return result;
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -53,5 +65,20 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Persistence
             base.OnModelCreating(builder);
         }
 
+        protected async Task DispatchEvents()
+        {
+            while (true)
+            {
+                var domainEventEntity = ChangeTracker.Entries<IHasDomainEvent>()
+                    .Select(x => x.Entity.DomainEvents)
+                    .SelectMany(x => x)
+                    .Where(domainEvent => !domainEvent.IsPublished)
+                    .FirstOrDefault();
+                if (domainEventEntity == null) break;
+
+                domainEventEntity.IsPublished = true;
+                await _domainEventService.Publish(domainEventEntity);
+            }
+        }
     }
 }

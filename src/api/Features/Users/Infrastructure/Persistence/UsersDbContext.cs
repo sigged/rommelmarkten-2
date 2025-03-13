@@ -6,7 +6,7 @@ using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence
 {
-    public class UsersDbContext : ApplicationDbContext, IUsersDbContext
+    public class UsersDbContext : ApplicationDbContextBase, IUsersDbContext
     {
         public UsersDbContext(DbContextOptions options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime) 
             : base(options, currentUserService, domainEventService, dateTime)
@@ -14,5 +14,10 @@ namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence
         }
 
         public required DbSet<UserProfile> UserProfiles { get; set; }
+
+        public Task<int> SaveChangesWithoutAutoAuditables(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

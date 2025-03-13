@@ -6,9 +6,9 @@ using Rommelmarkten.Api.Features.Affiliates.Domain;
 
 namespace Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence
 {
-    public class AffiliatesDbContext : ApplicationDbContext, IAffiliatesDbContext
+    public class AffiliatesDbContext : ApplicationDbContextBase, IAffiliatesDbContext
     {
-        public AffiliatesDbContext(DbContextOptions options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
+        public AffiliatesDbContext(DbContextOptions<AffiliatesDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService, IDateTime dateTime)
             : base(options, currentUserService, domainEventService, dateTime)
         {
 
