@@ -11,6 +11,7 @@ using Rommelmarkten.Api.Common.Application.Mappings;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Infrastructure.Caching;
 using Rommelmarkten.Api.Common.Infrastructure.Identity;
+using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Common.Infrastructure.Security;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
 using System.Reflection;
@@ -45,20 +46,20 @@ namespace Rommelmarkten.Api.Common.Infrastructure
 
             services.AddSingleton(tokenSettings);
 
-            //if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            //{
-            //    services.AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
-            //}
-            //else
-            //{
-            //    services.AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseSqlServer(
-            //            configuration.GetConnectionString("DefaultConnection"),
-            //            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            //}
+            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(
+                        configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            }
 
-            //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
 
             //services
