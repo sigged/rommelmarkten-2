@@ -52,6 +52,11 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 
             var result = await _userManager.CreateAsync(user, password);
 
+            if (result.Succeeded)
+            {
+                result = await _userManager.AddToRoleAsync(user, "User");
+            }
+
             return (result.ToApplicationResult(), user.Id);
         }
 
