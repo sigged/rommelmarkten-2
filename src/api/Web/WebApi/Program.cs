@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
-using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Affiliates;
 using Rommelmarkten.Api.Features.Captchas;
 using Rommelmarkten.Api.Features.FAQs;
@@ -27,44 +26,8 @@ namespace Rommelmarkten.Api.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             var configuration = builder.Configuration;
             var services = builder.Services;
-
-            //if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            //{
-            //    services.AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
-            //}
-            //else
-            //{
-            //    services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //            configuration.GetConnectionString("DefaultConnection"),
-            //            b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            //}
-
-            //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
-            //services
-            //    .AddIdentity<ApplicationUser, IdentityRole>(options =>
-            //    {
-            //        options.SignIn.RequireConfirmedEmail = true;
-            //        options.Stores.ProtectPersonalData = false; //todo: true!
-            //        options.Lockout.MaxFailedAccessAttempts = 5; //default
-            //        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //default
-            //        options.User.RequireUniqueEmail = true;
-            //    })
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders()
-            //    .AddApiEndpoints();
-
-            builder.Services.AddMigrations(configuration);
-
-            builder.Services.AddApplication();
-            builder.Services.AddInfrastructure(builder.Configuration);
-            builder.Services.AddRealtimeMessaging(builder.Configuration);
 
             //add features
             builder.Services.AddAffiliateFeature(configuration);
@@ -75,9 +38,14 @@ namespace Rommelmarkten.Api.WebApi
             builder.Services.AddShoppingListsFeature(configuration);
             builder.Services.AddUsersFeature(configuration);
 
+            // Add services to the container.
+            builder.Services.AddMigrations(configuration);
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddRealtimeMessaging(builder.Configuration);
 
+            // Add aspnet services
             builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddControllers();
@@ -96,7 +64,6 @@ namespace Rommelmarkten.Api.WebApi
                 app.UseSwaggerSupportedVersioning();
 
                 app.UseHttpsRedirection();
-
 
                 app.UseAuthentication();
                 app.UseAuthorization();
