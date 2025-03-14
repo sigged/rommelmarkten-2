@@ -12,7 +12,7 @@ using Rommelmarkten.Api.Features.Markets;
 using Rommelmarkten.Api.Features.NewsArticles;
 using Rommelmarkten.Api.Features.ShoppingLists;
 using Rommelmarkten.Api.Features.Users;
-using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
+using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.Api.WebApi.Middlewares;
 using Rommelmarkten.Api.WebApi.Services;
 using Rommelmarkten.Api.WebApi.Versioning;

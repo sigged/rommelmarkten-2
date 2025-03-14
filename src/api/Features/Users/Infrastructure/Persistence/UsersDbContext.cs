@@ -4,7 +4,6 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
-using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
 using System.Reflection;
 
 namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence

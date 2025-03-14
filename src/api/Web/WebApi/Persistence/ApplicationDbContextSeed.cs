@@ -2,7 +2,6 @@
 using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.Users.Domain;
-using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
 using System.Security.Claims;
 

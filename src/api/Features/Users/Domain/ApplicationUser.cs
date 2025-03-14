@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Rommelmarkten.Api.Common.Domain;
-using Rommelmarkten.Api.Features.Users.Domain;
 
-namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
+namespace Rommelmarkten.Api.Features.Users.Domain
 {
     public class ApplicationUser : IdentityUser, IUser
     {
