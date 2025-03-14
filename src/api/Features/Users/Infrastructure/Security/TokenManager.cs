@@ -4,6 +4,7 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Common.Infrastructure.Security;
+using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,13 +21,13 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
         private readonly TokenSettings tokenSettings;
         private readonly JwtSecurityTokenHandler tokenHandler;
         private readonly ITokenValidationParametersFactory tokenValidationParmsFactory;
-        private readonly IApplicationDbContext context;
+        private readonly IUsersDbContext context;
 
         public TokenManager(
             IIdentityService identityService,
             TokenSettings tokenSettings,
             ITokenValidationParametersFactory tokenValidationParmsFactory,
-            IApplicationDbContext context
+            IUsersDbContext context
         )
         {
             _identityService = identityService;

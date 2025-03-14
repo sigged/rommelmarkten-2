@@ -85,6 +85,7 @@ namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence
 
         public required DbSet<UserProfile> UserProfiles { get; set; }
 
+        public required DbSet<RefreshToken> RefreshToken { get; set; }
 
     }
 }

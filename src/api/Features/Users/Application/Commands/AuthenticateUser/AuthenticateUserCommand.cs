@@ -35,9 +35,6 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.AuthenticateUser
             {
                 var user = await _identityService.FindByEmail(request.Email);
 
-                //var userClaims = await GetUserClaims(user);
-                var claims = _identityService.GetClaims(user);
-
                 //now with these claims, generate auth token pair
                 var tokenPair = await _tokenManager.GenerateAuthTokensAsync(user, "dummy device id");
 

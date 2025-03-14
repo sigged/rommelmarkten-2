@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.Common.Interfaces;
 using Rommelmarkten.Api.Domain.Affiliates;
 using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
@@ -28,7 +27,7 @@ namespace V2Importer
     public class App : IDisposable
     {
         public const string sourceDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV1;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
-        public const string targetDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV2;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
+        public const string targetDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV2_1;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
         private readonly ApplicationDbContext target;
         private readonly Importer importer;
 
