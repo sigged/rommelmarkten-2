@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Rommelmarkten.Api.WebApi.Persistence;
+using Rommelmarkten.Api.MigrationsAggregator;
 
 #nullable disable
 
-namespace Rommelmarkten.Api.Infrastructure.Migrations
+namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250303191319_AddProfileFields")]
-    partial class AddProfileFields
+    [DbContext(typeof(MigrationsDbContext))]
+    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +155,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Affiliates.AffiliateAd", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Affiliates.Domain.AffiliateAd", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,7 +202,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("AffiliateAds");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Content.FAQCategory", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.FAQs.Domain.FAQCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -224,7 +221,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("FAQCategories");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Content.FAQItem", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.FAQs.Domain.FAQItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -252,7 +249,376 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("FAQItems");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Content.NewsArticle", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.BannerType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BannerTypes");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.Market", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BannerTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ConfigurationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateLastAdminUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateLastUserUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSuspended")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ProvinceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BannerTypeId");
+
+                    b.HasIndex("ConfigurationId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("Markets");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketConfiguration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("AllowBanners")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AllowPoster")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MaximumCharacters")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaximumThemes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MarketConfigurations");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketDate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ParentMarketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<short>("StartHour")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("StartMinutes")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("StopHour")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("StopMinutes")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentMarketId");
+
+                    b.ToTable("MarketDates");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("InvoiceNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("MarketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("StatusChanged")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceNumber")
+                        .IsUnique();
+
+                    b.HasIndex("MarketId");
+
+                    b.ToTable("MarketInvoices");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoiceLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ParentInvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentInvoiceId");
+
+                    b.ToTable("MarketInvoiceLines");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoiceReminder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ParentInvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("SentDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentInvoiceId");
+
+                    b.ToTable("MarketInvoiceReminders");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RevisedMarketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RevisedMarketId");
+
+                    b.ToTable("MarketRevisions");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketRevisionWithTheme", b =>
+                {
+                    b.Property<Guid>("MarketRevisionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ThemeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MarketRevisionId", "ThemeId");
+
+                    b.HasIndex("ThemeId");
+
+                    b.ToTable("MarketRevisionsWithThemes");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketTheme", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MarketThemes");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketWithTheme", b =>
+                {
+                    b.Property<Guid>("MarketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ThemeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MarketId", "ThemeId");
+
+                    b.HasIndex("ThemeId");
+
+                    b.ToTable("MarketWithThemes");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.Province", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("UrlSlug")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Provinces");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.NewsArticles.Domain.NewsArticle", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -287,7 +653,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("NewsArticles");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.Category", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -322,7 +688,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.ListAssociate", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ListAssociate", b =>
                 {
                     b.Property<int>("ListId")
                         .HasColumnType("int");
@@ -338,7 +704,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("ListAssociates");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.ListItem", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ListItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,7 +747,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("ListItems");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.ShoppingList", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ShoppingList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -415,444 +781,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("ShoppingLists");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.BannerType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BannerTypes");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.Market", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BannerTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ConfigurationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateLastAdminUpdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateLastUserUpdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("Id_V1")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSuspended")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ProvinceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BannerTypeId");
-
-                    b.HasIndex("ConfigurationId");
-
-                    b.HasIndex("ProvinceId");
-
-                    b.ToTable("Markets");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketConfiguration", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("AllowBanners")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AllowPoster")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MaximumCharacters")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaximumThemes")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MarketConfigurations");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketDate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ParentMarketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<short>("StartHour")
-                        .HasColumnType("smallint");
-
-                    b.Property<short>("StartMinutes")
-                        .HasColumnType("smallint");
-
-                    b.Property<short>("StopHour")
-                        .HasColumnType("smallint");
-
-                    b.Property<short>("StopMinutes")
-                        .HasColumnType("smallint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentMarketId");
-
-                    b.ToTable("MarketDates");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketInvoice", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("InvoiceNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("MarketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("StatusChanged")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceNumber")
-                        .IsUnique();
-
-                    b.HasIndex("MarketId");
-
-                    b.ToTable("MarketInvoices");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketInvoiceLine", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("ParentInvoiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentInvoiceId");
-
-                    b.ToTable("MarketInvoiceLines");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketInvoiceReminder", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ParentInvoiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("SentDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentInvoiceId");
-
-                    b.ToTable("MarketInvoiceReminders");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketRevision", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RevisedMarketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RevisedMarketId");
-
-                    b.ToTable("MarketRevisions");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketRevisionWithTheme", b =>
-                {
-                    b.Property<Guid>("MarketRevisionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ThemeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.HasKey("MarketRevisionId", "ThemeId");
-
-                    b.HasIndex("ThemeId");
-
-                    b.ToTable("MarketRevisionsWithThemes");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketTheme", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MarketThemes");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketWithTheme", b =>
-                {
-                    b.Property<Guid>("MarketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ThemeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.HasKey("MarketId", "ThemeId");
-
-                    b.HasIndex("ThemeId");
-
-                    b.ToTable("MarketWithThemes");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.Province", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Language")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("UrlSlug")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("Provinces");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Users.UserProfile", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTimeOffset?>("ActivationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("ActivationRemindersSent")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("City")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("Consented")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Country")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsBanned")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LastActivationMailSendDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("LastActivityDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("LastPasswordResetDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PostalCode")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("VAT")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("UserProfiles");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Infrastructure.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -923,6 +852,92 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DeviceHash")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshToken");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.UserProfile", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset?>("ActivationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("ActivationRemindersSent")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Consented")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LastActivationMailSendDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("LastActivityDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("LastPasswordResetDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("VAT")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserProfiles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -934,7 +949,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -943,7 +958,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -958,7 +973,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rommelmarkten.Api.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -967,16 +982,16 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Content.FAQItem", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.FAQs.Domain.FAQItem", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Content.FAQCategory", "Category")
+                    b.HasOne("Rommelmarkten.Api.Features.FAQs.Domain.FAQCategory", "Category")
                         .WithMany("FAQItems")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -985,56 +1000,24 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.ListAssociate", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.Market", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Entities.ShoppingList", "List")
-                        .WithMany("Associates")
-                        .HasForeignKey("ListId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("List");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.ListItem", b =>
-                {
-                    b.HasOne("Rommelmarkten.Api.Domain.Entities.Category", "Category")
-                        .WithMany("Items")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Rommelmarkten.Api.Domain.Entities.ShoppingList", "List")
-                        .WithMany("Items")
-                        .HasForeignKey("ListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("List");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.Market", b =>
-                {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.BannerType", "BannerType")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.BannerType", "BannerType")
                         .WithMany()
-                        .HasForeignKey("BannerTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BannerTypeId");
 
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketConfiguration", "Configuration")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.MarketConfiguration", "Configuration")
                         .WithMany()
                         .HasForeignKey("ConfigurationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.Province", "Province")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.Province", "Province")
                         .WithMany("Markets")
                         .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.MarketImage", "Image", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketImage", "Image", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1057,7 +1040,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                                 .HasForeignKey("MarketId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.MarketLocation", "Location", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketLocation", "Location", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1101,7 +1084,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                                 .HasForeignKey("MarketId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.Organizer", "Organizer", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Organizer", "Organizer", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1146,7 +1129,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                                 .HasForeignKey("MarketId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.MarketPricing", "Pricing", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketPricing", "Pricing", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1186,9 +1169,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("Province");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketDate", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketDate", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.Market", "ParentMarket")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.Market", "ParentMarket")
                         .WithMany("Dates")
                         .HasForeignKey("ParentMarketId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1197,9 +1180,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("ParentMarket");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketInvoice", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoice", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.Market", "Market")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.Market", "Market")
                         .WithMany("Invoices")
                         .HasForeignKey("MarketId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1208,9 +1191,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("Market");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketInvoiceLine", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoiceLine", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketInvoice", "ParentInvoice")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoice", "ParentInvoice")
                         .WithMany("InvoiceLines")
                         .HasForeignKey("ParentInvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1219,9 +1202,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("ParentInvoice");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketInvoiceReminder", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoiceReminder", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketInvoice", "ParentInvoice")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoice", "ParentInvoice")
                         .WithMany("PaymentReminders")
                         .HasForeignKey("ParentInvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1230,15 +1213,15 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("ParentInvoice");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketRevision", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.Market", "RevisedMarket")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.Market", "RevisedMarket")
                         .WithMany("Revisions")
                         .HasForeignKey("RevisedMarketId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.MarketImage", "Image", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketImage", "Image", b1 =>
                         {
                             b1.Property<Guid>("MarketRevisionId")
                                 .HasColumnType("uniqueidentifier");
@@ -1261,7 +1244,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                                 .HasForeignKey("MarketRevisionId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.MarketLocation", "Location", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketLocation", "Location", b1 =>
                         {
                             b1.Property<Guid>("MarketRevisionId")
                                 .HasColumnType("uniqueidentifier");
@@ -1305,7 +1288,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                                 .HasForeignKey("MarketRevisionId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Domain.Markets.Organizer", "Organizer", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Organizer", "Organizer", b1 =>
                         {
                             b1.Property<Guid>("MarketRevisionId")
                                 .HasColumnType("uniqueidentifier");
@@ -1350,6 +1333,27 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                                 .HasForeignKey("MarketRevisionId");
                         });
 
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketPricing", "Pricing", b1 =>
+                        {
+                            b1.Property<Guid>("MarketRevisionId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("EntryPrice")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<decimal>("StandPrice")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("MarketRevisionId");
+
+                            b1.ToTable("MarketRevisions");
+
+                            b1.WithOwner()
+                                .HasForeignKey("MarketRevisionId");
+                        });
+
                     b.Navigation("Image")
                         .IsRequired();
 
@@ -1359,18 +1363,21 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("Organizer")
                         .IsRequired();
 
+                    b.Navigation("Pricing")
+                        .IsRequired();
+
                     b.Navigation("RevisedMarket");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketRevisionWithTheme", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketRevisionWithTheme", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketRevision", "MarketRevision")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision", "MarketRevision")
                         .WithMany()
                         .HasForeignKey("MarketRevisionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketTheme", "Theme")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.MarketTheme", "Theme")
                         .WithMany()
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1381,15 +1388,15 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketWithTheme", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketWithTheme", b =>
                 {
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.Market", "Market")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.Market", "Market")
                         .WithMany()
                         .HasForeignKey("MarketId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Rommelmarkten.Api.Domain.Markets.MarketTheme", "Theme")
+                    b.HasOne("Rommelmarkten.Api.Features.Markets.Domain.MarketTheme", "Theme")
                         .WithMany()
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1400,24 +1407,52 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Content.FAQCategory", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ListAssociate", b =>
+                {
+                    b.HasOne("Rommelmarkten.Api.Features.ShoppingLists.Domain.ShoppingList", "List")
+                        .WithMany("Associates")
+                        .HasForeignKey("ListId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("List");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ListItem", b =>
+                {
+                    b.HasOne("Rommelmarkten.Api.Features.ShoppingLists.Domain.Category", "Category")
+                        .WithMany("Items")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Rommelmarkten.Api.Features.ShoppingLists.Domain.ShoppingList", "List")
+                        .WithMany("Items")
+                        .HasForeignKey("ListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("List");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.RefreshToken", b =>
+                {
+                    b.HasOne("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.FAQs.Domain.FAQCategory", b =>
                 {
                     b.Navigation("FAQItems");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.Category", b =>
-                {
-                    b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Entities.ShoppingList", b =>
-                {
-                    b.Navigation("Associates");
-
-                    b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.Market", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.Market", b =>
                 {
                     b.Navigation("Dates");
 
@@ -1426,16 +1461,33 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     b.Navigation("Revisions");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.MarketInvoice", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoice", b =>
                 {
                     b.Navigation("InvoiceLines");
 
                     b.Navigation("PaymentReminders");
                 });
 
-            modelBuilder.Entity("Rommelmarkten.Api.Domain.Markets.Province", b =>
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.Province", b =>
                 {
                     b.Navigation("Markets");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.Category", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ShoppingList", b =>
+                {
+                    b.Navigation("Associates");
+
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", b =>
+                {
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

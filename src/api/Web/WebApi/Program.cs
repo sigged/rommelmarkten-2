@@ -5,15 +5,17 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
 using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Affiliates;
-using Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Captchas;
 using Rommelmarkten.Api.Features.FAQs;
 using Rommelmarkten.Api.Features.Markets;
 using Rommelmarkten.Api.Features.NewsArticles;
 using Rommelmarkten.Api.Features.ShoppingLists;
+using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users;
 using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.MigrationsAggregator;
 using Rommelmarkten.Api.WebApi.Middlewares;
+using Rommelmarkten.Api.WebApi.Persistence;
 using Rommelmarkten.Api.WebApi.Services;
 using Rommelmarkten.Api.WebApi.Versioning;
 
@@ -58,7 +60,7 @@ namespace Rommelmarkten.Api.WebApi
             //    .AddDefaultTokenProviders()
             //    .AddApiEndpoints();
 
-
+            builder.Services.AddMigrations(configuration);
 
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
@@ -72,8 +74,6 @@ namespace Rommelmarkten.Api.WebApi
             builder.Services.AddNewsArticleFeature(configuration);
             builder.Services.AddShoppingListsFeature(configuration);
             builder.Services.AddUsersFeature(configuration);
-
-
 
 
             builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
@@ -117,21 +117,18 @@ namespace Rommelmarkten.Api.WebApi
 
                     try
                     {
-                        var context = scopedServices.GetRequiredService<ApplicationDbContext>();
-
-                        var affiliate = scopedServices.GetRequiredService<AffiliatesDbContext>();
-                        var a = affiliate.AffiliateAds.FirstOrDefault();
-
+                        var userDbContext = scopedServices.GetRequiredService<UsersDbContext>();
+                        var shoppingListsDbContext = scopedServices.GetRequiredService<ShoppingListsDbContext>();
                         var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
                         var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
 
-                        if (context.Database.IsSqlServer())
+                        if (userDbContext.Database.IsSqlServer())
                         {
-                            context.Database.Migrate();
+                            userDbContext.Database.Migrate();
                         }
 
-                        //await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager, context);
-                        //await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+                        await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager, userDbContext);
+                        await ApplicationDbContextSeed.SeedSampleDataAsync(shoppingListsDbContext);
                     }
                     catch (Exception ex)
                     {

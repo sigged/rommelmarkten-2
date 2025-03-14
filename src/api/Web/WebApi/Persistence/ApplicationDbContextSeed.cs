@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
+using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
 using System.Security.Claims;
@@ -9,7 +10,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
 {
     public static class ApplicationDbContextSeed
     {
-        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, UsersDbContext context)
         {
             var administratorRole = new IdentityRole("Administrator");
             var userRole = new IdentityRole("User");
@@ -66,7 +67,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
             await userManager.AddToRolesAsync(userC, new[] { userRole.Name ?? "" });
         }
 
-        public static async Task SeedSampleDataAsync(ApplicationDbContext context)
+        public static async Task SeedSampleDataAsync(ShoppingListsDbContext context)
         {
             // Seed, if necessary
             if (!context.Set<Category>().Any())

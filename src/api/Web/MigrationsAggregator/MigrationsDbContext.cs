@@ -10,7 +10,6 @@ using Rommelmarkten.Api.Features.NewsArticles.Application.Gateways;
 using Rommelmarkten.Api.Features.NewsArticles.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
-using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
 
@@ -28,7 +27,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator
             typeof(IAffiliatesDbContext)
         ];
 
-        public MigrationsDbContext(DbContextOptions<UsersDbContext> options) : base(options)
+        public MigrationsDbContext(DbContextOptions<MigrationsDbContext> options) : base(options)
         {
 
         }

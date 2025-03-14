@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Rommelmarkten.Api.Infrastructure.Migrations
+namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 {
     /// <inheritdoc />
     public partial class Genesis : Migration
@@ -145,8 +145,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -174,7 +173,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Province",
+                name: "Provinces",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -185,7 +184,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Province", x => x.Id);
+                    table.PrimaryKey("PK_Provinces", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,10 +211,18 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Consented = table.Column<bool>(type: "bit", nullable: false),
-                    Avatar_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Avatar_Content = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Avatar_ContentHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Avatar_Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IsBanned = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    VAT = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    ActivationRemindersSent = table.Column<int>(type: "int", nullable: false),
+                    LastActivationMailSendDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ActivationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastActivityDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastPasswordResetDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -329,6 +336,27 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Expires = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeviceHash = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshToken_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FAQItems",
                 columns: table => new
                 {
@@ -354,12 +382,11 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Id_V1 = table.Column<long>(type: "bigint", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConfigurationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BannerTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProvinceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BannerTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProvinceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Pricing_EntryPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Pricing_StandPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Location_Hall = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -395,8 +422,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                         name: "FK_Markets_BannerTypes_BannerTypeId",
                         column: x => x.BannerTypeId,
                         principalTable: "BannerTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Markets_MarketConfigurations_ConfigurationId",
                         column: x => x.ConfigurationId,
@@ -404,9 +430,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Markets_Province_ProvinceId",
+                        name: "FK_Markets_Provinces_ProvinceId",
                         column: x => x.ProvinceId,
-                        principalTable: "Province",
+                        principalTable: "Provinces",
                         principalColumn: "Id");
                 });
 
@@ -460,26 +486,23 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarketDate",
+                name: "MarketDates",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ParentMarketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     StartHour = table.Column<short>(type: "smallint", nullable: false),
                     StartMinutes = table.Column<short>(type: "smallint", nullable: false),
                     StopHour = table.Column<short>(type: "smallint", nullable: false),
-                    StopMinutes = table.Column<short>(type: "smallint", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    StopMinutes = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MarketDate", x => x.Id);
+                    table.PrimaryKey("PK_MarketDates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MarketDate_Markets_ParentMarketId",
+                        name: "FK_MarketDates_Markets_ParentMarketId",
                         column: x => x.ParentMarketId,
                         principalTable: "Markets",
                         principalColumn: "Id",
@@ -493,6 +516,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     InvoiceNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     MarketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     StatusChanged = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
@@ -514,6 +538,8 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                     RevisedMarketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Pricing_EntryPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Pricing_StandPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Location_Hall = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Location_Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Location_PostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
@@ -547,44 +573,30 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarketWithTheme",
+                name: "MarketWithThemes",
                 columns: table => new
                 {
                     MarketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ThemeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    MarketsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ThemesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MarketWithTheme", x => new { x.MarketId, x.ThemeId });
+                    table.PrimaryKey("PK_MarketWithThemes", x => new { x.MarketId, x.ThemeId });
                     table.ForeignKey(
-                        name: "FK_MarketWithTheme_MarketThemes_ThemeId",
+                        name: "FK_MarketWithThemes_MarketThemes_ThemeId",
                         column: x => x.ThemeId,
                         principalTable: "MarketThemes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_MarketWithTheme_MarketThemes_ThemesId",
-                        column: x => x.ThemesId,
-                        principalTable: "MarketThemes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MarketWithTheme_Markets_MarketId",
+                        name: "FK_MarketWithThemes_Markets_MarketId",
                         column: x => x.MarketId,
                         principalTable: "Markets",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_MarketWithTheme_Markets_MarketsId",
-                        column: x => x.MarketsId,
-                        principalTable: "Markets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarketInvoiceLine",
+                name: "MarketInvoiceLines",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -594,9 +606,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MarketInvoiceLine", x => x.Id);
+                    table.PrimaryKey("PK_MarketInvoiceLines", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MarketInvoiceLine_MarketInvoices_ParentInvoiceId",
+                        name: "FK_MarketInvoiceLines_MarketInvoices_ParentInvoiceId",
                         column: x => x.ParentInvoiceId,
                         principalTable: "MarketInvoices",
                         principalColumn: "Id",
@@ -604,7 +616,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarketInvoiceReminder",
+                name: "MarketInvoiceReminders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -613,9 +625,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MarketInvoiceReminder", x => x.Id);
+                    table.PrimaryKey("PK_MarketInvoiceReminders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MarketInvoiceReminder_MarketInvoices_ParentInvoiceId",
+                        name: "FK_MarketInvoiceReminders_MarketInvoices_ParentInvoiceId",
                         column: x => x.ParentInvoiceId,
                         principalTable: "MarketInvoices",
                         principalColumn: "Id",
@@ -623,40 +635,26 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarketRevisionWithTheme",
+                name: "MarketRevisionsWithThemes",
                 columns: table => new
                 {
                     MarketRevisionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ThemeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    MarketRevisionsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ThemesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MarketRevisionWithTheme", x => new { x.MarketRevisionId, x.ThemeId });
+                    table.PrimaryKey("PK_MarketRevisionsWithThemes", x => new { x.MarketRevisionId, x.ThemeId });
                     table.ForeignKey(
-                        name: "FK_MarketRevisionWithTheme_MarketRevisions_MarketRevisionId",
+                        name: "FK_MarketRevisionsWithThemes_MarketRevisions_MarketRevisionId",
                         column: x => x.MarketRevisionId,
                         principalTable: "MarketRevisions",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_MarketRevisionWithTheme_MarketRevisions_MarketRevisionsId",
-                        column: x => x.MarketRevisionsId,
-                        principalTable: "MarketRevisions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MarketRevisionWithTheme_MarketThemes_ThemeId",
+                        name: "FK_MarketRevisionsWithThemes_MarketThemes_ThemeId",
                         column: x => x.ThemeId,
                         principalTable: "MarketThemes",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_MarketRevisionWithTheme_MarketThemes_ThemesId",
-                        column: x => x.ThemesId,
-                        principalTable: "MarketThemes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -714,18 +712,18 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 column: "ListId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarketDate_ParentMarketId",
-                table: "MarketDate",
+                name: "IX_MarketDates_ParentMarketId",
+                table: "MarketDates",
                 column: "ParentMarketId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarketInvoiceLine_ParentInvoiceId",
-                table: "MarketInvoiceLine",
+                name: "IX_MarketInvoiceLines_ParentInvoiceId",
+                table: "MarketInvoiceLines",
                 column: "ParentInvoiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarketInvoiceReminder_ParentInvoiceId",
-                table: "MarketInvoiceReminder",
+                name: "IX_MarketInvoiceReminders_ParentInvoiceId",
+                table: "MarketInvoiceReminders",
                 column: "ParentInvoiceId");
 
             migrationBuilder.CreateIndex(
@@ -745,19 +743,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 column: "RevisedMarketId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarketRevisionWithTheme_MarketRevisionsId",
-                table: "MarketRevisionWithTheme",
-                column: "MarketRevisionsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MarketRevisionWithTheme_ThemeId",
-                table: "MarketRevisionWithTheme",
+                name: "IX_MarketRevisionsWithThemes_ThemeId",
+                table: "MarketRevisionsWithThemes",
                 column: "ThemeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MarketRevisionWithTheme_ThemesId",
-                table: "MarketRevisionWithTheme",
-                column: "ThemesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Markets_BannerTypeId",
@@ -775,25 +763,20 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 column: "ProvinceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarketWithTheme_MarketsId",
-                table: "MarketWithTheme",
-                column: "MarketsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MarketWithTheme_ThemeId",
-                table: "MarketWithTheme",
+                name: "IX_MarketWithThemes_ThemeId",
+                table: "MarketWithThemes",
                 column: "ThemeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarketWithTheme_ThemesId",
-                table: "MarketWithTheme",
-                column: "ThemesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Province_Code",
-                table: "Province",
+                name: "IX_Provinces_Code",
+                table: "Provinces",
                 column: "Code",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshToken_UserId",
+                table: "RefreshToken",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -827,31 +810,31 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 name: "ListItems");
 
             migrationBuilder.DropTable(
-                name: "MarketDate");
+                name: "MarketDates");
 
             migrationBuilder.DropTable(
-                name: "MarketInvoiceLine");
+                name: "MarketInvoiceLines");
 
             migrationBuilder.DropTable(
-                name: "MarketInvoiceReminder");
+                name: "MarketInvoiceReminders");
 
             migrationBuilder.DropTable(
-                name: "MarketRevisionWithTheme");
+                name: "MarketRevisionsWithThemes");
 
             migrationBuilder.DropTable(
-                name: "MarketWithTheme");
+                name: "MarketWithThemes");
 
             migrationBuilder.DropTable(
                 name: "NewsArticles");
+
+            migrationBuilder.DropTable(
+                name: "RefreshToken");
 
             migrationBuilder.DropTable(
                 name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "FAQCategories");
@@ -872,6 +855,9 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 name: "MarketThemes");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Markets");
 
             migrationBuilder.DropTable(
@@ -881,7 +867,7 @@ namespace Rommelmarkten.Api.Infrastructure.Migrations
                 name: "MarketConfigurations");
 
             migrationBuilder.DropTable(
-                name: "Province");
+                name: "Provinces");
         }
     }
 }
