@@ -1,5 +1,4 @@
-﻿using Azure;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
@@ -7,7 +6,7 @@ using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Security;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshToken
-{ 
+{
     public enum ExchangeRefreshTokenError
     {
         None = 0,
@@ -16,29 +15,19 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshT
         InvalidSubject = 3,
     }
 
-    public class ExchangeRefreshTokenResult
+    public class ExchangeRefreshTokenResult : ResultBase<ExchangeRefreshTokenResult, ExchangeRefreshTokenError>
     {
-        public ExchangeRefreshTokenResult(bool succeeded, IEnumerable<ExchangeRefreshTokenError> errors)
+        public ExchangeRefreshTokenResult() : base()
         {
-            Succeeded = succeeded;
-            Errors = errors.ToArray();
+            NewTokenPair = default!;
+        }
+        public ExchangeRefreshTokenResult(bool succeeded, AuthenticationTokenPair newTokenPair, IEnumerable<ExchangeRefreshTokenError> errors)
+        {
+            NewTokenPair = newTokenPair;
         }
 
         public AuthenticationTokenPair NewTokenPair { get; set; }
 
-        public bool Succeeded { get; set; }
-
-        public ExchangeRefreshTokenError[] Errors { get; set; }
-
-        public static ExchangeRefreshTokenResult Success()
-        {
-            return new ExchangeRefreshTokenResult(true, []);
-        }
-
-        public static ExchangeRefreshTokenResult Failure(IEnumerable<ExchangeRefreshTokenError> errors)
-        {
-            return new ExchangeRefreshTokenResult(false, errors);
-        }
     }
 
     public class ExchangeRefreshTokenCommand : IRequest<ExchangeRefreshTokenResult>
@@ -69,6 +58,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshT
             if (principal == null)
             {
                 //invalid access token, might be forged/never issued.
+                logger.LogInformation($"User {principal?.Identity?.Name} provided an invalid access token.");
                 return ExchangeRefreshTokenResult.Failure([ExchangeRefreshTokenError.InvalidAccessToken]);
             }
             else
@@ -91,12 +81,14 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshT
                     }
                     catch(NotFoundException)
                     {
+                        logger.LogInformation($"User {principal.Identity?.Name} not found for token subject.");
                         return ExchangeRefreshTokenResult.Failure([ExchangeRefreshTokenError.InvalidSubject]);
                     }
                 }
                 else
                 {
                     //invalid refresh token.
+                    logger.LogInformation($"User {principal.Identity?.Name} provided an invalid refresh token.");
                     return ExchangeRefreshTokenResult.Failure([ExchangeRefreshTokenError.InvalidOrExpiredRefreshToken]);
                 }
             }
