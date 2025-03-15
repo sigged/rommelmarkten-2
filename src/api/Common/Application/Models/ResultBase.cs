@@ -33,7 +33,7 @@
         {
             return new TResult()
             {
-                Succeeded = true,
+                Succeeded = false,
                 Errors = errors.ToArray()
             };
         }
