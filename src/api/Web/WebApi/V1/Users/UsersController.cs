@@ -32,7 +32,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<CreateUserResult>> Register(CreateUserCommand command)
+        public async Task<ActionResult> Register(CreateUserCommand command)
         {
             var result = await Mediator.Send(command);
             if (result.Succeeded)
@@ -50,7 +50,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         [ProducesResponseType(typeof(AccessTokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AccessTokenResult>> Authenticate(AuthenticateUserCommand command)
+        public async Task<ActionResult> Authenticate(AuthenticateUserCommand command)
         {
             var result = await Mediator.Send(command);
 
@@ -65,7 +65,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         [ProducesResponseType(typeof(AccessTokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AccessTokenResult>> RefreshAccessToken(ExchangeRefreshTokenCommand command)
+        public async Task<ActionResult> RefreshAccessToken(ExchangeRefreshTokenCommand command)
         {
             var result = await Mediator.Send(command);
 
@@ -150,17 +150,25 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
             return NoContent();
         }
 
-        [Obsolete("Not yet implemented")]
-        [HttpPost("manage-2fa")]
+        
+        //[HttpPost("manage-2fa")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> ManageTwoFactorAuthentication(ManageTwoFactorAuthenticationCommand command)
+        private async Task<ActionResult> ManageTwoFactorAuthentication(ManageTwoFactorAuthenticationCommand command)
         {
             var result = await Mediator.Send(command);
 
             if (!result.Succeeded)
                 return BadRequest(result);
+
+            return NoContent();
+        }
+
+        [HttpPut("profile")]
+        public async Task<ActionResult> Update(UpdateProfileCommand command)
+        {
+            await Mediator.Send(command);
 
             return NoContent();
         }
@@ -179,13 +187,6 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         }
 
 
-        [HttpPut("profile")]
-        public async Task<ActionResult> Update(UpdateProfileCommand command)
-        {
-            await Mediator.Send(command);
-
-            return NoContent();
-        }
 
         [HttpPut("avatar")]
         [Authorize] //prevent anonymous spammers

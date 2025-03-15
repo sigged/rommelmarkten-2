@@ -102,22 +102,6 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
             }
         }
 
-        //[Obsolete("Use GenerateAuthTokens instead")]
-        //public async Task<string> GenerateAuthTokenAsync(IUser user)
-        //{
-        //    if (user == null)
-        //        throw new ArgumentNullException(nameof(user));
-
-        //    var claims = await _identityService.GetClaims(user);
-
-
-        //    JwtSecurityToken accessToken;
-        //    accessToken = CreateAccessToken(claims, tokenSettings);
-
-        //    return tokenHandler.WriteToken(accessToken);
-        //}
-
-
         public async Task<AuthenticationTokenPair> GenerateAuthTokensAsync(IUser user, string deviceHash)
         {
             if (user == null)
