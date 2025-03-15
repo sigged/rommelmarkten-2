@@ -7,11 +7,9 @@ namespace Rommelmarkten.Api.Common.Application.Security
     {
         string GenerateRandomToken(int size = 32);
 
-        [Obsolete("Use GenerateAuthTokenAsync instead")]
-        Task<string> GenerateAuthTokenAsync(IUser user);
-        Task<AuthenticationTokenPair> GenerateAuthTokensAsync(IUser user, string deviceId);
+        Task<AuthenticationTokenPair> GenerateAuthTokensAsync(IUser user, string deviceHash);
         Task RevokeToken(string refreshToken);
-        Task<bool> IsValidRefreshToken(string refreshToken);
+        Task<bool> IsValidRefreshToken(string refreshToken, string deviceHash);
         Task<IPrincipal> GetAccessTokenPrincipal(string accessToken, bool ignoreExpiration = false);
 
         //Task<bool> IsValidRefreshToken(string refreshToken);

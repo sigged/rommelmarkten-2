@@ -59,12 +59,13 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
             return await Task.FromResult(principal);
         }
 
-        public async Task<bool> IsValidRefreshToken(string refreshToken)
+        public async Task<bool> IsValidRefreshToken(string refreshToken, string deviceHash)
         {
             //var user = await _userManager.FindByNameAsync(username);
 
             return await context.Set<RefreshToken>().AnyAsync(e =>
                 e.Token == refreshToken &&
+                e.DeviceHash == deviceHash &&
                 e.Expires > DateTime.UtcNow //expire date is in future
             );
         }
@@ -82,34 +83,35 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
             }
         }
 
-        [Obsolete("Use GenerateAuthTokens instead")]
-        public async Task<string> GenerateAuthTokenAsync(IUser user)
+        //[Obsolete("Use GenerateAuthTokens instead")]
+        //public async Task<string> GenerateAuthTokenAsync(IUser user)
+        //{
+        //    if (user == null)
+        //        throw new ArgumentNullException(nameof(user));
+
+        //    var claims = await _identityService.GetClaims(user);
+
+
+        //    JwtSecurityToken accessToken;
+        //    accessToken = CreateAccessToken(claims, tokenSettings);
+
+        //    return tokenHandler.WriteToken(accessToken);
+        //}
+
+
+        public async Task<AuthenticationTokenPair> GenerateAuthTokensAsync(IUser user, string deviceHash)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            var claims = await _identityService.GetClaims(user);
-
-
-            JwtSecurityToken accessToken;
-            accessToken = CreateAccessToken(claims, tokenSettings);
-
-            return tokenHandler.WriteToken(accessToken);
-        }
-
-
-        public async Task<AuthenticationTokenPair> GenerateAuthTokensAsync(IUser user, string deviceId)
-        {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
-            var claims = await _identityService.GetClaims(user);
+            var claims = (await _identityService.GetClaims(user)).ToList();
+            claims.Add(new Claim(System.Security.Claims.ClaimTypes.Name, user.UserName!));
 
             JwtSecurityToken accessToken;
             RefreshToken refreshToken;
 
             //generate new refresh token
-            refreshToken = await CreateRefreshToken(user, deviceId, tokenSettings);
+            refreshToken = await CreateRefreshToken(user, deviceHash, tokenSettings);
             //generate new access token
             accessToken = CreateAccessToken(claims, tokenSettings);
 

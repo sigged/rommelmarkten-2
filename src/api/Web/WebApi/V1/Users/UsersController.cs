@@ -6,6 +6,7 @@ using Rommelmarkten.Api.Features.Users.Application.Commands.AuthenticateUser;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
 using Rommelmarkten.Api.Features.Users.Application.Commands.DeleteUser;
+using Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshToken;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ResendConfirmationEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ResetPassword;
@@ -59,13 +60,12 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
                 return Unauthorized(result);
         }
 
-        [Obsolete("Not yet implemented")]
-        [HttpPost("refresh-access-token")]
+        [HttpPost("exchange-refresh-token")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(AccessTokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AccessTokenResult>> RefreshAccessToken(RefreshAccessTokenCommand command)
+        public async Task<ActionResult<AccessTokenResult>> RefreshAccessToken(ExchangeRefreshTokenCommand command)
         {
             var result = await Mediator.Send(command);
 

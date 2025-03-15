@@ -194,41 +194,52 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
             return claimsForIdentity;
         }
 
-
-        public async Task<string> GenerateRefreshToken(IUser user)
+        public async Task<bool> IsLockedOutAsync(IUser user)
         {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
             var applicationUser = user as ApplicationUser;
             if (applicationUser == null)
                 throw new ArgumentException("Parameter must be of type ApplicationUser", nameof(user));
 
-            string refreshToken = await _userManager.GenerateUserTokenAsync(applicationUser, "AppName", "RefreshTokenName");
-            return refreshToken;
+            return await _userManager.IsLockedOutAsync(applicationUser);
         }
 
-        public async Task<Result> RefreshAuthTokenAsync(string refreshTokenCode)
-        {
-            // Validate the refresh token
-            var refreshToken = refreshTokenCode;
-            if (string.IsNullOrEmpty(refreshToken))
-            {
-                throw new NotFoundException();
-            }
+        //public async Task<string> GenerateRefreshToken(IUser user)
+        //{
+        //    var applicationUser = user as ApplicationUser;
+        //    if (applicationUser == null)
+        //        throw new ArgumentException("Parameter must be of type ApplicationUser", nameof(user));
 
-            throw new NotImplementedException();
+        //    string refreshToken = await _userManager.GenerateUserTokenAsync(applicationUser, "AppName", "RefreshTokenName");
+        //    return refreshToken;
+        //}
 
-            //// Find the user associated with this refresh token
-            //var userId = await _userManager.GetUserIdFromRefreshTokenAsync(refreshToken);
-            //if (userId == null)
-            //{
-            //    return Results.BadRequest();
-            //}
+        //public async Task<Result> RefreshAuthTokenAsync(string refreshTokenCode)
+        //{
+        //    // Validate the refresh token
+        //    var refreshToken = refreshTokenCode;
+        //    if (string.IsNullOrEmpty(refreshToken))
+        //    {
+        //        throw new NotFoundException();
+        //    }
+
+        //    throw new NotImplementedException();
+
+        //    //// Find the user associated with this refresh token
+        //    //var userId = await _userManager.GetUserIdFromRefreshTokenAsync(refreshToken);
+        //    //if (userId == null)
+        //    //{
+        //    //    return Results.BadRequest();
+        //    //}
 
 
 
 
-            //var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
-            //return result.ToApplicationResult();
-        }
+        //    //var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
+        //    //return result.ToApplicationResult();
+        //}
 
 
         public async Task<string> GeneratePasswordResetTokenAsync(string email)
