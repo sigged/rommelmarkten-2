@@ -9,7 +9,7 @@ namespace Rommelmarkten.Api.Common.Application.Security
 
         Task<AuthenticationTokenPair> GenerateAuthTokensAsync(IUser user, string deviceHash);
         Task RevokeToken(string refreshToken);
-        Task<bool> IsValidRefreshToken(string refreshToken, string deviceHash);
+        Task<bool> IsValidRefreshToken(IUser user, string refreshToken, string deviceHash);
         Task<IPrincipal> GetAccessTokenPrincipal(string accessToken, bool ignoreExpiration = false);
 
         //Task<bool> IsValidRefreshToken(string refreshToken);

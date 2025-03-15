@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
@@ -18,6 +19,7 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
     public class TokenManager : ITokenManager
     {
         private readonly IIdentityService _identityService;
+        private readonly IPasswordHasher<ApplicationUser> passwordHasher;
         private readonly TokenSettings tokenSettings;
         private readonly JwtSecurityTokenHandler tokenHandler;
         private readonly ITokenValidationParametersFactory tokenValidationParmsFactory;
@@ -25,12 +27,14 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
 
         public TokenManager(
             IIdentityService identityService,
+            IPasswordHasher<ApplicationUser> passwordHasher,
             TokenSettings tokenSettings,
             ITokenValidationParametersFactory tokenValidationParmsFactory,
             IUsersDbContext context
         )
         {
             _identityService = identityService;
+            this.passwordHasher = passwordHasher;
             //this.deviceIdGenerator = deviceIdGenerator;
             this.tokenSettings = tokenSettings;
             this.tokenValidationParmsFactory = tokenValidationParmsFactory;
@@ -59,15 +63,30 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
             return await Task.FromResult(principal);
         }
 
-        public async Task<bool> IsValidRefreshToken(string refreshToken, string deviceHash)
+        public async Task<bool> IsValidRefreshToken(IUser user, string refreshToken, string deviceHash)
         {
-            //var user = await _userManager.FindByNameAsync(username);
+            var appUser = (ApplicationUser)user;
 
-            return await context.Set<RefreshToken>().AnyAsync(e =>
-                e.Token == refreshToken &&
-                e.DeviceHash == deviceHash &&
-                e.Expires > DateTime.UtcNow //expire date is in future
-            );
+            var refreshTokens = await context
+                .Set<RefreshToken>()
+                .Where(e => 
+                    e.UserId == user.Id &&
+                    e.DeviceHash == deviceHash &&
+                    e.Expires > DateTime.UtcNow //expire date is in future
+                )
+                .ToListAsync();
+
+            foreach (var storedToken in refreshTokens)
+            {
+                var validRefreshToken = passwordHasher.VerifyHashedPassword(appUser, storedToken.Token, refreshToken);
+
+                if (validRefreshToken != PasswordVerificationResult.Failed)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public async Task RevokeToken(string refreshToken)
@@ -118,7 +137,7 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
             return new AuthenticationTokenPair
             {
                 AccessToken = tokenHandler.WriteToken(accessToken),
-                RefreshToken = refreshToken.Token,
+                RefreshToken = refreshToken.TokenRaw!,
                 RefreshTokenExpiration = refreshToken.Expires
             };
         }
@@ -138,19 +157,25 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
 
         private async Task<RefreshToken> CreateRefreshToken(
             IUser user,
-            string deviceId,
+            string deviceHash,
             TokenSettings tokenSettings)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
+            var appUser = (ApplicationUser)user;
+
             //remove any expired tokens
             await PurgeExpiredTokens();
 
             string token = GenerateRandomToken();
+            string hashedToken = passwordHasher.HashPassword(appUser, token);
+
             DateTime expiration = DateTime.UtcNow.AddMinutes(tokenSettings.RefreshTokenExpiryMinutes);
 
-            var refreshToken = new RefreshToken(token, expiration, user.Id, deviceId);
+            var refreshToken = new RefreshToken(hashedToken, expiration, appUser.Id, deviceHash);
+            refreshToken.TokenRaw = token;
+
             context.Set<RefreshToken>().Add(refreshToken);
             await context.SaveChangesAsync();
 

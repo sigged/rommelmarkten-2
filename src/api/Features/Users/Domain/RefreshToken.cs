@@ -18,5 +18,8 @@
         public string Token { get; set; }
         public DateTime Expires { get; set; }
         public string DeviceHash { get; set; }
+
+        //holds a raw token, not persisted
+        public string? TokenRaw { get; set; }
     }
 }

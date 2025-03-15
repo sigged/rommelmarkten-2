@@ -63,13 +63,14 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshT
             }
             else
             {
-                if (await tokenManager.IsValidRefreshToken(request.OldTokenPair.RefreshToken, request.DeviceHash))
+                try
                 {
-                    //valid access token and refreshtoken
-                    try
+                    // get user from token subject
+                    var user = await identityService.FindByName(principal.Identity?.Name ?? string.Empty);
+
+                    if (await tokenManager.IsValidRefreshToken(user, request.OldTokenPair.RefreshToken, request.DeviceHash))
                     {
-                        // get user from token subject
-                        var user = await identityService.FindByName(principal.Identity?.Name ?? string.Empty);
+                        //valid access token and refreshtoken
 
                         // revoke old refresh token
                         await tokenManager.RevokeToken(request.OldTokenPair.RefreshToken);
@@ -79,18 +80,22 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshT
                         result.NewTokenPair = tokenPair;
                         return result;
                     }
-                    catch(NotFoundException)
+                    else
                     {
-                        logger.LogInformation($"User {principal.Identity?.Name} not found for token subject.");
-                        return ExchangeRefreshTokenResult.Failure([ExchangeRefreshTokenError.InvalidSubject]);
+                        //invalid refresh token.
+                        logger.LogInformation($"User {principal.Identity?.Name} provided an invalid refresh token.");
+                        return ExchangeRefreshTokenResult.Failure([ExchangeRefreshTokenError.InvalidOrExpiredRefreshToken]);
                     }
+
                 }
-                else
+                catch (NotFoundException)
                 {
-                    //invalid refresh token.
-                    logger.LogInformation($"User {principal.Identity?.Name} provided an invalid refresh token.");
-                    return ExchangeRefreshTokenResult.Failure([ExchangeRefreshTokenError.InvalidOrExpiredRefreshToken]);
+                    logger.LogInformation($"User {principal.Identity?.Name} not found for token subject.");
+                    return ExchangeRefreshTokenResult.Failure([ExchangeRefreshTokenError.InvalidSubject]);
                 }
+                
+
+               
             }
         }
     }

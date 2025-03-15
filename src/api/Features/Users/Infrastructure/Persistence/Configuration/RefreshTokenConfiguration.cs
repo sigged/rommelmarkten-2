@@ -11,11 +11,13 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Persistence.Configurat
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.DeviceHash)
-                .HasMaxLength(100);
+                .HasMaxLength(300);
 
             builder.Property(e => e.Token)
                 .IsRequired()
-                .HasMaxLength(250);
+                .HasMaxLength(300);
+
+            builder.Ignore(e => e.TokenRaw);
 
             // RefreshToken <--> ApplicationUser
             builder
