@@ -30,10 +30,10 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries.GenerateEmailConf
 
         public async Task<TokenResult> Handle(GenerateEmailConfirmationTokenCommand request, CancellationToken cancellationToken)
         {
-            if (!await resourceAuthorizationService.AuthorizeAny(null, CorePolicies.MustBeAdmin))
-            {
-                throw new ForbiddenAccessException();
-            }
+            //if (!await resourceAuthorizationService.AuthorizeAny(null, CorePolicies.MustBeAdmin))
+            //{
+            //    throw new ForbiddenAccessException();
+            //}
 
             var result = await _identityService.GenerateEmailConfirmationTokenAsync(request.UserId);
             return new TokenResult(true, [])

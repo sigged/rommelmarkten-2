@@ -30,5 +30,6 @@ namespace Rommelmarkten.Api.Common.Application.Interfaces
         Task<IUser> FindByEmail(string email);
         //Task<string> GenerateRefreshTokenAsync(IUser user);
         Task<bool> IsLockedOutAsync(IUser user);
+        Task<IUser> FindById(string id);
     }
 }

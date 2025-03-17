@@ -157,6 +157,15 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 
             return user;
         }
+        public async Task<IUser> FindById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.Id));
+
+            return user;
+        }
 
         public IQueryable<IUser> GetUsers()
         {
