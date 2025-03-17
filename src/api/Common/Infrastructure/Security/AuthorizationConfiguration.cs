@@ -14,7 +14,7 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(CorePolicies.MustBeAdmin, policy => policy.RequireClaim(Common.Application.Security.ClaimTypes.IsAdmin));
+                options.AddPolicy(CorePolicies.MustBeAdmin, policy => policy.Requirements.Add(new MustBeAdminRequirement()));
                 options.AddPolicy(CorePolicies.MustBeCreator, policy => policy.Requirements.Add(new MustBeCreatorRequirement()));
                 options.AddPolicy(CorePolicies.MustBeCreatorOrAdmin, policy => policy.Requirements.Add(new MustBeCreatorOrAdminRequirement()));
                 options.AddPolicy(CorePolicies.MustBeLastModifier, policy => policy.Requirements.Add(new MustBeLastModifierRequirement()));
@@ -22,6 +22,7 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
 
             services.AddTransient<IResourceAuthorizationService, ResourceAuthorizationService>();
             services.AddSingleton<IAuthorizationHandler, MustBeLastModifierAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, MustBeAdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustBeCreatorAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
 
@@ -40,6 +41,8 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
             {
                 context.Succeed(requirement);
             }
+
+            context.Succeed(requirement);
             return Task.CompletedTask;
         }
     }

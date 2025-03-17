@@ -12,19 +12,19 @@ namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Security
 {
     public static class AuthorizationConfiguration
     {
-        public static IServiceCollection AddShoppingListAuthorization(this IServiceCollection services)
-        {
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(Policies.MustHaveListAccess, policy => policy.Requirements.Add(new MustHaveListAccessRequirement()));
-                options.AddPolicy(Policies.MustMatchListAssociation, policy => policy.Requirements.Add(new MustMatchListAssociationRequirement()));
-            });
+        //public static IServiceCollection AddShoppingListAuthorization(this IServiceCollection services)
+        //{
+        //    services.AddAuthorization(options =>
+        //    {
+        //        options.AddPolicy(Policies.MustHaveListAccess, policy => policy.Requirements.Add(new MustHaveListAccessRequirement()));
+        //        options.AddPolicy(Policies.MustMatchListAssociation, policy => policy.Requirements.Add(new MustMatchListAssociationRequirement()));
+        //    });
 
-            services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, MustMatchListAssociationAuthorizationHandler>();
+        //    services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
+        //    services.AddSingleton<IAuthorizationHandler, MustMatchListAssociationAuthorizationHandler>();
 
-            return services;
-        }
+        //    return services;
+        //}
 
     }
 
