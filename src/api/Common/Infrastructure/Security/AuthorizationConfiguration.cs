@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Domain;
-using System.Diagnostics;
 using System.Security.Claims;
 using ClaimTypes = System.Security.Claims.ClaimTypes;
 
