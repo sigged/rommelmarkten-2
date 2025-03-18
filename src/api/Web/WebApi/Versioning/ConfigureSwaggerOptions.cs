@@ -1,9 +1,16 @@
 ﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Rommelmarkten.Api.Features.Affiliates.Web.V1;
+using Rommelmarkten.Api.Features.Captchas.Web.V1;
+using Rommelmarkten.Api.Features.FAQs.Web.V1;
+using Rommelmarkten.Api.Features.Markets.Web.V1;
+using Rommelmarkten.Api.Features.NewsArticles.Web.V1;
+using Rommelmarkten.Api.Features.Users.Web.V1;
 using Rommelmarkten.Api.WebApi.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Rommelmarkten.Api.WebApi.Versioning
 {
@@ -31,6 +38,14 @@ namespace Rommelmarkten.Api.WebApi.Versioning
             foreach (var description in provider.ApiVersionDescriptions)
             {
                 options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
+
+                options.IncludeXmlComments(typeof(ConfigureSwaggerOptions).Assembly, includeControllerXmlComments: true);
+                options.IncludeXmlComments(typeof(AffiliateAdsController).Assembly, includeControllerXmlComments: true);
+                //options.IncludeXmlComments(typeof(CaptchaController).Assembly, includeControllerXmlComments: true);
+                //options.IncludeXmlComments(typeof(FAQCategoriesController).Assembly, includeControllerXmlComments: true);
+                //options.IncludeXmlComments(typeof(MarketConfigurationsController).Assembly, includeControllerXmlComments: true);
+                //options.IncludeXmlComments(typeof(NewsArticlesController).Assembly, includeControllerXmlComments: true);
+                //options.IncludeXmlComments(typeof(UsersController).Assembly, includeControllerXmlComments: true);
             }
 
             // add a custom operation filter which sets default values
@@ -71,7 +86,11 @@ namespace Rommelmarkten.Api.WebApi.Versioning
                 Title = "Rommelmarkten API",
                 Version = description.ApiVersion.ToString(),
                 Description = "Gateway API for rommelmarkten.be",
-                Contact = new OpenApiContact() { Name = "sigged", Email = "sigged@users.noreply.github.com" }
+                Contact = new OpenApiContact() { Name = "sigged", Email = "sigged@users.noreply.github.com" },
+                License = new OpenApiLicense
+                {
+                    Name = "SpruceBit (c) 2025 - All rights reserved - usage, copying and modifying strictly forbidden"
+                }
             };
 
             if (description.IsDeprecated)

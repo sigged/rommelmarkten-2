@@ -11,6 +11,10 @@
 		<RootNamespace>Rommelmarkten.Api.WebApi</RootNamespace>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
 	<ItemGroup>
 	  <Compile Remove="Middlewares\**" />
 	  <Compile Remove="Persistence\Migrations\**" />

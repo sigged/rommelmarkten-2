@@ -19,6 +19,11 @@ namespace Rommelmarkten.Api.Features.Affiliates.Web.V1
     [ProducesErrorResponseType(typeof(ProblemDetails))]
     public class AffiliateAdsController : ApiControllerBase
     {
+        /// <summary>
+        /// Creates a new affiliate ad
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
