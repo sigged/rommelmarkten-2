@@ -53,6 +53,7 @@ namespace Rommelmarkten.Api.WebApi
             builder.Services.AddProblemDetails();
 
             builder.AddSwaggerSupportedVersioning();
+            builder.Services.AddOpenApiDocument();
 
             var rigs = builder.Services.Select(s => s.ServiceType.FullName).ToList();
 
@@ -62,6 +63,13 @@ namespace Rommelmarkten.Api.WebApi
 
                 // Configure the HTTP request pipeline.
                 app.UseSwaggerSupportedVersioning();
+
+                if(app.Environment.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                    app.UseOpenApi();
+                    app.UseSwaggerUi();
+                }
 
                 app.UseHttpsRedirection();
 
@@ -78,34 +86,34 @@ namespace Rommelmarkten.Api.WebApi
                 //.MapToApiVersion(new ApiVersion(1.0));
 
 
-                using (var scope = app.Services.CreateScope())
-                {
-                    var scopedServices = scope.ServiceProvider;
+                //using (var scope = app.Services.CreateScope())
+                //{
+                //    var scopedServices = scope.ServiceProvider;
 
-                    try
-                    {
-                        var userDbContext = scopedServices.GetRequiredService<UsersDbContext>();
-                        var shoppingListsDbContext = scopedServices.GetRequiredService<ShoppingListsDbContext>();
-                        var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
-                        var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
+                //    try
+                //    {
+                //        var userDbContext = scopedServices.GetRequiredService<UsersDbContext>();
+                //        var shoppingListsDbContext = scopedServices.GetRequiredService<ShoppingListsDbContext>();
+                //        var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
+                //        var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
 
-                        if (userDbContext.Database.IsSqlServer())
-                        {
-                            userDbContext.Database.Migrate();
-                        }
+                //        if (userDbContext.Database.IsSqlServer())
+                //        {
+                //            userDbContext.Database.Migrate();
+                //        }
 
-                        await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager, userDbContext);
-                        await ApplicationDbContextSeed.SeedSampleDataAsync(shoppingListsDbContext);
-                    }
-                    catch (Exception ex)
-                    {
-                        var logger = scopedServices.GetRequiredService<ILogger<Program>>();
+                //        await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager, userDbContext);
+                //        await ApplicationDbContextSeed.SeedSampleDataAsync(shoppingListsDbContext);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        var logger = scopedServices.GetRequiredService<ILogger<Program>>();
 
-                        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                //        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
 
-                        throw;
-                    }
-                }
+                //        throw;
+                //    }
+                //}
 
                 await app.RunAsync();
             }
