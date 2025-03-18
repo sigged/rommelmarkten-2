@@ -29,7 +29,7 @@ namespace Rommelmarkten.Api.WebApi
             var configuration = builder.Configuration;
             var services = builder.Services;
 
-            //add features
+            //add features first
             builder.Services.AddAffiliateFeature(configuration);
             builder.Services.AddCaptchaFeature(configuration);
             builder.Services.AddFAQFeature(configuration);

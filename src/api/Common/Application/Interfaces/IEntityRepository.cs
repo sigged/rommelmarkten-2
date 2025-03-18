@@ -2,7 +2,13 @@
 
 namespace Rommelmarkten.Api.Common.Application.Interfaces
 {
-    public interface IEntityRepository<TEntity> where TEntity : class
+    public interface IEntityRepository
+    {
+        Task<object> GetObjectByIdAsync(object id, CancellationToken cancellationToken = default);
+    }
+
+    public interface IEntityRepository<TEntity> : IEntityRepository
+        where TEntity : class
     {
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>>[]? filters = null, CancellationToken cancellationToken = default);
         Task<int> CountAsync(Expression<Func<TEntity, bool>>[]? filters = null, CancellationToken cancellationToken = default);

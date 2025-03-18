@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rommelmarkten.Api.Features.Users.Application.Security
+﻿namespace Rommelmarkten.Api.Features.Users.Application.Security
 {
     public class UsersPolicies
     {
-        //public const string MustBeSelfOrAdmin = nameof(MustBeSelfOrAdmin);
+        public const string MustBeSelfOrAdmin = nameof(MustBeSelfOrAdmin);
     }
 }

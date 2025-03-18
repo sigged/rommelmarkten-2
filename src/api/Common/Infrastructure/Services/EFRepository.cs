@@ -106,6 +106,13 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Services
             return await query.CountAsync(cancellationToken);
         }
 
+        public virtual async Task<object> GetObjectByIdAsync(object id, CancellationToken cancellationToken = default)
+        {
+            object? entity = await GetByIdAsync(id, cancellationToken);
+            return entity ??
+                throw new NotFoundException($"{typeof(TEntity).Name} identified as {id} was not found");
+        }
+
         public virtual async Task<TEntity> GetByIdAsync(object id, CancellationToken cancellationToken = default)
         {
             var entity = await dbSet.FindAsync([id], cancellationToken);

@@ -113,7 +113,6 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
                 throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
 
             var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
-
             var result = await _authorizationService.AuthorizeAsync(principal, policyName);
 
             return result.Succeeded;

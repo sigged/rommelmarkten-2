@@ -16,6 +16,7 @@ namespace Rommelmarkten.Api.Common.Application
                 config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
                 config.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
                 config.AddOpenBehavior(typeof(AuthorizationBehaviour<,>));
+                config.AddOpenBehavior(typeof(ResourceAuthorizationBehaviour<,>));
                 config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
                 config.AddOpenBehavior(typeof(CacheInvalidationBehaviour<,>));
                 config.AddOpenBehavior(typeof(PerformanceBehaviour<,>));

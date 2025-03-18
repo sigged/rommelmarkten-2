@@ -2,28 +2,43 @@
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
-using Rommelmarkten.Api.Common.Domain;
-using System.Security.Claims;
-using ClaimTypes = System.Security.Claims.ClaimTypes;
+using Rommelmarkten.Api.Common.Infrastructure.Security.AuthHandlers;
 
 namespace Rommelmarkten.Api.Common.Infrastructure.Security
 {
+    public static class AuthorizationPolicies
+    {
+        public static Dictionary<string, Action<AuthorizationPolicyBuilder>> Policies { get; private set; } = new();
+
+        public static void AddAuthorizationPolicy(string policyName, Action<AuthorizationPolicyBuilder> configurePolicy)
+        {
+            Policies.Add(policyName, configurePolicy);
+        }
+
+    }
+
     public static class AuthorizationConfiguration
     {
+       
         public static IServiceCollection AddApplicationAuthorization(this IServiceCollection services)
         {
+
+            AuthorizationPolicies.AddAuthorizationPolicy(CorePolicies.MustBeCreator, policy => policy.Requirements.Add(new MustBeCreatorRequirement()));
+            AuthorizationPolicies.AddAuthorizationPolicy(CorePolicies.MustBeCreatorOrAdmin, policy => policy.Requirements.Add(new MustBeCreatorOrAdminRequirement()));
+            AuthorizationPolicies.AddAuthorizationPolicy(CorePolicies.MustBeLastModifier, policy => policy.Requirements.Add(new MustBeLastModifierRequirement()));
+
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(CorePolicies.MustBeAdmin, policy => policy.Requirements.Add(new MustBeAdminRequirement()));
-                options.AddPolicy(CorePolicies.MustBeSelfOrAdmin, policy => policy.Requirements.Add(new MustBeSelfOrAdminRequirement()));
-                options.AddPolicy(CorePolicies.MustBeCreator, policy => policy.Requirements.Add(new MustBeCreatorRequirement()));
-                options.AddPolicy(CorePolicies.MustBeCreatorOrAdmin, policy => policy.Requirements.Add(new MustBeCreatorOrAdminRequirement()));
-                options.AddPolicy(CorePolicies.MustBeLastModifier, policy => policy.Requirements.Add(new MustBeLastModifierRequirement()));
+                foreach (var policyName in AuthorizationPolicies.Policies.Keys)
+                {
+                    options.AddPolicy(policyName, AuthorizationPolicies.Policies[policyName]);
+                }
+                AuthorizationPolicies.Policies.Clear();
+
             });
 
             services.AddTransient<IResourceAuthorizationService, ResourceAuthorizationService>();
             services.AddSingleton<IAuthorizationHandler, MustBeAdminAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, MustBeSelfOrAdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustBeLastModifierAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustBeCreatorAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
@@ -33,82 +48,5 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
 
     }
 
-    public class MustBeSelfOrAdminAuthorizationHandler : AuthorizationHandler<MustBeSelfOrAdminRequirement, IUser>
-    {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                       MustBeSelfOrAdminRequirement requirement,
-                                                       IUser resource)
-        {
-            if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) == resource.Id ||
-                context.User.HasClaim(c => c.Type == Common.Application.Security.ClaimTypes.IsAdmin))
-            {
-                context.Succeed(requirement);
-            }
-            return Task.CompletedTask;
-        }
-    }
-
-    public class MustBeAdminAuthorizationHandler : AuthorizationHandler<MustBeAdminRequirement>
-    {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                       MustBeAdminRequirement requirement)
-        {
-            if (context.User.HasClaim(c => c.Type == Common.Application.Security.ClaimTypes.IsAdmin))
-            {
-                context.Succeed(requirement);
-            }
-
-            context.Succeed(requirement);
-            return Task.CompletedTask;
-        }
-    }
-
-    public class MustBeCreatorAuthorizationHandler : AuthorizationHandler<MustBeCreatorRequirement, IAuditable>
-    {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                       MustBeCreatorRequirement requirement,
-                                                       IAuditable resource)
-        {
-            if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) == resource.CreatedBy)
-            {
-                context.Succeed(requirement);
-            }
-            return Task.CompletedTask;
-        }
-    }
-    public class MustBeCreatorOrAdminAuthorizationHandler : AuthorizationHandler<MustBeCreatorOrAdminRequirement, IAuditable>
-    {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                       MustBeCreatorOrAdminRequirement requirement,
-                                                       IAuditable resource)
-        {
-            if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) == resource.CreatedBy ||
-                context.User.HasClaim(c => c.Type == Common.Application.Security.ClaimTypes.IsAdmin))
-            {
-                context.Succeed(requirement);
-            }
-            return Task.CompletedTask;
-        }
-    }
-
-
-    public class MustBeLastModifierAuthorizationHandler : AuthorizationHandler<MustBeLastModifierRequirement, IAuditable>
-    {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                       MustBeLastModifierRequirement requirement,
-                                                       IAuditable resource)
-        {
-            if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) == resource.LastModifiedBy)
-            {
-                context.Succeed(requirement);
-            }
-            return Task.CompletedTask;
-        }
-    }
-
-    public class MustBeSelfOrAdminRequirement : IAuthorizationRequirement { }
-    public class MustBeCreatorRequirement : IAuthorizationRequirement { }
-    public class MustBeCreatorOrAdminRequirement : IAuthorizationRequirement { }
-    public class MustBeLastModifierRequirement : IAuthorizationRequirement { }
-    public class MustBeAdminRequirement : IAuthorizationRequirement { }
+    
 }

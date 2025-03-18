@@ -1,26 +1,22 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Rommelmarkten.Api.Common.Domain;
+using Rommelmarkten.Api.Common.Infrastructure.Security;
 using Rommelmarkten.Api.Features.Users.Application.Security;
-using System.Diagnostics;
-using System.Security.Claims;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Security.AuthHandlers;
 
 namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
 {
-    public static class AuthorizationConfiguration
+    public static class AuthorizationExtensions
     {
-        //public static IServiceCollection AddUserAuthorization(this IServiceCollection services)
-        //{
-        //    services.AddAuthorization(options =>
-        //    {
-        //        options.AddPolicy(UsersPolicies.MustBeSelfOrAdmin, policy => policy.Requirements.Add(new MustBeSelfOrAdminRequirement()));
-        //    });
+        public static IServiceCollection AddUserAuthorization(this IServiceCollection services)
+        {
+            AuthorizationPolicies.AddAuthorizationPolicy(UsersPolicies.MustBeSelfOrAdmin, policy => policy.Requirements.Add(new MustBeSelfOrAdminRequirement()));
 
-        //    services.AddSingleton<IAuthorizationHandler, MustBeSelfOrAdminAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, MustBeSelfOrAdminAuthorizationHandler>();
 
-        //    return services;
-        //}
+            return services;
+        }
 
     }
 

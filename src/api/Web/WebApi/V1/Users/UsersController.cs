@@ -186,8 +186,6 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
             return NoContent();
         }
 
-
-
         [HttpPut("avatar")]
         [Authorize] //prevent anonymous spammers
         [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, "image/jpeg")]

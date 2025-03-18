@@ -21,6 +21,7 @@ namespace Rommelmarkten.Api.Features.Users
 
         public static IServiceCollection AddUsersFeature(this IServiceCollection services, IConfiguration configuration)
         {
+
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile, UsersDbContext>>();
@@ -31,6 +32,8 @@ namespace Rommelmarkten.Api.Features.Users
 
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ITokenManager, TokenManager>();
+
+            services.AddUserAuthorization();
 
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(options =>
