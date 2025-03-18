@@ -8,7 +8,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
-            builder.HasKey(e => e.UserId);
+            builder.HasKey(e => e.OwnedBy);
 
             builder.Property(e => e.Name)
                 .IsRequired()

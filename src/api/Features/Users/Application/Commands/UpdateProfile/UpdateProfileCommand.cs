@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
-using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Application.Security;
 using Rommelmarkten.Api.Features.Users.Domain;
@@ -11,7 +10,6 @@ using Rommelmarkten.Api.Features.Users.Domain;
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile
 {
 
-    //[Authorize(Policy = CorePolicies.MustBeSelfOrAdmin)]
     [AuthorizeResource(Policy = UsersPolicies.MustBeSelfOrAdmin, 
                        IdentifierPropertyName = nameof(UserId), 
                        ResourceType = typeof(UserProfile))]
@@ -44,10 +42,10 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile
         public async Task Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.UserProfiles
-                .SingleOrDefaultAsync(e => e.UserId.Equals(request.UserId));
+                .SingleOrDefaultAsync(e => e.OwnedBy.Equals(request.UserId));
 
             if (entity == null)
-                throw new NotFoundException(nameof(UserProfile), nameof(UserProfile.UserId));
+                throw new NotFoundException(nameof(UserProfile), nameof(UserProfile.OwnedBy));
 
             entity.Consented = request.HasConsented;
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Domain;
@@ -49,7 +48,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
                         //Avatar = avatar,
                         Name = user.UserName ?? "New User",
                         Consented = true,
-                        UserId = user.Id,
+                        OwnedBy = user.Id,
                     };
                     context.Set<UserProfile>().Add(profile);
                     await context.SaveChangesAsync();

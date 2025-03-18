@@ -25,7 +25,7 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security.AuthHandlers
                                                        MustBeSelfOrAdminRequirement requirement,
                                                        UserProfile resource)
         {
-            if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) == resource.UserId ||
+            if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) == resource.OwnedBy ||
                 context.User.HasClaim(c => c.Type == Common.Application.Security.ClaimTypes.IsAdmin))
             {
                 context.Succeed(requirement);

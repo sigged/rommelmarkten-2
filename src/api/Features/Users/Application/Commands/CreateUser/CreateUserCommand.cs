@@ -67,7 +67,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser
 
                     var profile = new UserProfile
                     {
-                        UserId = user.Id,
+                        OwnedBy = user.Id,
                         Consented = false,
                         Name = request.Name
                         //Avatar = avatar

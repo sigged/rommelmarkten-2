@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Domain.Affiliates;
-using Rommelmarkten.Api.Domain.Markets;
+using Rommelmarkten.Api.Features.Markets.Domain;
 using System.Data;
 using System.Data.Common;
 

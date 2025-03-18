@@ -1,9 +1,10 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Affiliates;
-using Rommelmarkten.Api.Domain.Content;
-using Rommelmarkten.Api.Domain.Markets;
-using Rommelmarkten.Api.Domain.Users;
-using Rommelmarkten.Api.Infrastructure.Persistence;
+﻿using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Infrastructure.Persistence;
+using Rommelmarkten.Api.Features.Affiliates.Domain;
+using Rommelmarkten.Api.Features.FAQs.Domain;
+using Rommelmarkten.Api.Features.Markets.Domain;
+using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.MigrationsAggregator;
 using System.Data.Common;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace V2Importer.Importers
 
     public partial class Importer
     {
-        private readonly ApplicationDbContext target;
+        private readonly MigrationsDbContext target;
         private readonly ICurrentUserService currentUserService;
         private readonly IDateTime dateTimeService;
         private readonly ICurrentUserService alexAdminCurrentUserService;
@@ -37,7 +38,7 @@ namespace V2Importer.Importers
         private readonly IEntityRepository<MarketWithTheme> marketWithThemeRepository;
 
         public Importer(
-            ApplicationDbContext target, 
+            MigrationsDbContext target, 
             ICurrentUserService currentUserService,
             IDateTime dateTimeService,
             

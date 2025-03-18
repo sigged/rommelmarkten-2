@@ -29,7 +29,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries.GetProfile
         public async Task<UserProfileDto?> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
         {
             return await _context.UserProfiles
-                .Where(e => e.UserId.Equals(_currentUserService.UserId))
+                .Where(e => e.OwnedBy.Equals(_currentUserService.UserId))
                 .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);
         }

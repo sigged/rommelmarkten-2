@@ -1,14 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Affiliates;
-using Rommelmarkten.Api.Domain.Content;
-using Rommelmarkten.Api.Domain.Markets;
-using Rommelmarkten.Api.Domain.Users;
-using Rommelmarkten.Api.Infrastructure.Persistence;
-using Rommelmarkten.Api.Infrastructure.Services;
+using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Infrastructure.Persistence;
+using Rommelmarkten.Api.Common.Infrastructure.Services;
+using Rommelmarkten.Api.Features.Affiliates.Domain;
+using Rommelmarkten.Api.Features.Affiliates.Infrastructure.Persistence;
+using Rommelmarkten.Api.Features.FAQs.Domain;
+using Rommelmarkten.Api.Features.FAQs.Infrastructure.Persistence;
+using Rommelmarkten.Api.Features.Markets.Domain;
+using Rommelmarkten.Api.Features.Markets.Infrastructure.Persistence;
+using Rommelmarkten.Api.Features.NewsArticles.Infrastructure.Persistence;
+using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
+using Rommelmarkten.Api.Features.Users.Application.Gateways;
+using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
+using Rommelmarkten.Api.MigrationsAggregator;
 using V2Importer.Importers;
 
 namespace V2Importer
@@ -48,30 +57,33 @@ namespace V2Importer
                     services.AddSingleton<IDateTime, ImporterDatetime>();
                     services.AddSingleton<ICurrentUserService, ImportCurrentUserService>();
 
-                    services.AddDbContext<ApplicationDbContext>(options =>
-                    {
-                        options.UseSqlServer(App.targetDatabase);
-                    });
-                    services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+                    //services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(App.targetDatabase); });
+                    //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-                    services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile>>();
 
-                    services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd>>();
-                    services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType>>();
-                    services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory>>();
-                    services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem>>();
-                    services.AddScoped<IEntityRepository<Province>, EFRepository<Province>>();
-                    services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration>>();
-                    services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme>>();
+                    services.AddDbContext<MigrationsDbContext>(options => options.UseSqlServer((App.targetDatabase)));
+                    
 
-                    services.AddScoped<IEntityRepository<Market>, EFRepository<Market>>();
-                    services.AddScoped<IEntityRepository<MarketDate>, EFRepository<MarketDate>>();
-                    services.AddScoped<IEntityRepository<MarketInvoiceLine>, EFRepository<MarketInvoiceLine>>();
-                    services.AddScoped<IEntityRepository<MarketInvoiceReminder>, EFRepository<MarketInvoiceReminder>>();
-                    services.AddScoped<IEntityRepository<MarketInvoice>, EFRepository<MarketInvoice>>();
-                    services.AddScoped<IEntityRepository<MarketRevision>, EFRepository<MarketRevision>>();
-                    services.AddScoped<IEntityRepository<MarketRevisionWithTheme>, EFRepository<MarketRevisionWithTheme>>();
-                    services.AddScoped<IEntityRepository<MarketWithTheme>, EFRepository<MarketWithTheme>>();
+
+                    services.AddScoped<IEntityRepository<UserProfile>, EFRepository<UserProfile, MigrationsDbContext>>();
+
+                    services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd, MigrationsDbContext>>();
+
+                    services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<FAQCategory>, EFRepository<FAQCategory, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<Province>, EFRepository<Province, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketConfiguration>, EFRepository<MarketConfiguration, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketTheme>, EFRepository<MarketTheme, MigrationsDbContext>>();
+
+                    services.AddScoped<IEntityRepository<Market>, EFRepository<Market, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketDate>, EFRepository<MarketDate, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketInvoiceLine>, EFRepository<MarketInvoiceLine, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketInvoiceReminder>, EFRepository<MarketInvoiceReminder, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketInvoice>, EFRepository<MarketInvoice, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketRevision>, EFRepository<MarketRevision, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketRevisionWithTheme>, EFRepository<MarketRevisionWithTheme, MigrationsDbContext>>();
+                    services.AddScoped<IEntityRepository<MarketWithTheme>, EFRepository<MarketWithTheme, MigrationsDbContext>>();
 
                     services.AddSingleton<App>();
                     services.AddSingleton<Importer>();

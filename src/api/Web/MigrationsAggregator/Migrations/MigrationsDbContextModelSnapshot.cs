@@ -860,16 +860,16 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.Property<string>("DeviceHash")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -884,7 +884,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.UserProfile", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("OwnedBy")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset?>("ActivationDate")
@@ -908,6 +908,12 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsBanned")
                         .HasColumnType("bit");
 
@@ -916,6 +922,12 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.Property<DateTimeOffset?>("LastActivityDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("LastPasswordResetDate")
                         .HasColumnType("datetimeoffset");
@@ -933,7 +945,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("OwnedBy");
 
                     b.ToTable("UserProfiles");
                 });

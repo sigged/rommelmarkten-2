@@ -1,5 +1,5 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Content;
+﻿using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Features.FAQs.Domain;
 using System.Data.Common;
 
 namespace V2Importer.Importers

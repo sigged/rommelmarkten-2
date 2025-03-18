@@ -32,7 +32,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateAvatar
         public async Task Handle(UpdateAvatarCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.UserProfiles
-                .SingleOrDefaultAsync(e => e.UserId.Equals(_currentUserService.UserId));
+                .SingleOrDefaultAsync(e => e.OwnedBy.Equals(_currentUserService.UserId));
 
             if (entity != null)
             {
@@ -59,7 +59,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateAvatar
             }
             else
             {
-                throw new NotFoundException(nameof(UserProfile), nameof(UserProfile.UserId));
+                throw new NotFoundException(nameof(UserProfile), nameof(UserProfile.OwnedBy));
             }
         }
     }

@@ -209,7 +209,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                 name: "UserProfiles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OwnedBy = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Consented = table.Column<bool>(type: "bit", nullable: false),
                     IsBanned = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -222,11 +222,15 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                     LastActivationMailSendDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ActivationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     LastActivityDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastPasswordResetDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    LastPasswordResetDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProfiles", x => x.UserId);
+                    table.PrimaryKey("PK_UserProfiles", x => x.OwnedBy);
                 });
 
             migrationBuilder.CreateTable(
@@ -341,9 +345,9 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Expires = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeviceHash = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    DeviceHash = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {

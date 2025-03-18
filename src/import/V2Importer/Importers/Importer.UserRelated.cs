@@ -1,20 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Affiliates;
-using Rommelmarkten.Api.Domain.Content;
-using Rommelmarkten.Api.Domain.Markets;
-using Rommelmarkten.Api.Domain.Users;
-using Rommelmarkten.Api.Infrastructure.Persistence;
-using System;
+using Rommelmarkten.Api.Features.Affiliates.Domain;
+using Rommelmarkten.Api.Features.Users.Domain;
 using System.Data;
 using System.Data.Common;
-using System.Text;
 
 namespace V2Importer.Importers
 {
-    
+
     public partial class Importer
     {
        
@@ -149,7 +142,7 @@ namespace V2Importer.Importers
                
                 var userProfile = new UserProfile
                 {
-                    UserId = parms["Id"]!,
+                    OwnedBy = parms["Id"]!,
                     Consented = true,
                     IsBanned = parms["IsBlocked"],
                     ActivationDate = parms["ActivationDate"],
