@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rommelmarkten.Api.Common.Application.Models;
+using Rommelmarkten.Api.Common.Web.Controllers;
 using Rommelmarkten.Api.Features.Users.Application.Commands.AuthenticateUser;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
@@ -15,10 +17,9 @@ using Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile;
 using Rommelmarkten.Api.Features.Users.Application.Models;
 using Rommelmarkten.Api.Features.Users.Application.Queries.GenerateEmailConfirmationToken;
 using Rommelmarkten.Api.Features.Users.Application.Queries.GeneratePasswordResetToken;
-using Rommelmarkten.Api.WebApi.Controllers;
 using System.Net.Mime;
 
-namespace Rommelmarkten.Api.WebApi.V1.Users
+namespace Rommelmarkten.Api.Features.Users.Web.V1
 {
     [ApiVersion("1.0")]
     [ApiController]
@@ -150,7 +151,7 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
             return NoContent();
         }
 
-        
+
         //[HttpPost("manage-2fa")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -193,13 +194,13 @@ namespace Rommelmarkten.Api.WebApi.V1.Users
         public async Task<ActionResult> Update(IFormFile avatarFile)
         {
             byte[] buffer = new byte[avatarFile.Length];
-            using(var memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
                 await avatarFile.CopyToAsync(memoryStream);
                 memoryStream.Position = 0;
                 await memoryStream.WriteAsync(buffer, 0, buffer.Length);
             }
-            
+
             var command = new UpdateAvatarCommand
             {
                 Avatar = new BlobDto

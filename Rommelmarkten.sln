@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Captchas", "src\api\Feature
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrationsAggregator", "src\api\Web\MigrationsAggregator\MigrationsAggregator.csproj", "{E6B6733D-1547-4536-895A-3B1200CE9249}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\api\Common\Web\Web.csproj", "{A334CBB7-F535-49B3-9267-758027C1411F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,10 @@ Global
 		{E6B6733D-1547-4536-895A-3B1200CE9249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6B6733D-1547-4536-895A-3B1200CE9249}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6B6733D-1547-4536-895A-3B1200CE9249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A334CBB7-F535-49B3-9267-758027C1411F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A334CBB7-F535-49B3-9267-758027C1411F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A334CBB7-F535-49B3-9267-758027C1411F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A334CBB7-F535-49B3-9267-758027C1411F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{8A8BC702-B76C-499D-B83D-C43F951F97A6} = {B6A9AFE7-2543-49DA-B12F-CF05F3046685}
 		{580763F8-0D39-43D2-A466-74C8C8D548CB} = {8A8BC702-B76C-499D-B83D-C43F951F97A6}
 		{E6B6733D-1547-4536-895A-3B1200CE9249} = {06CD7AEE-F26B-44E1-A1E1-406E4500F597}
+		{A334CBB7-F535-49B3-9267-758027C1411F} = {C7A4D5D7-C53D-44DD-9753-6C64258E94C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80B1D1F9-78C3-43E5-9AD2-633635F749A2}

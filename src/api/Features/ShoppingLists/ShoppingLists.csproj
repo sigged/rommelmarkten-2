@@ -12,6 +12,11 @@
 	  <ProjectReference Include="..\..\Common\Application\Application.csproj" />
 	  <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
 	  <ProjectReference Include="..\..\Common\Infrastructure\Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Common\Web\Web.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Web\V1\" />
 	</ItemGroup>
 
 

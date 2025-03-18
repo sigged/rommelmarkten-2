@@ -1,22 +1,23 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Rommelmarkten.Api.Common.Application.Caching;
 using Rommelmarkten.Api.Common.Application.Pagination;
-using Rommelmarkten.Api.Features.Markets.Application.BannerTypes.Commands;
-using Rommelmarkten.Api.Features.Markets.Application.BannerTypes.Models;
-using Rommelmarkten.Api.Features.Markets.Application.BannerTypes.Requests;
-using Rommelmarkten.Api.WebApi.Controllers;
-using Rommelmarkten.Api.WebApi.Middlewares;
+using Rommelmarkten.Api.Common.Web.Controllers;
+using Rommelmarkten.Api.Common.Web.Middlewares;
+using Rommelmarkten.Api.Features.FAQs.Application.FAQCategories.Commands;
+using Rommelmarkten.Api.Features.FAQs.Application.FAQCategories.Models;
+using Rommelmarkten.Api.Features.FAQs.Application.FAQCategories.Requests;
 using System.Net.Mime;
 
-namespace Rommelmarkten.Api.WebApi.V1.BannerTypes
+namespace Rommelmarkten.Api.Features.FAQs.Web.V1
 {
     [ApiVersion("1.0")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesErrorResponseType(typeof(ProblemDetails))]
-    public class BannerTypesController : ApiControllerBase
+    public class FAQCategoriesController : ApiControllerBase
     {
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -26,7 +27,7 @@ namespace Rommelmarkten.Api.WebApi.V1.BannerTypes
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Create(CreateBannerTypeCommand command)
+        public async Task<ActionResult> Create(CreateFAQCategoryCommand command)
         {
             var createdId = await Mediator.Send(command);
             return CreatedAtAction(nameof(Create), createdId);
@@ -40,7 +41,7 @@ namespace Rommelmarkten.Api.WebApi.V1.BannerTypes
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Update(UpdateBannerTypeCommand command)
+        public async Task<ActionResult> Update(UpdateFAQCategoryCommand command)
         {
             await Mediator.Send(command);
             return NoContent();
@@ -55,34 +56,34 @@ namespace Rommelmarkten.Api.WebApi.V1.BannerTypes
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await Mediator.Send(new DeleteBannerTypeCommand { Id = id });
+            await Mediator.Send(new DeleteFAQCategoryCommand { Id = id });
             return NoContent();
         }
 
         [HttpGet]
-        [OutputCache(Tags = [CacheTagNames.BannerType])]
+        [OutputCache(Tags = [CacheTagNames.FAQ])]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(PaginatedList<BannerTypeDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedList<FAQCategoryDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PaginatedList<BannerTypeDto>>> GetPagedConfigurations([FromQuery] GetPagedBannerTypesRequest query)
+        public async Task<ActionResult<PaginatedList<FAQCategoryDto>>> GetPagedConfigurations([FromQuery] GetPagedFAQCategoriesRequest query)
         {
             return await Mediator.Send(query);
         }
 
         [HttpGet("{id:guid}")]
-        [OutputCache(Tags = [CacheTagNames.BannerType])]
+        [OutputCache(Tags = [CacheTagNames.FAQ])]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(PaginatedList<BannerTypeDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedList<FAQCategoryDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BannerTypeDto>> GetConfiguration(Guid id)
+        public async Task<ActionResult<FAQCategoryDto>> GetConfiguration(Guid id)
         {
-            return await Mediator.Send(new GetBannerTypeByIdRequest { Id = id });
+            return await Mediator.Send(new GetFAQCategoryByIdRequest { Id = id });
         }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Rommelmarkten.Api.WebApi.Controllers
+namespace Rommelmarkten.Api.Common.Web.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]

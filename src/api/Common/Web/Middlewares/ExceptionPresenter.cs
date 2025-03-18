@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Rommelmarkten.Api.Common.Application.Exceptions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Rommelmarkten.Api.WebApi.Middlewares
+namespace Rommelmarkten.Api.Common.Web.Middlewares
 {
     /// <summary>
     /// Middleware to present exceptions as structured HTTP responses
     /// </summary>
-    internal sealed class ExceptionPresenter : IMiddleware
+    public sealed class ExceptionPresenter : IMiddleware
     {
         private readonly ILogger<ExceptionPresenter> logger;
         private static JsonSerializerOptions jsonSerializationOptions = new JsonSerializerOptions
@@ -109,7 +111,7 @@ namespace Rommelmarkten.Api.WebApi.Middlewares
                 Extensions["stackTrace"] = currentException.StackTrace;
                 currentException = currentException.InnerException;
             }
-            while (currentException != null);    
+            while (currentException != null);
 #endif
         }
     }

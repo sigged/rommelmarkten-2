@@ -1,12 +1,13 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Rommelmarkten.Api.Common.Web.Controllers;
 using Rommelmarkten.Api.Features.Captchas.Application.Models;
 using Rommelmarkten.Api.Features.Captchas.Application.Requests;
-using Rommelmarkten.Api.WebApi.Controllers;
 using System.Net.Mime;
 
-namespace Rommelmarkten.Api.WebApi.V1.Captcha
+namespace Rommelmarkten.Api.Features.Captchas.Web.V1
 {
     [ApiVersion("1.0")]
     [ApiController]
