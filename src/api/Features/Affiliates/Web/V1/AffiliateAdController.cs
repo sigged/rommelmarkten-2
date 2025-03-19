@@ -13,6 +13,9 @@ using System.Net.Mime;
 
 namespace Rommelmarkten.Api.Features.Affiliates.Web.V1
 {
+    /// <summary>
+    /// Controller for managing affiliate ads
+    /// </summary>
     [ApiVersion("1.0")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
@@ -38,6 +41,11 @@ namespace Rommelmarkten.Api.Features.Affiliates.Web.V1
             return CreatedAtAction(nameof(Create), createdId);
         }
 
+        /// <summary>
+        /// Updates an existing affiliate ad
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -52,6 +60,11 @@ namespace Rommelmarkten.Api.Features.Affiliates.Web.V1
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes an existing affiliate ad
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -65,6 +78,11 @@ namespace Rommelmarkten.Api.Features.Affiliates.Web.V1
             return NoContent();
         }
 
+        /// <summary>
+        /// Gets a paged list of affiliate ads
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpGet]
         [OutputCache(Tags = [CacheTagNames.AffiliateAd])]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -73,11 +91,16 @@ namespace Rommelmarkten.Api.Features.Affiliates.Web.V1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PaginatedList<AffiliateAdDto>>> GetPagedConfigurations([FromQuery] GetPagedAffiliateAdsRequest query)
+        public async Task<ActionResult<PaginatedList<AffiliateAdDto>>> GetPagedAffiliateAds([FromQuery] GetPagedAffiliateAdsRequest query)
         {
             return await Mediator.Send(query);
         }
 
+        /// <summary>
+        /// Gets an affiliate ad by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id:guid}")]
         [OutputCache(Tags = [CacheTagNames.AffiliateAd])]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -86,7 +109,7 @@ namespace Rommelmarkten.Api.Features.Affiliates.Web.V1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<AffiliateAdDto>> GetConfiguration(Guid id)
+        public async Task<ActionResult<AffiliateAdDto>> GetAffiliateAd(Guid id)
         {
             return await Mediator.Send(new GetAffiliateAdByIdRequest { Id = id });
         }

@@ -7,7 +7,7 @@ using System.Text.Json;
 namespace Rommelmarkten.Api.WebApi.Filters
 {
 
-    public class SwaggerDefaultValues : IOperationFilter
+    internal class SwaggerDefaultValues : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {

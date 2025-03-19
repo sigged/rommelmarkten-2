@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Rommelmarkten.Api.WebApi.Versioning
 {
-    public static class SwaggerVersioningExtensions
+    internal static class SwaggerVersioningExtensions
     {
         public static IHostApplicationBuilder AddSwaggerSupportedVersioning(this IHostApplicationBuilder builder)
         {
@@ -20,7 +20,7 @@ namespace Rommelmarkten.Api.WebApi.Versioning
             return builder;
         }
 
-        public static IApplicationBuilder UseSwaggerSupportedVersioning(this WebApplication app)
+        internal static IApplicationBuilder UseSwaggerSupportedVersioning(this WebApplication app)
         {
             if (app.Environment.IsDevelopment())
             {

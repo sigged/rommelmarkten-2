@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace Rommelmarkten.Api.WebApi.Services
 {
-    public class CurrentUserService : ICurrentUserService
+    internal class CurrentUserService : ICurrentUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

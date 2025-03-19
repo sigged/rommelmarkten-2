@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Infrastructure;
@@ -10,19 +8,17 @@ using Rommelmarkten.Api.Features.FAQs;
 using Rommelmarkten.Api.Features.Markets;
 using Rommelmarkten.Api.Features.NewsArticles;
 using Rommelmarkten.Api.Features.ShoppingLists;
-using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users;
 using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.Api.MigrationsAggregator;
-using Rommelmarkten.Api.WebApi.Persistence;
 using Rommelmarkten.Api.WebApi.Services;
 using Rommelmarkten.Api.WebApi.Versioning;
 
 namespace Rommelmarkten.Api.WebApi
 {
-    public class Program
+    internal class Program
     {
-        public async static Task Main(string[] args)
+        internal async static Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 

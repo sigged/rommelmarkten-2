@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Rommelmarkten.Api.WebApi.Persistence
 {
-    public static class ApplicationDbContextSeed
+    internal static class ApplicationDbContextSeed
     {
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, UsersDbContext context)
         {
