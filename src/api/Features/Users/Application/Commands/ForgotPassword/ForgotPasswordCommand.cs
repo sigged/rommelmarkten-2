@@ -1,32 +1,56 @@
 ﻿using MediatR;
+using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Models;
+using Rommelmarkten.Api.Features.Captchas.Application.Gateways;
+using Rommelmarkten.Api.Features.Captchas.Infrastructure.Captcha;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword
 {
 
-    public class ForgotPasswordCommand : IRequest
+    public class ForgotPasswordCommand : IRequest<Result>
     {
         public required string Email { get; set; }
+        public required string Captcha { get; set; }
     }
 
-    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand>
+    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, Result>
     {
-        private readonly IIdentityService _identityService;
-        private readonly IDomainEventService _domainEventService;
+        private readonly IIdentityService identityService;
+        private readonly IDomainEventService domainEventService;
+        private readonly ICaptchaProvider captchaProvider;
 
-        public ForgotPasswordCommandHandler(IIdentityService identityService, IDomainEventService domainEventService)
+        public ForgotPasswordCommandHandler(IIdentityService identityService, IDomainEventService domainEventService, ICaptchaProvider captchaProvider)
         {
-            _identityService = identityService;
-            _domainEventService = domainEventService;
+            this.identityService = identityService;
+            this.domainEventService = domainEventService;
+            this.captchaProvider = captchaProvider;
         }
 
-        public async Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
         {
-            var resetCode = await _identityService.GeneratePasswordResetTokenAsync(request.Email);
+            try
+            {
+                var captchaResult = await captchaProvider.VerifyChallenge(request.Captcha);
+                if (captchaResult.Succeeded)
+                {
 
-            //todo: send email
-            //await SendForgotPasswordEmail(user.Email, user);
+                    var resetCode = await identityService.GeneratePasswordResetTokenAsync(request.Email);
 
+                    //todo: send email
+                    //await SendForgotPasswordEmail(user.Email, user);
+
+                    return Result.Success();
+                }
+                else
+                {
+                    return Result.Failure(captchaResult.Errors);
+                }
+            }
+            catch(NotFoundException)
+            {
+                return Result.Failure(["Request could not be completed"]);
+            }
         }
     }
 }

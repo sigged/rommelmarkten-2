@@ -140,7 +140,6 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
         public async Task<IUser> FindByName(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-
             if (user == null)
                 throw new NotFoundException(nameof(IUser), nameof(IUser.UserName));
 
@@ -271,6 +270,33 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 
             var result = await _userManager.ResetPasswordAsync(user, resetCode, newPassword);
 
+            return result.ToApplicationResult();
+        }
+
+        public async Task<Result> UpdateUser(IUser user)
+        {
+            if(user is ApplicationUser appUser)
+            {
+                var result = await _userManager.UpdateAsync(appUser);
+
+                return result.ToApplicationResult();
+            }
+            else
+            {
+                throw new ArgumentException("Parameter must be of type ApplicationUser", nameof(user));
+            }
+        }
+
+        public async Task<Result> InvalidateEmail(IUser user)
+        {
+            var appUser = await _userManager.FindByIdAsync(user.Id);
+
+            if (appUser == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.Email));
+
+            appUser.EmailConfirmed = false;
+
+            var result = await _userManager.UpdateAsync(appUser);
             return result.ToApplicationResult();
         }
     }
