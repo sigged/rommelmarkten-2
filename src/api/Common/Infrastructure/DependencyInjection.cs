@@ -42,19 +42,20 @@ namespace Rommelmarkten.Api.Common.Infrastructure
 
             services.AddSingleton(tokenSettings);
 
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb"));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
+                if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb");
+                }
+                else
+                {
                     options.UseSqlServer(
                         configuration.GetConnectionString("DefaultConnection"),
-                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
-
+                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+                }
+            });
+    
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
 

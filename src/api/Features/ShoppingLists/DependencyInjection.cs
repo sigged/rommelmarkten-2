@@ -16,7 +16,17 @@ namespace Rommelmarkten.Api.Features.ShoppingLists
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IShoppingListsDbContext, ShoppingListsDbContext>();
-            services.AddDbContext<ShoppingListsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ShoppingListsDbContext>(options => {
+                if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb");
+                }
+                else
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                }
+
+            });
 
             return services;
         }

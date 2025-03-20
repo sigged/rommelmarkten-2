@@ -12,8 +12,6 @@ namespace Rommelmarkten.Api.Features.FAQs
 {
     public static class DependencyInjection
     {
-
-
         public static IServiceCollection AddFAQFeature(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
@@ -22,7 +20,16 @@ namespace Rommelmarkten.Api.Features.FAQs
             services.AddScoped<IEntityRepository<FAQItem>, EFRepository<FAQItem, FAQsDbContext>>();
 
             services.AddScoped<IFAQsDbContext, FAQsDbContext>();
-            services.AddDbContext<FAQsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<FAQsDbContext>(options => {
+                if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb");
+                }
+                else
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                }
+            });
 
             return services;
         }

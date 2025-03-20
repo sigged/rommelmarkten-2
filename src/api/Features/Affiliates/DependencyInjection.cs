@@ -18,9 +18,19 @@ namespace Rommelmarkten.Api.Features.Affiliates
 
             services.AddScoped<IEntityRepository<AffiliateAd>, EFRepository<AffiliateAd, AffiliatesDbContext>>();
 
-
-            services.AddDbContext<AffiliatesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAffiliatesDbContext, AffiliatesDbContext>();
+            services.AddDbContext<AffiliatesDbContext>(options => {
+                if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb");
+                }
+                else
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                }
+
+            });
+
 
             return services;
         }

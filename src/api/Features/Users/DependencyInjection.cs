@@ -28,7 +28,17 @@ namespace Rommelmarkten.Api.Features.Users
             services.AddTransient<IAvatarGenerator, AvatarGenerator>();
 
             services.AddScoped<IUsersDbContext, UsersDbContext>();
-            services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<UsersDbContext>(options => {
+                if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb");
+                }
+                else
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                }
+
+            });
 
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ITokenManager, TokenManager>();

@@ -24,7 +24,17 @@ namespace Rommelmarkten.Api.Features.Markets
             services.AddScoped<IEntityRepository<BannerType>, EFRepository<BannerType, MarketsDbContext>>();
 
             services.AddScoped<IMarketsDbContext, MarketsDbContext>();
-            services.AddDbContext<MarketsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<MarketsDbContext>(options => {
+                if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb");
+                }
+                else
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                }
+                    
+            });
 
             return services;
         }

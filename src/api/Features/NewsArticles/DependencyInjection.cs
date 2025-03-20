@@ -21,7 +21,17 @@ namespace Rommelmarkten.Api.Features.NewsArticles
             services.AddScoped<IEntityRepository<NewsArticle>, EFRepository<NewsArticle, NewsArticlesDbContext>>();
 
             services.AddScoped<INewsArticlesDbContext, NewsArticlesDbContext>();
-            services.AddDbContext<NewsArticlesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<NewsArticlesDbContext>(options => {
+                if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    options.UseInMemoryDatabase("RommelmarktenInMemoryDb");
+                }
+                else
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                }
+
+            });
 
             return services;
         }

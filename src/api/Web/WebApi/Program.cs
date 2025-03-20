@@ -16,9 +16,15 @@ using Rommelmarkten.Api.WebApi.Versioning;
 
 namespace Rommelmarkten.Api.WebApi
 {
-    internal class Program
+    /// <summary>
+    /// Runs the web application
+    /// </summary>
+    public class Program
     {
-        internal async static Task Main(string[] args)
+        /// <summary>
+        /// Entry method for the web application
+        /// </summary>
+        public async static Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
