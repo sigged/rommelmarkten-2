@@ -24,7 +24,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser
     {
         public required string Name { get; set; }
 
-        public required string UserName { get; set; }
+        public required string Email { get; set; }
 
         public required string Password { get; set; }
 
@@ -59,10 +59,10 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser
             }
             else
             {
-                var result = await _identityService.CreateUserAsync(request.UserName, request.Password);
+                var result = await _identityService.CreateUserAsync(request.Email, request.Password);
                 if (result.Result.Succeeded)
                 {
-                    var user = await _identityService.FindByName(request.UserName);
+                    var user = await _identityService.FindByName(request.Email);
                     //var avatar = await _avatarGenerator.GenerateAvatar(user);
 
                     var profile = new UserProfile
