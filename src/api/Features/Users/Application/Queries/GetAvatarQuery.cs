@@ -5,7 +5,7 @@ using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 
-namespace Rommelmarkten.Api.Features.Users.Application.Queries.GetAvatar
+namespace Rommelmarkten.Api.Features.Users.Application.Queries
 {
     [Authorize]
     public class GetAvatarQuery : IRequest<BlobDto>

@@ -3,7 +3,7 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.Users.Application.Models;
 
-namespace Rommelmarkten.Api.Features.Users.Application.Queries.GenerateEmailConfirmationToken
+namespace Rommelmarkten.Api.Features.Users.Application.Queries
 {
 
     //insecure, so only admins can do this
@@ -16,7 +16,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries.GenerateEmailConf
     public class GenerateEmailConfirmationTokenCommandHandler : IRequestHandler<GenerateEmailConfirmationTokenCommand, TokenResult>
     {
         private readonly IIdentityService identityService;
-        private readonly IDomainEventService domainEventService ;
+        private readonly IDomainEventService domainEventService;
         private readonly IResourceAuthorizationService resourceAuthorizationService;
 
         public GenerateEmailConfirmationTokenCommandHandler(IIdentityService identityService, IDomainEventService domainEventService, IResourceAuthorizationService resourceAuthorizationService)

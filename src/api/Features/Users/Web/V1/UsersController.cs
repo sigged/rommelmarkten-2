@@ -2,8 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
+using Rommelmarkten.Api.Common.Application.Caching;
 using Rommelmarkten.Api.Common.Application.Models;
+using Rommelmarkten.Api.Common.Application.Pagination;
 using Rommelmarkten.Api.Common.Web.Controllers;
+using Rommelmarkten.Api.Common.Web.Middlewares;
 using Rommelmarkten.Api.Features.Users.Application.Commands.AuthenticateUser;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
@@ -15,8 +19,7 @@ using Rommelmarkten.Api.Features.Users.Application.Commands.ResetPassword;
 using Rommelmarkten.Api.Features.Users.Application.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile;
 using Rommelmarkten.Api.Features.Users.Application.Models;
-using Rommelmarkten.Api.Features.Users.Application.Queries.GenerateEmailConfirmationToken;
-using Rommelmarkten.Api.Features.Users.Application.Queries.GeneratePasswordResetToken;
+using Rommelmarkten.Api.Features.Users.Application.Queries;
 using System.Net.Mime;
 
 namespace Rommelmarkten.Api.Features.Users.Web.V1
@@ -27,6 +30,21 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
     [ProducesErrorResponseType(typeof(ProblemDetails))]
     public class UsersController : ApiControllerBase
     {
+
+        [HttpGet]
+        [OutputCache(Tags = [CacheTagNames.NewsArticle])]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(PaginatedList<UserProfileDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<PaginatedList<UserProfileDto>>> GetPagedProfiles([FromQuery] GetPagedProfilesRequest query)
+        {
+            return await Mediator.Send(query);
+        }
+
+
         [HttpPost("register")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status201Created)]

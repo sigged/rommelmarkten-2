@@ -3,7 +3,7 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.Users.Application.Models;
 
-namespace Rommelmarkten.Api.Features.Users.Application.Queries.GeneratePasswordResetToken
+namespace Rommelmarkten.Api.Features.Users.Application.Queries
 {
     //insecure, so only admins can do this
     [Authorize(Policy = CorePolicies.MustBeAdmin)]

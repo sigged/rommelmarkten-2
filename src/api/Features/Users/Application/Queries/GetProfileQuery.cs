@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
+using Rommelmarkten.Api.Features.Users.Application.Models;
 
-namespace Rommelmarkten.Api.Features.Users.Application.Queries.GetProfile
+namespace Rommelmarkten.Api.Features.Users.Application.Queries
 {
     [Authorize]
     public class GetUserProfileQuery : IRequest<UserProfileDto>
