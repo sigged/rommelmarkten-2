@@ -11,8 +11,8 @@ using Rommelmarkten.Api.Features.Users.Domain;
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile
 {
 
-    [AuthorizeResource(Policy = UsersPolicies.MustBeSelfOrAdmin, 
-                       IdentifierPropertyName = nameof(UserId), 
+    [AuthorizeResource(Policy = UsersPolicies.MustBeSelfOrAdmin,
+                       IdentifierPropertyName = nameof(UserId),
                        ResourceType = typeof(UserProfile))]
     public class UpdateProfileCommand : IRequest
     {

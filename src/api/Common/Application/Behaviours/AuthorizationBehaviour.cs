@@ -6,8 +6,9 @@ using System.Reflection;
 
 namespace Rommelmarkten.Api.Common.Application.Behaviours
 {
+    
     public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : notnull, IRequest
+        where TRequest : notnull
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IIdentityService _identityService;
