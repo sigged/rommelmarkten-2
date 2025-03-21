@@ -9,6 +9,6 @@ public class UserProfileDto : IMapFrom<UserProfile>
 
     public required string OwnedBy { get; set; }
     public required bool Consented { get; set; }
-    public required BlobDto Avatar { get; set; }
+    //public required BlobDto Avatar { get; set; }
 
 }

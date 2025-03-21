@@ -3,9 +3,11 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Application.Models;
+using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Queries
 {
@@ -29,10 +31,37 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries
 
         public async Task<UserProfileDto?> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
         {
-            return await _context.UserProfiles
+            var usersWithProfiles = await _context.Set<ApplicationUser>()
+                .Join(_context.Set<UserProfile>(),
+                    user => user.Id,
+                    profile => profile.OwnedBy,
+                    (user, profile) => new UserProfileDto
+                    { 
+                        OwnedBy = profile.OwnedBy,
+                        Consented = profile.Consented,
+                        //Avatar = null
+
+                        //Id = user.Id,
+                        //Email = user.Email,
+                        //UserName = user.UserName,
+                        //Consented = profile.Consented,
+                        //Email = profile.ActivationRemindersSent,
+                        //profile.
+                        //Avatar = new BlobDto
+                        //{
+                        //    Content = profile.Avatar.Content,
+                        //    ContentType = profile.Avatar.ContentType
+                        //}
+                    })
                 .Where(e => e.OwnedBy.Equals(_currentUserService.UserId))
                 .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);
+
+            return usersWithProfiles;
+            //return await _context.UserProfiles
+            //    .Where(e => e.OwnedBy.Equals(_currentUserService.UserId))
+            //    .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider)
+            //    .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

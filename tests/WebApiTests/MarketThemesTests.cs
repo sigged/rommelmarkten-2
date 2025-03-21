@@ -30,7 +30,6 @@ namespace WebApiTests
 
             // Act
             var response = await client.GetAsync("/api/v1/Users");
-
             var content = await response.Content.ReadAsStringAsync();
 
             // Assert
