@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Pagination;
 using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Application.Models;
 using Rommelmarkten.Api.Features.Users.Domain;
 
@@ -19,26 +19,39 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries
 
     public class GetPagedProfilesRequestHandler : IRequestHandler<GetPagedProfilesRequest, PaginatedList<UserProfileDto>>
     {
-        private readonly IEntityRepository<UserProfile> repository;
         private readonly IConfigurationProvider mapperConfiguration;
+        private readonly IUsersDbContext context;
 
-        public GetPagedProfilesRequestHandler(IEntityRepository<UserProfile> repository, IConfigurationProvider mapperConfiguration)
+        public GetPagedProfilesRequestHandler(IUsersDbContext context, IConfigurationProvider mapperConfiguration)
         {
-            this.repository = repository;
+            this.context = context;
             this.mapperConfiguration = mapperConfiguration;
         }
 
         public async Task<PaginatedList<UserProfileDto>> Handle(GetPagedProfilesRequest request, CancellationToken cancellationToken)
         {
+            var query = context.Set<ApplicationUser>()
+                .Join(context.Set<UserProfile>(),
+                    user => user.Id,
+                    profile => profile.OwnedBy,
+                    (user, userProfile) => new UserProfileAndUser
+                    {
+                        User = user,
+                        Profile = userProfile
+                    })
+                .OrderBy(e => e.Profile.Created);
 
-            var query = repository.SelectAsQuery(
-                orderBy: e => e.OrderByDescending(e => e.Created)
-            );
 
-            var result = await query.ToPagesAsync<UserProfile, UserProfileDto>(request.PageNumber, request.PageSize, mapperConfiguration);
+            var result = await query.ToPagesAsync<UserProfileAndUser, UserProfileDto>(request.PageNumber, request.PageSize, mapperConfiguration);
             return result;
         }
     }
 
+
+    public class UserProfileAndUser
+    {
+        public required ApplicationUser User { get; init; }
+        public required UserProfile Profile { get; init; }
+    }
 
 }

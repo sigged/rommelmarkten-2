@@ -31,37 +31,39 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries
 
         public async Task<UserProfileDto?> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
         {
-            var usersWithProfiles = await _context.Set<ApplicationUser>()
-                .Join(_context.Set<UserProfile>(),
-                    user => user.Id,
-                    profile => profile.OwnedBy,
-                    (user, profile) => new UserProfileDto
-                    { 
-                        OwnedBy = profile.OwnedBy,
-                        Consented = profile.Consented,
-                        //Avatar = null
+            //var usersWithProfiles = await _context.Set<ApplicationUser>()
+            //    .Join(_context.Set<UserProfile>(),
+            //        user => user.Id,
+            //        profile => profile.OwnedBy,
+            //        (user, profile) => new UserProfileDto
+            //        { 
+            //            OwnedBy = profile.OwnedBy,
+            //            Consented = profile.Consented,
+            //            //Avatar = null
 
-                        //Id = user.Id,
-                        //Email = user.Email,
-                        //UserName = user.UserName,
-                        //Consented = profile.Consented,
-                        //Email = profile.ActivationRemindersSent,
-                        //profile.
-                        //Avatar = new BlobDto
-                        //{
-                        //    Content = profile.Avatar.Content,
-                        //    ContentType = profile.Avatar.ContentType
-                        //}
-                    })
-                .Where(e => e.OwnedBy.Equals(_currentUserService.UserId))
-                .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return usersWithProfiles;
-            //return await _context.UserProfiles
+            //            //Id = user.Id,
+            //            //Email = user.Email,
+            //            //UserName = user.UserName,
+            //            //Consented = profile.Consented,
+            //            //Email = profile.ActivationRemindersSent,
+            //            //profile.
+            //            //Avatar = new BlobDto
+            //            //{
+            //            //    Content = profile.Avatar.Content,
+            //            //    ContentType = profile.Avatar.ContentType
+            //            //}
+            //        })
             //    .Where(e => e.OwnedBy.Equals(_currentUserService.UserId))
             //    .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider)
             //    .FirstOrDefaultAsync(cancellationToken);
+
+            //return usersWithProfiles;
+            ////return await _context.UserProfiles
+            ////    .Where(e => e.OwnedBy.Equals(_currentUserService.UserId))
+            ////    .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider)
+            ////    .FirstOrDefaultAsync(cancellationToken);
+            ///
+            return null;
         }
     }
 }

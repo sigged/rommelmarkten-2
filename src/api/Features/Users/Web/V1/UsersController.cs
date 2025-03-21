@@ -32,7 +32,7 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
     {
 
         [HttpGet]
-        [OutputCache(Tags = [CacheTagNames.NewsArticle])]
+        [OutputCache(Tags = [CacheTagNames.Users])]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(PaginatedList<UserProfileDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -42,6 +42,19 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         public async Task<ActionResult<PaginatedList<UserProfileDto>>> GetPagedProfiles([FromQuery] GetPagedProfilesRequest query)
         {
             return await Mediator.Send(query);
+        }
+
+        [HttpGet("current")]
+        [OutputCache(Tags = [CacheTagNames.Users])]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(PaginatedList<UserProfileDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<UserProfileDto>> GetCurrentUserProfile()
+        {
+            return await Mediator.Send(new GetUserProfileQuery());
         }
 
 

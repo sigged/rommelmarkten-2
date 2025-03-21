@@ -4,6 +4,7 @@ namespace Rommelmarkten.Api.Features.Users.Domain
 {
     public class UserProfile : IAuditable, IOwnable
     {
+        public required string OwnedBy { get; set; }
         //public required string UserId { get; set; }
         public bool Consented { get; set; }
 
@@ -30,6 +31,5 @@ namespace Rommelmarkten.Api.Features.Users.Domain
         public string? CreatedBy { get; set; }
         public DateTime? LastModified { get; set; }
         public string? LastModifiedBy { get; set; }
-        public required string OwnedBy { get; set; }
     }
 }

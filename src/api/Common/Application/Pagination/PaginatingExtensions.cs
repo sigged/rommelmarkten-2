@@ -19,5 +19,6 @@ namespace Rommelmarkten.Api.Common.Application.Pagination
             var items = query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ProjectTo<TProject>(mapperConfiguration);
             return new PaginatedList<TProject>(items, pageIndex, pageSize, count);
         }
+
     }
 }
