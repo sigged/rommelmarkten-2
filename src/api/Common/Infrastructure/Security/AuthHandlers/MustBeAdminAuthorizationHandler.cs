@@ -2,12 +2,10 @@
 
 namespace Rommelmarkten.Api.Common.Infrastructure.Security.AuthHandlers
 {
-    public class MustBeAdminRequirement : IAuthorizationRequirement { }
-
-    public class MustBeAdminAuthorizationHandler : AuthorizationHandler<MustBeAdminRequirement>
+    public class MustBeAdminRequirement : AuthorizationHandler<MustBeAdminRequirement>, IAuthorizationRequirement
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                       MustBeAdminRequirement requirement)
+                                                        MustBeAdminRequirement requirement)
         {
             if (context.User.HasClaim(c => c.Type == Application.Security.ClaimTypes.IsAdmin))
             {

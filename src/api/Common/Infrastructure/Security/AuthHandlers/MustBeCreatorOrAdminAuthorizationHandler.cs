@@ -5,13 +5,11 @@ using ClaimTypes = System.Security.Claims.ClaimTypes;
 
 namespace Rommelmarkten.Api.Common.Infrastructure.Security.AuthHandlers
 {
-    public class MustBeCreatorOrAdminRequirement : IAuthorizationRequirement { }
-
-    public class MustBeCreatorOrAdminAuthorizationHandler : AuthorizationHandler<MustBeCreatorOrAdminRequirement, IAuditable>
+    public class MustBeCreatorOrAdminRequirement : AuthorizationHandler<MustBeCreatorOrAdminRequirement, IAuditable>, IAuthorizationRequirement
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                       MustBeCreatorOrAdminRequirement requirement,
-                                                       IAuditable resource)
+                                                           MustBeCreatorOrAdminRequirement requirement,
+                                                           IAuditable resource)
         {
             if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) == resource.CreatedBy ||
                 context.User.HasClaim(c => c.Type == Application.Security.ClaimTypes.IsAdmin))
