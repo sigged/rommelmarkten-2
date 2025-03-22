@@ -68,12 +68,12 @@ namespace Rommelmarkten.Api.WebApi
                 // Configure the HTTP request pipeline.
                 app.UseSwaggerSupportedVersioning();
 
-                //if(app.Environment.IsDevelopment())
-                //{
-                //    app.UseDeveloperExceptionPage();
-                //    app.UseOpenApi();
-                //    app.UseSwaggerUi();
-                //}
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                    app.UseOpenApi(); //throws when "debug just my code" is disabled!! (sliced controller prob..(?))
+                    app.UseSwaggerUi();
+                }
 
                 app.UseHttpsRedirection();
 

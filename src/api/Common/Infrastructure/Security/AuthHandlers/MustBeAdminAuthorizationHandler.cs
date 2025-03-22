@@ -11,8 +11,10 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security.AuthHandlers
             {
                 context.Succeed(requirement);
             }
-
-            context.Succeed(requirement);
+            else
+            {
+                context.Fail();
+            }
             return Task.CompletedTask;
         }
     }
