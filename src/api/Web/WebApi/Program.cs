@@ -61,8 +61,6 @@ namespace Rommelmarkten.Api.WebApi
             builder.AddSwaggerSupportedVersioning();
             builder.Services.AddOpenApiDocument();
 
-            var rigs = builder.Services.Select(s => s.ServiceType.FullName).ToList();
-
             try
             {
                 var app = builder.Build();
@@ -70,12 +68,12 @@ namespace Rommelmarkten.Api.WebApi
                 // Configure the HTTP request pipeline.
                 app.UseSwaggerSupportedVersioning();
 
-                if(app.Environment.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                    app.UseOpenApi();
-                    app.UseSwaggerUi();
-                }
+                //if(app.Environment.IsDevelopment())
+                //{
+                //    app.UseDeveloperExceptionPage();
+                //    app.UseOpenApi();
+                //    app.UseSwaggerUi();
+                //}
 
                 app.UseHttpsRedirection();
 

@@ -13,7 +13,7 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Security
         {
             AuthorizationPolicies.AddAuthorizationPolicy(UsersPolicies.MustBeSelfOrAdmin, policy => policy.Requirements.Add(new MustBeSelfOrAdminRequirement()));
 
-            services.AddSingleton<IAuthorizationHandler, MustBeSelfOrAdminAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, MustBeSelfOrAdminAuthorizationHandler>();
 
             return services;
         }

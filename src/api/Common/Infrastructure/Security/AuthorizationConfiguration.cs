@@ -39,10 +39,10 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
 
             services.AddTransient<IResourceAuthorizationService, ResourceAuthorizationService>();
 
-            services.AddSingleton<IAuthorizationHandler, MustBeAdminAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, MustBeCreatorAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, MustBeLastModifierAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, MustBeAdminAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, MustBeCreatorAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, MustBeLastModifierAuthorizationHandler>();
 
             return services;
         }
