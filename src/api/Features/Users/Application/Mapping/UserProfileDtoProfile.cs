@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Rommelmarkten.Api.Features.Users.Application.Models;
+using Rommelmarkten.Api.Features.Users.Application.Queries;
 
-namespace Rommelmarkten.Api.Features.Users.Application.Queries
+namespace Rommelmarkten.Api.Features.Users.Application.Mapping
 {
     public class UserProfileDtoProfile : Profile
     {

@@ -54,7 +54,7 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserProfileDto>> GetCurrentUserProfile()
         {
-            return await Mediator.Send(new GetUserProfileQuery());
+            return await Mediator.Send(new GetCurrentUserProfileQuery());
         }
 
 
