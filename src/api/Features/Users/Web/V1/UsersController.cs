@@ -111,8 +111,11 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         [ProducesResponseType(typeof(TokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GenerateEmailConfirmationToken(GenerateEmailConfirmationTokenCommand command)
+        public async Task<ActionResult> GenerateEmailConfirmationToken(string userId)
         {
+            var command = new GenerateEmailConfirmationTokenCommand { 
+                UserId = userId 
+            };
             var result = await Mediator.Send(command);
 
             if (!result.Succeeded)

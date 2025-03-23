@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using Rommelmarkten.Api.Common.Application.Models;
+using System.Net.Http.Json;
 
 namespace Rommelmarkten.FunctionalTests.WebApi.Extensions
 {
@@ -8,6 +9,11 @@ namespace Rommelmarkten.FunctionalTests.WebApi.Extensions
         private class AuthResult
         {
             public required string AccessToken { get; set; }
+        }
+
+        public static void Logout(this HttpClient client)
+        {
+            client.DefaultRequestHeaders.Remove("Authorization");
         }
 
         public static async Task Authenticate(this HttpClient client, bool isAdmin)
