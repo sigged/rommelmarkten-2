@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Rommelmarkten.Api.WebApi;
 
-namespace WebApiTests
+namespace WebApiTests.FunctionalTests
 {
     public class RommelmarktenWebApi : WebApplicationFactory<Program>
     {
@@ -22,6 +22,8 @@ namespace WebApiTests
                 // Additional service configurations or mocks can be added here
             });
         }
+
+         
     }
 
 }

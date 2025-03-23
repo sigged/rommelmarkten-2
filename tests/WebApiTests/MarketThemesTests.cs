@@ -1,16 +1,24 @@
-﻿using System.Net;
+﻿using Rommelmarkten.FunctionalTests.WebApi.Extensions;
+using Rommelmarkten.FunctionalTests.WebApi.Fixtures;
+using System.Net;
 
-namespace WebApiTests
+namespace WebApiTests.FunctionalTests
 {
-    public class MarketThemesTests
+    public class MarketThemesTests : IClassFixture<RommelmarktenWebApiFixture>
     {
+        private readonly RommelmarktenWebApiFixture appFixture;
+
+        public MarketThemesTests(RommelmarktenWebApiFixture fixture)
+        {
+            this.appFixture = fixture;
+        }
+
 
         [Fact]
         public async Task ShoudReturns200_WhenGet()
         {
             // Arrange
-            await using var application = new RommelmarktenWebApi();
-            var client = application.CreateClient();
+            var client = appFixture.Application.CreateClient();
 
             // Act
             var response = await client.GetAsync("/api/v1/MarketThemes");
@@ -25,8 +33,8 @@ namespace WebApiTests
         public async Task Users_WhenGetAll_ShoudReturns200()
         {
             // Arrange
-            await using var application = new RommelmarktenWebApi();
-            var client = application.CreateClient();
+            var client = appFixture.Application.CreateClient();
+            await client.Authenticate(isAdmin: true);
 
             // Act
             var response = await client.GetAsync("/api/v1/Users");
@@ -36,12 +44,14 @@ namespace WebApiTests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Fact]
-        public async Task Users_WhenGetCurrent_ShoudReturns200()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Users_WhenGetCurrent_ShoudReturns200(bool isAdminUser)
         {
             // Arrange
-            await using var application = new RommelmarktenWebApi();
-            var client = application.CreateClient();
+            var client = appFixture.Application.CreateClient();
+            await client.Authenticate(isAdmin: isAdminUser);
 
             // Act
             var response = await client.GetAsync("/api/v1/Users/current");
@@ -51,5 +61,4 @@ namespace WebApiTests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
-
 }
