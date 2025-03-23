@@ -6,16 +6,35 @@ using Rommelmarkten.Api.Common.Infrastructure.Security.AuthHandlers;
 
 namespace Rommelmarkten.Api.Common.Infrastructure.Security
 {
+    /// <summary>
+    /// Holds future registrations of Authorization Policies
+    /// </summary>
     public static class AuthorizationPolicies
     {
         public static Dictionary<string, Action<AuthorizationPolicyBuilder>> Policies { get; private set; } = new();
 
         public static void AddAuthorizationPolicy(string policyName, Action<AuthorizationPolicyBuilder> configurePolicy)
         {
-            Policies.Add(policyName, configurePolicy);
+            if (!Policies.ContainsKey(policyName))
+            {
+                Policies.Add(policyName, configurePolicy);
+            }
+            
         }
 
     }
+
+    //public class AuthorizationPolicyContainer
+    //{
+    //    protected Dictionary<string, Action<AuthorizationPolicyBuilder>> policies { get; private set; } = new();
+
+    //    public IReadOnlyDictionary<string, Action<AuthorizationPolicyBuilder>> Policies => policies;
+
+    //    public void AddAuthorizationPolicy(string policyName, Action<AuthorizationPolicyBuilder> configurePolicy)
+    //    {
+    //        policies.Add(policyName, configurePolicy);
+    //    }
+    //}
 
     public static class AuthorizationConfiguration
     {
@@ -38,11 +57,6 @@ namespace Rommelmarkten.Api.Common.Infrastructure.Security
             });
 
             services.AddTransient<IResourceAuthorizationService, ResourceAuthorizationService>();
-
-            //services.AddSingleton<IAuthorizationHandler, MustBeAdminAuthorizationHandler>();
-            //services.AddSingleton<IAuthorizationHandler, MustBeCreatorAuthorizationHandler>();
-            //services.AddSingleton<IAuthorizationHandler, MustBeCreatorOrAdminAuthorizationHandler>();
-            //services.AddSingleton<IAuthorizationHandler, MustBeLastModifierAuthorizationHandler>();
 
             return services;
         }

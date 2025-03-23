@@ -8,9 +8,9 @@ namespace Rommelmarkten.FunctionalTests.WebApi.Fixtures
 {
     public class RommelmarktenWebApiFixture : IAsyncLifetime
     {
-        public RommelmarktenWebApi Application { get; private set; }
+        public required RommelmarktenWebApi Application { get; set; }
 
-        public async Task InitializeAsync()
+        public Task InitializeAsync()
         {
             Application = new RommelmarktenWebApi();
 
@@ -19,6 +19,8 @@ namespace Rommelmarkten.FunctionalTests.WebApi.Fixtures
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<ApplicationDbContext>();
             var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
+
+            return Task.CompletedTask;
 
             //// Create admin user
             //if (!userManager.Users.Any(u => u.UserName == "admin@example.com"))
