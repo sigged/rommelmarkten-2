@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Solutaris.InfoWARE.ProtectedBrowserStorage.Extensions;
 
 namespace Rommelmarkten.WebApp.Client
 {
@@ -7,6 +8,9 @@ namespace Rommelmarkten.WebApp.Client
         static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+            builder.Services.AddIWProtectedBrowserStorageAsSingleton(); //optionally pass an encryption key (as string)
+
 
             await builder.Build().RunAsync();
         }
