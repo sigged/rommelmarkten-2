@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Application.Common.Interfaces;
 
-namespace Rommelmarkten.Api.Application.NewsArticles.Commands.Validators
+namespace Rommelmarkten.Api.Application.NewsArticles.Commands.Create
 {
     public class CreateNewsArticleCommandValidator : NewsArticleValidatorBase<CreateNewsArticleCommand>
     {

@@ -75,6 +75,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A6E593BB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.FunctionalTests", "tests\WebApiTests\WebApi.FunctionalTests.csproj", "{F9F9E7B4-65A5-4E20-A1B6-DEA780B54381}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiClient", "ApiClient", "{8C869B78-4AE7-4B0A-8DE3-B71306CEA459}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rommelmarkten.ApiClient", "src\apiclient\Rommelmarkten.ApiClient\Rommelmarkten.ApiClient.csproj", "{F457048A-F8F7-44F4-9711-DC19DADE140B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +177,10 @@ Global
 		{F9F9E7B4-65A5-4E20-A1B6-DEA780B54381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9F9E7B4-65A5-4E20-A1B6-DEA780B54381}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9F9E7B4-65A5-4E20-A1B6-DEA780B54381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F457048A-F8F7-44F4-9711-DC19DADE140B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F457048A-F8F7-44F4-9711-DC19DADE140B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F457048A-F8F7-44F4-9711-DC19DADE140B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F457048A-F8F7-44F4-9711-DC19DADE140B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,6 +217,7 @@ Global
 		{E6B6733D-1547-4536-895A-3B1200CE9249} = {06CD7AEE-F26B-44E1-A1E1-406E4500F597}
 		{A334CBB7-F535-49B3-9267-758027C1411F} = {C7A4D5D7-C53D-44DD-9753-6C64258E94C7}
 		{F9F9E7B4-65A5-4E20-A1B6-DEA780B54381} = {A6E593BB-A765-4A7F-96F7-A3DA4DD7B3C7}
+		{F457048A-F8F7-44F4-9711-DC19DADE140B} = {8C869B78-4AE7-4B0A-8DE3-B71306CEA459}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80B1D1F9-78C3-43E5-9AD2-633635F749A2}

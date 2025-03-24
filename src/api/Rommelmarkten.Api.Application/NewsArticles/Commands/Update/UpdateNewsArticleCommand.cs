@@ -6,7 +6,7 @@ using Rommelmarkten.Api.Application.NewsArticles.Models;
 using Rommelmarkten.Api.Domain.Content;
 using Rommelmarkten.Api.Domain.Markets;
 
-namespace Rommelmarkten.Api.Application.NewsArticles.Commands
+namespace Rommelmarkten.Api.Application.NewsArticles.Commands.Update
 {
 
     [Authorize(Policy = Policies.MustBeAdmin)]
