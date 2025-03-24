@@ -78,5 +78,50 @@ namespace WebApiTests.FunctionalTests
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
+
+
+        [Fact]
+        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        public async Task RegisterNewUser_InvalidEmail_Returns400()
+        {
+            // Arrange
+            var client = appFixture.Application.CreateClient();
+
+            var command = new CreateUserCommand
+            {
+                Name = "Mary Sommersville 4",
+                Email = "",
+                Password = "S3cure!",
+                Captcha = "dummy"
+            };
+
+            // Act
+            var response = await client.PostAsJsonAsync("/api/v1/Users/register", command);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        public async Task RegisterNewUser_InvalidName_Returns400()
+        {
+            // Arrange
+            var client = appFixture.Application.CreateClient();
+
+            var command = new CreateUserCommand
+            {
+                Name = "Mary Sommersville 4",
+                Email = "",
+                Password = "S3cure!",
+                Captcha = "dummy"
+            };
+
+            // Act
+            var response = await client.PostAsJsonAsync("/api/v1/Users/register", command);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }
