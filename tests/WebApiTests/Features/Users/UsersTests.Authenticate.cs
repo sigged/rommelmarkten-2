@@ -4,7 +4,6 @@ namespace WebApiTests.FunctionalTests
 {
     public partial class UsersTests 
     {
-
         [Fact]
         public async Task Authenticate_ValidCredentials_Returns200()
         {
@@ -15,7 +14,6 @@ namespace WebApiTests.FunctionalTests
                 Email = "administrator@localhost",
                 Password = "Seedpassword1!"
             };
-
 
             //arrange
             var result = await client.Users.Authenticate(loginRequest);

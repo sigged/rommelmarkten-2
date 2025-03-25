@@ -1,4 +1,5 @@
-﻿using Rommelmarkten.EndToEndTests.WebApi.Common;
+﻿using Microsoft.AspNetCore.Identity.Data;
+using Rommelmarkten.EndToEndTests.WebApi.Common;
 using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 
@@ -20,6 +21,20 @@ namespace WebApiTests.FunctionalTests
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            // Arrange
+            //var client = appFixture.Client;
+            //var loginRequest = new LoginRequest
+            //{
+            //    Email = "administrator@localhost",
+            //    Password = "Seedpassword1!"
+            //};
+            //var result = await client.Users.Authenticate(loginRequest);
+
+            //// Act
+
+            //// Assert
+            //Assert.True(result?.Succeeded);
         }
 
         [Fact]

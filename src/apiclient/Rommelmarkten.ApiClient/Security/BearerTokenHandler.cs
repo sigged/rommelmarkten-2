@@ -12,6 +12,7 @@ namespace Rommelmarkten.ApiClient.Security
         private readonly IHttpClientFactory httpClientFactory;
         private readonly ApiClientConfiguration config;
         private readonly JwtSecurityTokenHandler jwtHandler;
+        private readonly string[] noTokenEndpoints;
 
         public BearerTokenHandler(ISecureTokenStore tokenService, ApiClientConfiguration config, IHttpClientFactory httpClientFactory)
         {
@@ -19,13 +20,18 @@ namespace Rommelmarkten.ApiClient.Security
             this.httpClientFactory = httpClientFactory;
             this.config = config;
             jwtHandler = new();
+
+            noTokenEndpoints = [
+                config.AuthConfig.RefreshTokenExchangeEndpoint
+            ];
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            if(request.RequestUri?.AbsolutePath?.EndsWith(config.AuthConfig.RefreshTokenExchangeEndpoint) ?? true)
+            if(noTokenEndpoints.Any(ignored => 
+                request?.RequestUri?.AbsolutePath?.EndsWith(ignored) ?? true))
             {
                 await ProvideToken(request);
             }
