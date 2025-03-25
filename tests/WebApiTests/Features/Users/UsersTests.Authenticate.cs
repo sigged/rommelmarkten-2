@@ -1,6 +1,6 @@
-﻿using static Rommelmarkten.ApiClient.UsersClient;
+﻿using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
-namespace WebApiTests.FunctionalTests
+namespace WebApiTests.EndToEndTests
 {
     public partial class UsersTests 
     {
@@ -39,5 +39,6 @@ namespace WebApiTests.FunctionalTests
             // Assert
             Assert.False(result?.Succeeded);
         }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Rommelmarkten.ApiClient
+﻿using Rommelmarkten.ApiClient.Features.Users;
+
+namespace Rommelmarkten.ApiClient
 {
     public interface IRommelmarktenClient
     {

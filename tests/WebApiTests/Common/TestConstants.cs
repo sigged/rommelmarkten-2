@@ -1,6 +1,6 @@
 ﻿namespace Rommelmarkten.EndToEndTests.WebApi.Common
 {
-    public static class Constants
+    public static class TestConstants
     {
         public const string Category = nameof(Category);
         public const string Trait_Administrator = "Administrator";

@@ -1,4 +1,5 @@
 ﻿using Rommelmarkten.ApiClient.Config;
+using Rommelmarkten.ApiClient.Features.Users;
 
 namespace Rommelmarkten.ApiClient
 {

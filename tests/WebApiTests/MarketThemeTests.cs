@@ -1,9 +1,9 @@
 ﻿using Rommelmarkten.EndToEndTests.WebApi.Fixtures;
 using System.Net;
 
-namespace WebApiTests.FunctionalTests
+namespace WebApiTests.EndToEndTests
 {
-    [Collection(nameof(FunctionalTests))]
+    [Collection(nameof(EndToEndTests))]
     public class MarketThemeTests : IClassFixture<RommelmarktenWebApiFixture>
     {
         private readonly RommelmarktenWebApiFixture appFixture;

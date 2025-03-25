@@ -5,7 +5,7 @@ using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace WebApiTests.FunctionalTests
+namespace WebApiTests.EndToEndTests
 {
     public class CreatedUserResultDto
     {
@@ -47,7 +47,7 @@ namespace WebApiTests.FunctionalTests
         }
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task GetEmailTokenByUrl_Unauthed_Returns401()
         {
             // Arrange
@@ -63,7 +63,7 @@ namespace WebApiTests.FunctionalTests
         }
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task GetEmailTokenByUrl_AsNonAdmin_Returns403()
         {
             // Arrange
@@ -81,7 +81,7 @@ namespace WebApiTests.FunctionalTests
         }
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Administrator)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Administrator)]
         public async Task GetEmailTokenByUrl_AsAdmin_Returns200()
         {
             // Arrange
@@ -100,7 +100,7 @@ namespace WebApiTests.FunctionalTests
 
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task ConfirmEmail_WithProperToken_Returns204()
         {
             // Arrange
@@ -124,7 +124,7 @@ namespace WebApiTests.FunctionalTests
 
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task ConfirmEmail_WithFaultyToken_Returns400()
         {
             // Arrange

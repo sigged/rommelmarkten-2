@@ -5,7 +5,7 @@ using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.ApiClient;
 using Rommelmarkten.ApiClient.Security;
 using Rommelmarkten.EndToEndTests.WebApi.Fakes;
-using WebApiTests.FunctionalTests;
+using WebApiTests.EndToEndTests;
 
 namespace Rommelmarkten.EndToEndTests.WebApi.Fixtures
 {

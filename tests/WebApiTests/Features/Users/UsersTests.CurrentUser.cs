@@ -2,7 +2,7 @@
 using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 
-namespace WebApiTests.FunctionalTests
+namespace WebApiTests.EndToEndTests
 {
     public partial class UsersTests 
     {
@@ -10,7 +10,7 @@ namespace WebApiTests.FunctionalTests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task GetCurrentUser_Authed_Returns200(bool isAdminUser)
         {
             // Arrange
@@ -27,7 +27,7 @@ namespace WebApiTests.FunctionalTests
 
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task GetCurrentUser_Unauthed_Returns401()
         {
             // Arrange

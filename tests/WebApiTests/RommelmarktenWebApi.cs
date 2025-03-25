@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
 using Rommelmarkten.Api.WebApi;
 
-namespace WebApiTests.FunctionalTests
+namespace WebApiTests.EndToEndTests
 {
     public class RommelmarktenWebApi : WebApplicationFactory<Program>
     {

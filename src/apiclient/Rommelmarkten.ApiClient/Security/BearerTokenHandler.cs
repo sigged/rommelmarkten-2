@@ -30,7 +30,7 @@ namespace Rommelmarkten.ApiClient.Security
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            if(noTokenEndpoints.Any(ignored => 
+            if(!noTokenEndpoints.Any(ignored => 
                 request?.RequestUri?.AbsolutePath?.EndsWith(ignored) ?? true))
             {
                 await ProvideToken(request);

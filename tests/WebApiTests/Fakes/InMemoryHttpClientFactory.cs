@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Reflection;
-using WebApiTests.FunctionalTests;
+using WebApiTests.EndToEndTests;
 
 namespace Rommelmarkten.EndToEndTests.WebApi.Fakes
 {
@@ -29,8 +29,9 @@ namespace Rommelmarkten.EndToEndTests.WebApi.Fakes
 
         public HttpClient CreateClient(string name)
         {
-            return api.CreateClient(options);
-            //return client;
+            if(client == null)
+                client = api.CreateClient(options);
+            return client;
         }
     }
 

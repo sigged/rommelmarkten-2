@@ -4,12 +4,12 @@ using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace WebApiTests.FunctionalTests
+namespace WebApiTests.EndToEndTests
 {
     public partial class UsersTests 
     {
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Administrator)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Administrator)]
         public async Task RegisterNewUser_AsAdmin_Returns201()
         {
             // Arrange
@@ -35,7 +35,7 @@ namespace WebApiTests.FunctionalTests
         }
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task RegisterNewUser_AsEndUser_Returns201()
         {
             // Arrange
@@ -58,7 +58,7 @@ namespace WebApiTests.FunctionalTests
         }
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task RegisterNewUser_Unauthed_Returns201()
         {
             // Arrange
@@ -81,7 +81,7 @@ namespace WebApiTests.FunctionalTests
 
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task RegisterNewUser_InvalidEmail_Returns400()
         {
             // Arrange
@@ -103,7 +103,7 @@ namespace WebApiTests.FunctionalTests
         }
 
         [Fact]
-        [Trait(Constants.Category, Constants.Trait_Enduser)]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
         public async Task RegisterNewUser_InvalidName_Returns400()
         {
             // Arrange
