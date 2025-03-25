@@ -14,22 +14,16 @@ namespace Rommelmarkten.ApiClient
             this.configuration = configuration;
         }
 
-        public async Task<AuthenticationResult?> Authenticate(string email, string password)
+        public async Task<AuthenticationResult?> Authenticate(LoginRequest loginRequest)
         {
-            LoginDto loginDto = new LoginDto
-            {
-                Email = email,
-                Password = password
-            };
-
             var client = httpClientFactory.CreateClient(Constants.ClientName);
-            var response = await client.PostAsJsonAsync("/api/v1/Users/login", loginDto);
+            var response = await client.PostAsJsonAsync("/api/v1/Users/login", loginRequest);
             var result = await response.Content.ReadFromJsonAsync<AuthenticationResult>();
             return result;
         }
 
 
-        public class LoginDto
+        public class LoginRequest
         {
             public required string Email { get; set; }
             public required string Password { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace WebApiTests.FunctionalTests
+﻿using static Rommelmarkten.ApiClient.UsersClient;
+
+namespace WebApiTests.FunctionalTests
 {
     public partial class UsersTests 
     {
@@ -8,9 +10,15 @@
         {
             // Arrange
             var client = appFixture.Client;
+            var loginRequest = new LoginRequest
+            {
+                Email = "administrator@localhost",
+                Password = "Seedpassword1!"
+            };
+
 
             //arrange
-            var result = await client.Users.Authenticate("administrator@localhost", "Seedpassword1!");
+            var result = await client.Users.Authenticate(loginRequest);
 
             // Assert
             Assert.True(result?.Succeeded);
@@ -21,9 +29,14 @@
         {
             // Arrange
             var client = appFixture.Client;
+            var loginRequest = new LoginRequest
+            {
+                Email = "administrator@localhost",
+                Password = "bad pass"
+            };
 
             // Act
-            var result = await client.Users.Authenticate("administrator@localhost", "bad pass");
+            var result = await client.Users.Authenticate(loginRequest);
 
             // Assert
             Assert.False(result?.Succeeded);
