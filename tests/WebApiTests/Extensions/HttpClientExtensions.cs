@@ -1,7 +1,6 @@
-﻿using Rommelmarkten.Api.Common.Application.Models;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 
-namespace Rommelmarkten.FunctionalTests.WebApi.Extensions
+namespace Rommelmarkten.EndToEndTests.WebApi.Extensions
 {
     public static class HttpClientExtensions
     {
@@ -38,6 +37,10 @@ namespace Rommelmarkten.FunctionalTests.WebApi.Extensions
             {
 
                 var result = await response.Content.ReadFromJsonAsync<AuthResult>();
+                if(client.DefaultRequestHeaders.Count() > 0)
+                {
+                    client.DefaultRequestHeaders.Clear();
+                }
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {result?.AccessToken}");
             }
             else

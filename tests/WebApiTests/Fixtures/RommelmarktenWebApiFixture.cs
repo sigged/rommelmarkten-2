@@ -2,20 +2,37 @@
 using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.ApiClient;
+using Rommelmarkten.ApiClient.Security;
+using Rommelmarkten.EndToEndTests.WebApi.Fakes;
 using WebApiTests.FunctionalTests;
 
-namespace Rommelmarkten.FunctionalTests.WebApi.Fixtures
+namespace Rommelmarkten.EndToEndTests.WebApi.Fixtures
 {
+
     public class RommelmarktenWebApiFixture : IAsyncLifetime
     {
-        public required RommelmarktenWebApi Application { get; set; }
+        private readonly IRommelmarktenClient client;
+        private readonly BearerTokenHandler bearerTokenHandler;
+
+        public required RommelmarktenWebApi RommelmarktenApi { get; set; }
+
+        public IRommelmarktenClient Client => client;
+
+        public RommelmarktenWebApiFixture(IRommelmarktenClient client, BearerTokenHandler bearerTokenHandler)
+        {
+            this.client = client;
+            this.bearerTokenHandler = bearerTokenHandler;
+        }
 
         public Task InitializeAsync()
         {
-            Application = new RommelmarktenWebApi();
+            RommelmarktenApi = new RommelmarktenWebApi();
+
+            client.SetHttpClientFactory(new InMemoryHttpClientFactory(RommelmarktenApi, [bearerTokenHandler]));
 
             // Seed the database with test data
-            using var scope = Application.Services.CreateScope();
+            using var scope = RommelmarktenApi.Services.CreateScope();
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<ApplicationDbContext>();
             var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
@@ -53,7 +70,7 @@ namespace Rommelmarkten.FunctionalTests.WebApi.Fixtures
 
         public async Task DisposeAsync()
         {
-            await Application.DisposeAsync();
+            await RommelmarktenApi.DisposeAsync();
         }
     }
 }

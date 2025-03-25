@@ -1,4 +1,4 @@
-﻿namespace Rommelmarkten.ApiClient
+﻿namespace Rommelmarkten.ApiClient.Security
 {
     public enum TokenValidationResult
     {

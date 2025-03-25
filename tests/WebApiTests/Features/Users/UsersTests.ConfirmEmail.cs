@@ -1,12 +1,9 @@
-﻿using Newtonsoft.Json;
-using Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail;
+﻿using Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
-using Rommelmarkten.Api.Features.Users.Application.Queries;
-using Rommelmarkten.FunctionalTests.WebApi.Common;
-using Rommelmarkten.FunctionalTests.WebApi.Extensions;
+using Rommelmarkten.EndToEndTests.WebApi.Common;
+using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace WebApiTests.FunctionalTests
 {
@@ -54,7 +51,7 @@ namespace WebApiTests.FunctionalTests
         public async Task GetEmailTokenByUrl_Unauthed_Returns401()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             client.Logout();
             var newUserId = await RegisterNewUser(client, "getmy@token1");
 
@@ -70,7 +67,7 @@ namespace WebApiTests.FunctionalTests
         public async Task GetEmailTokenByUrl_AsNonAdmin_Returns403()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             client.Logout();
             var newUserId = await RegisterNewUser(client, "getmy@token2");
 
@@ -88,7 +85,7 @@ namespace WebApiTests.FunctionalTests
         public async Task GetEmailTokenByUrl_AsAdmin_Returns200()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             client.Logout();
             var newUserId = await RegisterNewUser(client, "getmy@token3");
 
@@ -107,7 +104,7 @@ namespace WebApiTests.FunctionalTests
         public async Task ConfirmEmail_WithProperToken_Returns204()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             client.Logout();
             var newUserId = await RegisterNewUser(client, "getmy@token4");
             var confirmationToken = await GetEmailConfirmationToken(client, newUserId);
@@ -131,7 +128,7 @@ namespace WebApiTests.FunctionalTests
         public async Task ConfirmEmail_WithFaultyToken_Returns400()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             client.Logout();
             var newUserId = await RegisterNewUser(client, "getmy@token5");
             var confirmationToken = "faulty";

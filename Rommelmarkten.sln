@@ -73,7 +73,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\api\Common\Web\W
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A6E593BB-A765-4A7F-96F7-A3DA4DD7B3C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.FunctionalTests", "tests\WebApiTests\WebApi.FunctionalTests.csproj", "{F9F9E7B4-65A5-4E20-A1B6-DEA780B54381}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.EndToEndTests", "tests\WebApiTests\WebApi.EndToEndTests.csproj", "{F9F9E7B4-65A5-4E20-A1B6-DEA780B54381}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiClient", "ApiClient", "{8C869B78-4AE7-4B0A-8DE3-B71306CEA459}"
 EndProject

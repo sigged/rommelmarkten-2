@@ -4,6 +4,7 @@
     {
         public const string ClientName = "RMAPI";
 
-        public const string ClientAgentName = "Rommelmarkten Client";
+        public const string ClientAgentName = "RommelmarktenClient";
+
     }
 }

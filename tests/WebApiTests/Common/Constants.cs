@@ -1,4 +1,4 @@
-﻿namespace Rommelmarkten.FunctionalTests.WebApi.Common
+﻿namespace Rommelmarkten.EndToEndTests.WebApi.Common
 {
     public static class Constants
     {

@@ -1,14 +1,31 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 using Rommelmarkten.Api.WebApi;
 
 namespace WebApiTests.FunctionalTests
 {
     public class RommelmarktenWebApi : WebApplicationFactory<Program>
     {
+        private HttpClient client;
+
+        public new HttpClient CreateClient()
+        {
+            return CreateClient(new WebApplicationFactoryClientOptions());
+        }
+
+        public new HttpClient CreateClient(WebApplicationFactoryClientOptions options)
+        {
+            if (client == null)
+                client = base.CreateClient(options);
+            return client;
+        }
+        
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            
             builder.UseEnvironment("Testing");
 
             builder.ConfigureTestServices(services =>
@@ -22,8 +39,5 @@ namespace WebApiTests.FunctionalTests
                 // Additional service configurations or mocks can be added here
             });
         }
-
-         
     }
-
 }

@@ -1,4 +1,4 @@
-﻿using Rommelmarkten.FunctionalTests.WebApi.Fixtures;
+﻿using Rommelmarkten.EndToEndTests.WebApi.Fixtures;
 using System.Net;
 
 namespace WebApiTests.FunctionalTests
@@ -18,7 +18,7 @@ namespace WebApiTests.FunctionalTests
         public async Task ShoudReturns200_WhenGet()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
 
             // Act
             var response = await client.GetAsync("/api/v1/MarketThemes");

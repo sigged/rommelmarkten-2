@@ -9,8 +9,8 @@
     <IsTestProject>true</IsTestProject>
 
 
-	<AssemblyName>Rommelmarkten.FunctionalTests.WebApi</AssemblyName>
-	<RootNamespace>Rommelmarkten.FunctionalTests.WebApi</RootNamespace>
+	<AssemblyName>Rommelmarkten.EndToEndTests.WebApi</AssemblyName>
+	<RootNamespace>Rommelmarkten.EndToEndTests.WebApi</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,10 +26,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Lib.Harmony" Version="2.3.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.14" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="Xunit.DependencyInjection" Version="9.9.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -37,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\apiclient\Rommelmarkten.ApiClient\Rommelmarkten.ApiClient.csproj" />
     <ProjectReference Include="..\..\src\api\Web\WebApi\WebApi.csproj" />
   </ItemGroup>
 

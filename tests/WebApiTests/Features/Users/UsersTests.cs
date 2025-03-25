@@ -1,8 +1,4 @@
-﻿using Rommelmarkten.Api.Common.Infrastructure.Security;
-using Rommelmarkten.FunctionalTests.WebApi.Common;
-using Rommelmarkten.FunctionalTests.WebApi.Extensions;
-using Rommelmarkten.FunctionalTests.WebApi.Fixtures;
-using System.Net;
+﻿using Rommelmarkten.EndToEndTests.WebApi.Fixtures;
 
 namespace WebApiTests.FunctionalTests
 {

@@ -1,7 +1,5 @@
-﻿using Rommelmarkten.Api.Common.Infrastructure.Security;
-using Rommelmarkten.FunctionalTests.WebApi.Common;
-using Rommelmarkten.FunctionalTests.WebApi.Extensions;
-using Rommelmarkten.FunctionalTests.WebApi.Fixtures;
+﻿using Rommelmarkten.EndToEndTests.WebApi.Common;
+using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 
 namespace WebApiTests.FunctionalTests
@@ -13,7 +11,7 @@ namespace WebApiTests.FunctionalTests
         public async Task GetAllUsers_AsAdmin_Returns200()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             await client.Authenticate(isAdmin: true);
 
             // Act
@@ -29,7 +27,7 @@ namespace WebApiTests.FunctionalTests
         public async Task GetAllUsers_AsNonAdmin_Returns403()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             await client.Authenticate(isAdmin: false);
 
 
@@ -46,7 +44,8 @@ namespace WebApiTests.FunctionalTests
         public async Task GetAllUsers_Unauthed_Returns401()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
+            client.DefaultRequestHeaders.Clear();
 
             // Act
             var response = await client.GetAsync("/api/v1/Users");

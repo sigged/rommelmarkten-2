@@ -1,6 +1,6 @@
 ﻿using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
-using Rommelmarkten.FunctionalTests.WebApi.Common;
-using Rommelmarkten.FunctionalTests.WebApi.Extensions;
+using Rommelmarkten.EndToEndTests.WebApi.Common;
+using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -13,7 +13,7 @@ namespace WebApiTests.FunctionalTests
         public async Task RegisterNewUser_AsAdmin_Returns201()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             await client.Authenticate(isAdmin: true);
 
             var command = new CreateUserCommand
@@ -39,7 +39,7 @@ namespace WebApiTests.FunctionalTests
         public async Task RegisterNewUser_AsEndUser_Returns201()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
             await client.Authenticate(isAdmin: false);
 
             var command = new CreateUserCommand
@@ -62,7 +62,7 @@ namespace WebApiTests.FunctionalTests
         public async Task RegisterNewUser_Unauthed_Returns201()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
 
             var command = new CreateUserCommand
             {
@@ -85,7 +85,7 @@ namespace WebApiTests.FunctionalTests
         public async Task RegisterNewUser_InvalidEmail_Returns400()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
 
             var command = new CreateUserCommand
             {
@@ -107,7 +107,7 @@ namespace WebApiTests.FunctionalTests
         public async Task RegisterNewUser_InvalidName_Returns400()
         {
             // Arrange
-            var client = appFixture.Application.CreateClient();
+            var client = appFixture.RommelmarktenApi.CreateClient();
 
             var command = new CreateUserCommand
             {
