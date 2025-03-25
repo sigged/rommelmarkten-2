@@ -38,9 +38,7 @@ namespace Rommelmarkten.Api.WebApi.Persistence
                 if (userManager.Users.All(u => u.UserName != user.UserName))
                 {
                     var result = await userManager.CreateAsync(user, "Seedpassword1!");
-
                     //var avatar = await avatarGenerator.GenerateAvatar(user);
-
                     //var base64 = Convert.ToBase64String(avatar.Content);
 
                     var profile = new UserProfile()
