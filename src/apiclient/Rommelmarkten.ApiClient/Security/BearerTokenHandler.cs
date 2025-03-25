@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using Rommelmarkten.ApiClient.Config;
-using Rommelmarkten.ApiClient.Security.ExchangeTokens;
+﻿using Rommelmarkten.ApiClient.Config;
+using Rommelmarkten.ApiClient.Features.Users.ExchangeTokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
