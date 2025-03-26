@@ -4,45 +4,44 @@
     {
         public partial class UserProfileResult
         {
-            public string? Id { get; }
+            public string? Id { get; set; }
 
-            public string? Email { get; }
+            public string? Email { get; set; }
 
-            public string? UserName { get; }
+            public string? UserName { get; set; }
+            public bool? Consented { get; set; }
 
-            public bool? Consented { get; }
+            public bool? IsBanned { get; set; }
 
-            public bool? IsBanned { get; }
+            public string? Name { get; set; }
 
-            public string? Name { get; }
+            public string? Address { get; set; }
 
-            public string? Address { get; }
+            public string? PostalCode { get; set; }
 
-            public string? PostalCode { get; }
+            public string? City { get; set; }
 
-            public string? City { get; }
+            public string? Country { get; set; }
 
-            public string? Country { get; }
+            public string? Vat { get; set; }
 
-            public string? Vat { get; }
+            public int? ActivationRemindersSent { get; set; }
 
-            public int? ActivationRemindersSent { get; }
+            public DateTimeOffset? LastActivationMailSendDate { get; set; }
 
-            public DateTimeOffset? LastActivationMailSendDate { get; }
+            public DateTimeOffset? ActivationDate { get; set; }
 
-            public DateTimeOffset? ActivationDate { get; }
+            public DateTimeOffset? LastActivityDate { get; set; }
 
-            public DateTimeOffset? LastActivityDate { get; }
+            public DateTimeOffset? LastPasswordResetDate { get; set; }
 
-            public DateTimeOffset? LastPasswordResetDate { get; }
+            public DateTimeOffset? Created { get; set; }
 
-            public DateTimeOffset? Created { get; }
+            public string? CreatedBy { get; set; }
 
-            public string? CreatedBy { get; }
+            public DateTimeOffset? LastModified { get; set; }
 
-            public DateTimeOffset? LastModified { get; }
-
-            public string? LastModifiedBy { get; }
+            public string? LastModifiedBy { get; set; }
 
         }
     }

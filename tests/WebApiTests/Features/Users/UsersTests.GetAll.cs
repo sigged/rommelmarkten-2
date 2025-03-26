@@ -1,6 +1,5 @@
-﻿using Rommelmarkten.ApiClient;
+﻿using Rommelmarkten.ApiClient.Common;
 using Rommelmarkten.EndToEndTests.WebApi.Common;
-using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 
 namespace WebApiTests.EndToEndTests
@@ -11,26 +10,16 @@ namespace WebApiTests.EndToEndTests
         [Trait(TestConstants.Category, TestConstants.Trait_Administrator)]
         public async Task GetAllUsers_AsAdmin_Returns200()
         {
-            //// Arrange
-            //var client = appFixture.RommelmarktenApi.CreateClient();
-            //await client.Authenticate(isAdmin: true);
-
-            //// Act
-            //var response = await client.GetAsync("/api/v1/Users");
-            //var content = await response.Content.ReadAsStringAsync();
-
-            //// Assert
-            //Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
             // Arrange
             var client = appFixture.Client;
             await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
 
             // Act
-            var users = await client.Users.GetPaged(new PaginatedRequest(pageNumber: 1, pageSize: 10));
+            var result = await client.Users.GetPaged(new PaginatedRequest(pageNumber: 1, pageSize: 10));
 
             // Assert
-            Assert.NotNull(users);
+            Assert.True(result.Succeeded);
+            Assert.NotNull(result.Data);
         }
 
         [Fact]
@@ -38,16 +27,15 @@ namespace WebApiTests.EndToEndTests
         public async Task GetAllUsers_AsNonAdmin_Returns403()
         {
             // Arrange
-            var client = appFixture.RommelmarktenApi.CreateClient();
-            await client.Authenticate(isAdmin: false);
-
+            var client = appFixture.Client;
+            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: false);
 
             // Act
-            var response = await client.GetAsync("/api/v1/Users");
-            var content = await response.Content.ReadAsStringAsync();
+            var result = await client.Users.GetPaged(new PaginatedRequest(pageNumber: 1, pageSize: 10));
 
             // Assert
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.False(result.Succeeded);
+            Assert.NotNull(result.Error);
         }
 
         [Fact]

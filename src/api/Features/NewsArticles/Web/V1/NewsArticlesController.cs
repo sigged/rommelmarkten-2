@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Rommelmarkten.Api.Common.Application.Caching;
+using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Pagination;
 using Rommelmarkten.Api.Common.Web.Controllers;
 using Rommelmarkten.Api.Common.Web.Middlewares;
@@ -63,14 +64,14 @@ namespace Rommelmarkten.Api.Features.NewsArticles.Web.V1
         [HttpGet]
         [OutputCache(Tags = [CacheTagNames.NewsArticle])]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(PaginatedList<NewsArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedResult<NewsArticleDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PaginatedList<NewsArticleDto>>> GetPagedConfigurations([FromQuery] GetPagedNewsArticlesRequest query)
+        public async Task<ActionResult> GetNewsArticles([FromQuery] GetPagedNewsArticlesRequest query)
         {
-            return await Mediator.Send(query);
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpGet("{id:guid}")]

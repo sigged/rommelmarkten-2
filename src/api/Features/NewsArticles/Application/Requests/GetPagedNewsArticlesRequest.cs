@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Pagination;
 using Rommelmarkten.Api.Features.NewsArticles.Application.Models;
 using Rommelmarkten.Api.Features.NewsArticles.Domain;
 
 namespace Rommelmarkten.Api.Features.NewsArticles.Application.Requests
 {
-    public class GetPagedNewsArticlesRequest : PaginatedRequest, IRequest<PaginatedList<NewsArticleDto>>
+    public class GetPagedNewsArticlesRequest : PaginatedRequest, IRequest<PaginatedResult<NewsArticleDto>>
     {
     }
 
@@ -15,7 +16,7 @@ namespace Rommelmarkten.Api.Features.NewsArticles.Application.Requests
     {
     }
 
-    public class GetPagedNewsArticlesRequestHandler : IRequestHandler<GetPagedNewsArticlesRequest, PaginatedList<NewsArticleDto>>
+    public class GetPagedNewsArticlesRequestHandler : IRequestHandler<GetPagedNewsArticlesRequest, PaginatedResult<NewsArticleDto>>
     {
         private readonly IEntityRepository<NewsArticle> repository;
         private readonly IConfigurationProvider mapperConfiguration;
@@ -26,15 +27,14 @@ namespace Rommelmarkten.Api.Features.NewsArticles.Application.Requests
             this.mapperConfiguration = mapperConfiguration;
         }
 
-        public async Task<PaginatedList<NewsArticleDto>> Handle(GetPagedNewsArticlesRequest request, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<NewsArticleDto>> Handle(GetPagedNewsArticlesRequest request, CancellationToken cancellationToken)
         {
-
             var query = repository.SelectAsQuery(
                 orderBy: e => e.OrderByDescending(e => e.Created)
             );
 
-            var result = await query.ToPagesAsync<NewsArticle, NewsArticleDto>(request.PageNumber, request.PageSize, mapperConfiguration);
-            return result;
+            var pagedItems = await query.ToPagesAsync<NewsArticle, NewsArticleDto>(request.PageNumber, request.PageSize, mapperConfiguration);
+            return new PaginatedResult<NewsArticleDto>(true, pagedItems, []);
         }
     }
 

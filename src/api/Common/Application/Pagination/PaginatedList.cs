@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Text.Json.Serialization;
 
 namespace Rommelmarkten.Api.Common.Application.Pagination
@@ -31,5 +32,6 @@ namespace Rommelmarkten.Api.Common.Application.Pagination
 
             return new PaginatedList<T>(items, count, pageNumber, pageSize);
         }
+
     }
 }
