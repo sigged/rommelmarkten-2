@@ -13,15 +13,19 @@ namespace Rommelmarkten.EndToEndTests.WebApi.Fixtures
     public class RommelmarktenWebApiFixture : IAsyncLifetime
     {
         private readonly IRommelmarktenClient client;
+        private readonly TestClientHelper testHelper;
         private readonly BearerTokenHandler bearerTokenHandler;
 
         public required RommelmarktenWebApi RommelmarktenApi { get; set; }
 
         public IRommelmarktenClient Client => client;
 
-        public RommelmarktenWebApiFixture(IRommelmarktenClient client, BearerTokenHandler bearerTokenHandler)
+        public TestClientHelper TestHelper => testHelper;
+
+        public RommelmarktenWebApiFixture(IRommelmarktenClient client, TestClientHelper testClientHelper, BearerTokenHandler bearerTokenHandler)
         {
             this.client = client;
+            this.testHelper = testClientHelper;
             this.bearerTokenHandler = bearerTokenHandler;
         }
 

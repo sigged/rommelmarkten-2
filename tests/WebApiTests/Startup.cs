@@ -19,12 +19,13 @@ namespace Rommelmarkten.EndToEndTests.WebApi
                 AuthConfig = new AuthConfig
                 {
                     RefreshTokenExchangeEndpoint = "api/v1/Users/exchange-refresh-token",
-                    ValidAudience = "",
-                    ValidIssuer = ""
+                    ValidAudience = "rommelmarkten.be",
+                    ValidIssuer = "api.rommelmarkten.be"
                 }
             };
 
-            services.AddTransient<ISecureTokenStore, InMemoryTokenStore>();
+            services.AddSingleton<ISecureTokenStore, InMemoryTokenStore>();
+            services.AddSingleton<TestClientHelper>();
             services.AddApiClient(config);
         }
     }

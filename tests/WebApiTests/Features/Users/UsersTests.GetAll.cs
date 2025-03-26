@@ -24,7 +24,7 @@ namespace WebApiTests.EndToEndTests
 
             // Arrange
             var client = appFixture.Client;
-            await client.Users.Authenticate(isAdmin: true);
+            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
 
             // Act
             var users = await client.Users.GetPaged(new PaginatedRequest(pageNumber: 1, pageSize: 10));
