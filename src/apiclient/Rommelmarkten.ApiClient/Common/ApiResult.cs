@@ -7,8 +7,8 @@
         }
 
         public bool Succeeded { get; set; }
-        public TSuccess? Data { get; set; }
-        public TError? Error { get; set; }
+        public TSuccess Data { get; set; } = default!;
+        public TError Error { get; set; } = default!;
 
         //public HttpStatusCode StatusCode { get; }
     }

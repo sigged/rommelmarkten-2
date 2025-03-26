@@ -19,39 +19,37 @@ namespace Rommelmarkten.ApiClient.Features.Users
             this.configuration = configuration;
         }
 
-        public async Task<AuthenticationResult> Authenticate(LoginRequest loginRequest)
+        public async Task<ApiResult<AuthenticationResult, ProblemDetails>> Authenticate(LoginRequest loginRequest)
             => await PostAsJsonAsync<AuthenticationResult, LoginRequest>(loginRequest, "/api/v1/users/login");
 
-
         public Task<ApiResult<PaginatedList<UserProfileResult>, ProblemDetails>> GetPaged(PaginatedRequest pagedRequest)
-        {
-            return GetFromJsonAsync<PaginatedList<UserProfileResult>>($"/api/v1/users?pageNumber={pagedRequest.PageNumber}&pageSize={pagedRequest.PageSize}"); ;
-        }
+            => GetFromJsonAsync<PaginatedList<UserProfileResult>>($"/api/v1/users?pageNumber={pagedRequest.PageNumber}&pageSize={pagedRequest.PageSize}");
 
-
-        public async Task<TResult> PostAsJsonAsync<TResult, TRequest>(TRequest request, string endpoint)
+        public async Task<ApiResult<TResult, ProblemDetails>> PostAsJsonAsync<TResult, TRequest>(TRequest request, string endpoint)
         {
             var client = httpClientFactory.CreateClient(Constants.ClientName);
             var response = await client.PostAsJsonAsync(endpoint, request);
-            var result = await response.Content.ReadFromJsonAsync<TResult>();
-            return result!;
+            return await ReadResponseBody<TResult>(response);
         }
 
-        public async Task<ApiResult<T, ProblemDetails>> GetFromJsonAsync<T>(string endpoint)
+        public async Task<ApiResult<TResult, ProblemDetails>> GetFromJsonAsync<TResult>(string endpoint)
         {
-            var haha = typeof(T);
-            var kaka = haha.Name;
             var client = httpClientFactory.CreateClient(Constants.ClientName);
             var response = await client.GetAsync(endpoint);
 
+            return await ReadResponseBody<TResult>(response);
+        }
+
+        private async Task<ApiResult<TResult, ProblemDetails>> ReadResponseBody<TResult>(HttpResponseMessage response)
+        {
             if (response.Content.Headers.ContentLength > 0)
             {
                 var content = await response.Content.ReadAsStringAsync();
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    var data = JsonSerializer.Deserialize<T>(content, ApiSerializerOptions.Default);
-                    return new ApiResult<T, ProblemDetails>
+                    var data = JsonSerializer.Deserialize<TResult>(content, ApiSerializerOptions.Default);
+                    return new ApiResult<TResult, ProblemDetails>
                     {
                         Data = data,
                         Error = default,
@@ -61,7 +59,7 @@ namespace Rommelmarkten.ApiClient.Features.Users
                 else
                 {
                     var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content, ApiSerializerOptions.Default);
-                    return new ApiResult<T, ProblemDetails>
+                    return new ApiResult<TResult, ProblemDetails>
                     {
                         Data = default,
                         Error = problemDetails,
@@ -70,12 +68,11 @@ namespace Rommelmarkten.ApiClient.Features.Users
                 }
             }
             else
-            { 
+            {
                 //no content in body
-
                 if (response.IsSuccessStatusCode)
                 {
-                    return new ApiResult<T, ProblemDetails>
+                    return new ApiResult<TResult, ProblemDetails>
                     {
                         Data = default,
                         Error = null,
@@ -84,7 +81,7 @@ namespace Rommelmarkten.ApiClient.Features.Users
                 }
                 else
                 {
-                    return new ApiResult<T, ProblemDetails>
+                    return new ApiResult<TResult, ProblemDetails>
                     {
                         Data = default,
                         Error = new ProblemDetails
@@ -96,6 +93,7 @@ namespace Rommelmarkten.ApiClient.Features.Users
                 }
             }
         }
+
     }
 
 

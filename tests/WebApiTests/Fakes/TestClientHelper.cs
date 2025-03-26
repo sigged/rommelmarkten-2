@@ -38,8 +38,8 @@ namespace Rommelmarkten.EndToEndTests.WebApi.Fakes
             var result = await client.Authenticate(loginRequest);
             if (result.Succeeded)
             {
-                await tokenStore.StoreTokenAsync(TokenKeys.AccessToken, result.AccessToken);
-                await tokenStore.StoreTokenAsync(TokenKeys.RefreshToken, result.RefreshToken);
+                await tokenStore.StoreTokenAsync(TokenKeys.AccessToken, result.Data.AccessToken);
+                await tokenStore.StoreTokenAsync(TokenKeys.RefreshToken, result.Data.RefreshToken);
             }
         }
 
