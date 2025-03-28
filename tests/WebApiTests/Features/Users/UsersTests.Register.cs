@@ -1,7 +1,4 @@
-﻿using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
-using Rommelmarkten.EndToEndTests.WebApi.Common;
-using System.Net;
-using System.Net.Http.Json;
+﻿using Rommelmarkten.EndToEndTests.WebApi.Common;
 using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
 namespace WebApiTests.EndToEndTests

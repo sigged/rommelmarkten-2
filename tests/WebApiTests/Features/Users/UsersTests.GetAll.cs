@@ -1,6 +1,5 @@
 ﻿using Rommelmarkten.ApiClient.Common;
 using Rommelmarkten.EndToEndTests.WebApi.Common;
-using System.Net;
 
 namespace WebApiTests.EndToEndTests
 {

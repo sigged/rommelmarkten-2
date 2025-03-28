@@ -34,6 +34,9 @@ namespace Rommelmarkten.ApiClient.Features.Users
         public async Task<ApiResult<EmptyResult, ProblemDetails>> ConfirmEmailToken(ConfirmEmailCommand confirmEmail)
             => await PostAsJsonAsync<EmptyResult, ConfirmEmailCommand>(confirmEmail, $"/api/v1/users/confirm-email");
 
+        public async Task<ApiResult<UserProfileResult, ProblemDetails>> GetCurrentUser()
+            => await GetFromJsonAsync<UserProfileResult>($"/api/v1/users/current");
+
 
         public async Task<ApiResult<TResult, ProblemDetails>> PostAsJsonAsync<TResult, TRequest>(TRequest request, string endpoint)
         {

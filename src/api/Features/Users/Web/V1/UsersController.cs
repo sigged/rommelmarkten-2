@@ -47,14 +47,14 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         [HttpGet("current")]
         [OutputCache(Tags = [CacheTagNames.Users])]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(PaginatedList<UserProfileDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserProfileDto>> GetCurrentUserProfile()
+        public async Task<ActionResult> GetCurrentUserProfile()
         {
-            return await Mediator.Send(new GetCurrentUserProfileQuery());
+            return Ok(await Mediator.Send(new GetCurrentUserProfileQuery()));
         }
 
 
