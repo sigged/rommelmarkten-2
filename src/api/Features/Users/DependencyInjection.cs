@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,9 @@ namespace Rommelmarkten.Api.Features.Users
         public static IServiceCollection AddUsersFeature(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
+            var pis = services.Where(e => e.ServiceType.FullName.Contains("FluentValidation")).ToList();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            var kak = services.Where(e => e.ServiceType.FullName.Contains("FluentValidation")).ToList();
 
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 

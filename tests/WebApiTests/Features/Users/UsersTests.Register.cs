@@ -1,6 +1,5 @@
 ﻿using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
 using Rommelmarkten.EndToEndTests.WebApi.Common;
-using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 using System.Net.Http.Json;
 using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
@@ -84,45 +83,50 @@ namespace WebApiTests.EndToEndTests
 
         [Fact]
         [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
-        public async Task RegisterNewUser_InvalidEmail_Returns400()
+        public async Task RegisterNewUser_InvalidEmail_Returns422()
         {
             // Arrange
-            var client = appFixture.RommelmarktenApi.CreateClient();
-            var command = new CreateUserCommand
+            var client = appFixture.Client;
+            await appFixture.TestHelper.Logout();
+
+            var registerRequest = new RegisterUserRequest
             {
-                Name = "Mary Sommersville 4",
+                Name = "Mary Sommersville",
                 Email = "",
                 Password = "S3cure!",
                 Captcha = "dummy"
             };
 
             // Act
-            var response = await client.PostAsJsonAsync("/api/v1/Users/register", command);
+            var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.False(result?.Succeeded);
+            Assert.Equal(422, result?.Error.Status);
         }
 
         [Fact]
         [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
-        public async Task RegisterNewUser_InvalidName_Returns400()
+        public async Task RegisterNewUser_InvalidName_Returns422()
         {
             // Arrange
-            var client = appFixture.RommelmarktenApi.CreateClient();
+            var client = appFixture.Client;
+            await appFixture.TestHelper.Logout();
 
-            var command = new CreateUserCommand
+            var registerRequest = new RegisterUserRequest
             {
-                Name = "Mary Sommersville 4",
-                Email = "",
+                Name = "",
+                Email = $"newuser@newuser.{nameof(RegisterNewUser_InvalidName_Returns422)}",
                 Password = "S3cure!",
                 Captcha = "dummy"
             };
 
             // Act
-            var response = await client.PostAsJsonAsync("/api/v1/Users/register", command);
+            var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.False(result?.Succeeded);
+            Assert.Equal(422, result?.Error.Status);
         }
     }
 }
