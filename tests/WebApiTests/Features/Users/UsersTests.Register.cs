@@ -3,6 +3,7 @@ using Rommelmarkten.EndToEndTests.WebApi.Common;
 using Rommelmarkten.EndToEndTests.WebApi.Extensions;
 using System.Net;
 using System.Net.Http.Json;
+using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
 namespace WebApiTests.EndToEndTests
 {
@@ -13,25 +14,23 @@ namespace WebApiTests.EndToEndTests
         public async Task RegisterNewUser_AsAdmin_Returns201()
         {
             // Arrange
-            var client = appFixture.RommelmarktenApi.CreateClient();
-            await client.Authenticate(isAdmin: true);
+            var client = appFixture.Client;
+            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
 
-            var command = new CreateUserCommand
+            var registerRequest = new RegisterUserRequest
             {
-                Name = "Mary Sommersville 1",
-                Email = "newuser1@newuser.com",
+                Name = "Mary Sommersville",
+                Email = $"newuser@newuser.{nameof(RegisterNewUser_AsAdmin_Returns201)}",
                 Password = "S3cure!",
                 Captcha = "dummy"
             };
-            
-            
 
             // Act
-            var response = await client.PostAsJsonAsync("/api/v1/Users/register", command);
-            var content = await response.Content.ReadAsStringAsync();
+            var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.True(result?.Succeeded);
+            Assert.NotNull(result?.Data.RegisteredUserId);
         }
 
         [Fact]
@@ -39,22 +38,23 @@ namespace WebApiTests.EndToEndTests
         public async Task RegisterNewUser_AsEndUser_Returns201()
         {
             // Arrange
-            var client = appFixture.RommelmarktenApi.CreateClient();
-            await client.Authenticate(isAdmin: false);
+            var client = appFixture.Client;
+            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: false);
 
-            var command = new CreateUserCommand
+            var registerRequest = new RegisterUserRequest
             {
-                Name = "Mary Sommersville 2",
-                Email = "newuser2@newuser.com",
+                Name = "Mary Sommersville",
+                Email = $"newuser@newuser.{nameof(RegisterNewUser_AsEndUser_Returns201)}",
                 Password = "S3cure!",
                 Captcha = "dummy"
             };
 
             // Act
-            var response = await client.PostAsJsonAsync("/api/v1/Users/register", command);
+            var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.True(result?.Succeeded);
+            Assert.NotNull(result?.Data.RegisteredUserId);
         }
 
         [Fact]
@@ -62,21 +62,23 @@ namespace WebApiTests.EndToEndTests
         public async Task RegisterNewUser_Unauthed_Returns201()
         {
             // Arrange
-            var client = appFixture.RommelmarktenApi.CreateClient();
+            var client = appFixture.Client;
+            await appFixture.TestHelper.Logout();
 
-            var command = new CreateUserCommand
+            var registerRequest = new RegisterUserRequest
             {
-                Name = "Mary Sommersville 3",
-                Email = "newuser3@newuser.com",
+                Name = "Mary Sommersville",
+                Email = $"newuser@newuser.{nameof(RegisterNewUser_Unauthed_Returns201)}",
                 Password = "S3cure!",
                 Captcha = "dummy"
             };
 
             // Act
-            var response = await client.PostAsJsonAsync("/api/v1/Users/register", command);
+            var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.True(result?.Succeeded);
+            Assert.NotNull(result?.Data.RegisteredUserId);
         }
 
 
@@ -86,7 +88,6 @@ namespace WebApiTests.EndToEndTests
         {
             // Arrange
             var client = appFixture.RommelmarktenApi.CreateClient();
-
             var command = new CreateUserCommand
             {
                 Name = "Mary Sommersville 4",

@@ -20,6 +20,8 @@ namespace WebApiTests.EndToEndTests
 
             // Assert
             Assert.True(result?.Succeeded);
+            Assert.NotNull(result?.Data.AccessToken);
+            Assert.NotNull(result?.Data.RefreshToken);
         }
 
         [Fact]
@@ -38,6 +40,7 @@ namespace WebApiTests.EndToEndTests
 
             // Assert
             Assert.False(result?.Succeeded);
+            Assert.Null(result?.Data);
         }
 
     }

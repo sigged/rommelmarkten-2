@@ -5,8 +5,10 @@ using Rommelmarkten.ApiClient.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiTests.EndToEndTests;
 using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
 namespace Rommelmarkten.EndToEndTests.WebApi.Fakes
@@ -48,41 +50,18 @@ namespace Rommelmarkten.EndToEndTests.WebApi.Fakes
             await tokenStore.ClearTokenAsync(TokenKeys.AccessToken);
             await tokenStore.ClearTokenAsync(TokenKeys.RefreshToken);
             await tokenStore.ClearTokenAsync(TokenKeys.DeviceHash);
-            //client.Logout();
         }
+
+        //private async Task<string> GetEmailConfirmationToken(UsersClient client, string userId)
+        //{
+        //    await client.(isAdmin: true);
+
+        //    var result = await client.GetFromJsonAsync<TokenDto>($"/api/v1/Users/get-email-confirm-token?userId={userId}");
+
+        //    client.Logout();
+
+        //    return result?.Token ?? "";
+        //}
+
     }
-
-    //public static class UsersClientExtensions
-    //{
-
-    //    public static async Task Authenticate(this UsersClient client, bool isAdmin)
-    //    {
-    //        var loginRequest = new LoginRequest
-    //        {
-    //            Email = "thelma@localhost",
-    //            Password = "Seedpassword1!"
-    //        };
-
-    //        if (isAdmin)
-    //        {
-    //            loginRequest = new LoginRequest
-    //            {
-    //                Email = "administrator@localhost",
-    //                Password = "Seedpassword1!"
-    //            };
-    //        }
-
-    //        var result = await client.Authenticate(loginRequest);
-
-    //        if (result.Succeeded)
-    //        {
-    //           //todo: store token in fake provider...
-    //        }
-    //    }
-
-    //    public static void Logout(this UsersClient client)
-    //    {
-    //        client.Logout();
-    //    }
-    //}
 }

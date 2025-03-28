@@ -1,8 +1,11 @@
 ﻿namespace Rommelmarkten.ApiClient.Features.Users
 {
+
     public partial class UsersClient
     {
-        public partial class UserProfileResult
+
+
+        public class UserProfileResult
         {
             public string? Id { get; set; }
 

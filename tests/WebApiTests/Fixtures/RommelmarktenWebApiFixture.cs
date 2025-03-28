@@ -29,6 +29,7 @@ namespace Rommelmarkten.EndToEndTests.WebApi.Fixtures
             this.bearerTokenHandler = bearerTokenHandler;
         }
 
+
         public Task InitializeAsync()
         {
             RommelmarktenApi = new RommelmarktenWebApi();
