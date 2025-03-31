@@ -80,7 +80,7 @@ namespace Rommelmarkten.Api.WebApi
                 app.UseAuthentication();
                 app.UseAuthorization();
                 app.UseMiddleware<ExceptionPresenter>();
-
+                
                 app.UseOutputCache();
 
                 app.MapControllers();

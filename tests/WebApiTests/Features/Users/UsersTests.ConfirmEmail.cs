@@ -113,14 +113,14 @@ namespace WebApiTests.EndToEndTests
 
         [Fact]
         [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
-        public async Task ConfirmEmail_WithFaultyToken_Returns400()
+        public async Task ConfirmEmail_WithFaultyToken_Returns422()
         {
             // Arrange
             var client = appFixture.Client;
             var registerRequest = new RegisterUserRequest
             {
                 Name = "Mary Sommersville",
-                Email = $"newuser@newuser.{nameof(ConfirmEmail_WithFaultyToken_Returns400)}",
+                Email = $"newuser@newuser.{nameof(ConfirmEmail_WithFaultyToken_Returns422)}",
                 Password = "S3cure!",
                 Captcha = "dummy"
             };
@@ -139,7 +139,7 @@ namespace WebApiTests.EndToEndTests
 
             // Assert
             Assert.False(result?.Succeeded);
-            Assert.Equal(400, result?.Error.Status);
+            Assert.Equal(422, result?.Error.Status);
         }
     }
 }

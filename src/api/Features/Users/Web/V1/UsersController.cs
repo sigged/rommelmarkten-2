@@ -127,7 +127,7 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         [HttpPost("confirm-email")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> ConfirmEmail(ConfirmEmailCommand command)
         {
             var result = await Mediator.Send(command);

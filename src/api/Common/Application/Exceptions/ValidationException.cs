@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Rommelmarkten.Api.Common.Application.Models;
 
 namespace Rommelmarkten.Api.Common.Application.Exceptions
 {
@@ -19,5 +20,19 @@ namespace Rommelmarkten.Api.Common.Application.Exceptions
         }
 
         public IDictionary<string, string[]> Errors { get; }
+
+        public static void ThrowWhenFailedResult(Result result)
+        {
+            if (!result.Succeeded)
+            {
+                var failures = result.Errors.Select(error =>
+                new ValidationFailure
+                {
+                    PropertyName = string.Empty,
+                    ErrorMessage = error
+                });
+                throw new ValidationException(failures);
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using FluentValidation.Results;
+using MediatR;
+using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 
@@ -25,6 +27,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail
         public async Task<Result> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
         {
             var result = await _identityService.ConfirmEmailAsync(request.UserId, request.ConfirmationToken);
+            ValidationException.ThrowWhenFailedResult(result);
             return result;
         }
     }
