@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Rommelmarkten.Api.Common.Application.Exceptions;
 
 namespace Rommelmarkten.Api.Common.Application.Behaviours
 {
@@ -19,7 +20,7 @@ namespace Rommelmarkten.Api.Common.Application.Behaviours
             {
                 return await next();
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not ValidationException)
             {
                 var requestName = typeof(TRequest).Name;
 

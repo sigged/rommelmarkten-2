@@ -132,8 +132,8 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         {
             var result = await Mediator.Send(command);
 
-            if (!result.Succeeded)
-                return BadRequest(result);
+            //if (!result.Succeeded)
+            //    return BadRequest(result);
 
             return NoContent();
         }

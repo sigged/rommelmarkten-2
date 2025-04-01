@@ -79,6 +79,11 @@ namespace Rommelmarkten.Api.WebApi
 
                 app.UseAuthentication();
                 app.UseAuthorization();
+
+
+                app.UseExceptionHandler();
+                app.UseStatusCodePages();
+
                 app.UseMiddleware<ExceptionPresenter>();
                 
                 app.UseOutputCache();
