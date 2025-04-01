@@ -2,11 +2,14 @@
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Features.Users.Application.Security;
 using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.DeleteUser
 {
-    [Authorize(Policy = CorePolicies.MustBeCreatorOrAdmin)]
+    [AuthorizeResource(Policy = UsersPolicies.MustBeSelfOrAdmin,
+                       IdentifierPropertyName = nameof(UserId),
+                       ResourceType = typeof(UserProfile))]
     public class DeleteUserCommand : IRequest<Result>
     {
         public required string UserId { get; set; }

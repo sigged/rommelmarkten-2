@@ -208,16 +208,21 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
             return NoContent();
         }
 
-        [HttpDelete]
+        /// <summary>
+        /// Deletes an existing user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Delete(DeleteUserCommand command)
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Delete(string id)
         {
-            var result = await Mediator.Send(command);
-
-            if (!result.Succeeded)
-                return BadRequest(result);
-
+            await Mediator.Send(new DeleteUserCommand { UserId = id });
             return NoContent();
         }
 

@@ -45,6 +45,22 @@ namespace Rommelmarkten.EndToEndTests.WebApi.Fakes
             }
         }
 
+        public async Task Authenticate(UsersClient client, string email, string password)
+        {
+            var loginRequest = new LoginRequest
+            {
+                Email = email,
+                Password = password
+            };
+
+            var result = await client.Authenticate(loginRequest);
+            if (result.Succeeded)
+            {
+                await tokenStore.StoreTokenAsync(TokenKeys.AccessToken, result.Data.AccessToken);
+                await tokenStore.StoreTokenAsync(TokenKeys.RefreshToken, result.Data.RefreshToken);
+            }
+        }
+
         public async Task Logout()
         {
             await tokenStore.ClearTokenAsync(TokenKeys.AccessToken);

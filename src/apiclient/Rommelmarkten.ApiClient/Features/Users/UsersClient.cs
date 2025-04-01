@@ -37,19 +37,28 @@ namespace Rommelmarkten.ApiClient.Features.Users
         public async Task<ApiResult<UserProfileResult, ProblemDetails>> GetCurrentUser()
             => await GetFromJsonAsync<UserProfileResult>($"/api/v1/users/current");
 
-
-        public async Task<ApiResult<TResult, ProblemDetails>> PostAsJsonAsync<TResult, TRequest>(TRequest request, string endpoint)
-        {
-            var client = httpClientFactory.CreateClient(Constants.ClientName);
-            var response = await client.PostAsJsonAsync(endpoint, request);
-            return await ReadResponseBody<TResult>(response);
-        }   
+        public async Task<ApiResult<EmptyResult, ProblemDetails>> DeleteUser(string userId)
+            => await DeleteFromJsonAsync<EmptyResult>($"/api/v1/users/{userId}");
 
         public async Task<ApiResult<TResult, ProblemDetails>> GetFromJsonAsync<TResult>(string endpoint)
         {
             var client = httpClientFactory.CreateClient(Constants.ClientName);
             var response = await client.GetAsync(endpoint);
 
+            return await ReadResponseBody<TResult>(response);
+        }
+
+        public async Task<ApiResult<TResult, ProblemDetails>> PostAsJsonAsync<TResult, TRequest>(TRequest request, string endpoint)
+        {
+            var client = httpClientFactory.CreateClient(Constants.ClientName);
+            var response = await client.PostAsJsonAsync(endpoint, request);
+            return await ReadResponseBody<TResult>(response);
+        }
+
+        public async Task<ApiResult<TResult, ProblemDetails>> DeleteFromJsonAsync<TResult>(string endpoint)
+        {
+            var client = httpClientFactory.CreateClient(Constants.ClientName);
+            var response = await client.DeleteAsync(endpoint);
             return await ReadResponseBody<TResult>(response);
         }
 
