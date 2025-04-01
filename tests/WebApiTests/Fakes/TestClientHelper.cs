@@ -68,6 +68,36 @@ namespace Rommelmarkten.EndToEndTests.WebApi.Fakes
             await tokenStore.ClearTokenAsync(TokenKeys.DeviceHash);
         }
 
+        public async Task<string> RegisterUser(UsersClient client, string email, string password, bool confirmEmail = true)
+        {
+            var registerRequest = new RegisterUserRequest
+            {
+                Name = Guid.NewGuid().ToString(),
+                Email = email,
+                Password = password,
+                Captcha = "dummy"
+            };
+            var registerResult = await client.Register(registerRequest);
+
+            if (confirmEmail)
+            {
+                await Authenticate(client, isAdmin: true);
+                var getTokenResult = await client.GetEmailConfirmationToken(registerResult.Data.RegisteredUserId);
+
+                var confirmCommand = new ConfirmEmailCommand
+                {
+                    UserId = registerResult.Data.RegisteredUserId,
+                    ConfirmationToken = getTokenResult.Data.Token
+                };
+
+                await client.ConfirmEmailToken(confirmCommand);
+            }
+            
+            await Logout();
+
+            return registerResult.Data.RegisteredUserId;
+        }
+
         //private async Task<string> GetEmailConfirmationToken(UsersClient client, string userId)
         //{
         //    await client.(isAdmin: true);

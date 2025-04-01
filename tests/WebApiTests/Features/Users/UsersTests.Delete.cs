@@ -11,25 +11,16 @@ namespace WebApiTests.EndToEndTests
         {
             // Arrange
             var client = appFixture.Client;
-            var registerRequest = new RegisterUserRequest
-            {
-                Name = "Mary Sommersville",
-                Email = $"newuser@newuser.{nameof(DeleteUser_AsAdmin_Returns204)}",
-                Password = "S3cure!",
-                Captcha = "dummy"
-            };
-            var registerResult = await client.Users.Register(registerRequest);
-            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
-            var getTokenResult = await client.Users.GetEmailConfirmationToken(registerResult.Data.RegisteredUserId);
+            var userId = await appFixture.TestHelper.RegisterUser(
+                client.Users,
+                email: $"newuser@newuser.{nameof(DeleteUser_AsAdmin_Returns204)}",
+                password: "S3cure!",
+                confirmEmail: true);
 
-            var confirmCommand = new ConfirmEmailCommand
-            {
-                UserId = registerResult.Data.RegisteredUserId,
-                ConfirmationToken = getTokenResult.Data.Token
-            };
+            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
 
             // Act
-            var result = await client.Users.DeleteUser(registerResult.Data.RegisteredUserId);
+            var result = await client.Users.DeleteUser(userId);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -41,27 +32,17 @@ namespace WebApiTests.EndToEndTests
         public async Task DeleteUser_AsSelf_Returns204()
         {
             // Arrange
+            var email = $"newuser@newuser.{nameof(DeleteUser_AsSelf_Returns204)}";
+            var password = "S3cure!";
             var client = appFixture.Client;
-            var registerRequest = new RegisterUserRequest
-            {
-                Name = "Mary Sommersville",
-                Email = $"newuser@newuser.{nameof(DeleteUser_AsAdmin_Returns204)}",
-                Password = "S3cure!",
-                Captcha = "dummy"
-            };
-            var registerResult = await client.Users.Register(registerRequest);
-            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
-            var getTokenResult = await client.Users.GetEmailConfirmationToken(registerResult.Data.RegisteredUserId);
+            var userId = await appFixture.TestHelper.RegisterUser(
+                client.Users,
+                email,
+                password,
+                confirmEmail: true);
 
-            var confirmCommand = new ConfirmEmailCommand
-            {
-                UserId = registerResult.Data.RegisteredUserId,
-                ConfirmationToken = getTokenResult.Data.Token
-            };
             await appFixture.TestHelper.Logout();
-
-            await client.Users.ConfirmEmailToken(confirmCommand);
-            await appFixture.TestHelper.Authenticate(client.Users, registerRequest.Email, registerRequest.Password);
+            await appFixture.TestHelper.Authenticate(client.Users, email, password);
 
             var currentUser = await client.Users.GetCurrentUser();
 
@@ -79,27 +60,15 @@ namespace WebApiTests.EndToEndTests
         {
             // Arrange
             var client = appFixture.Client;
-            var registerRequest = new RegisterUserRequest
-            {
-                Name = "Mary Sommersville",
-                Email = $"newuser@newuser.{nameof(DeleteUser_AsOtherUser_Returns401)}",
-                Password = "S3cure!",
-                Captcha = "dummy"
-            };
-            var registerResult = await client.Users.Register(registerRequest);
-            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
-            var getTokenResult = await client.Users.GetEmailConfirmationToken(registerResult.Data.RegisteredUserId);
-
-            var confirmCommand = new ConfirmEmailCommand
-            {
-                UserId = registerResult.Data.RegisteredUserId,
-                ConfirmationToken = getTokenResult.Data.Token
-            };
-
+            var userId = await appFixture.TestHelper.RegisterUser(
+                client.Users,
+                email: $"newuser@newuser.{nameof(DeleteUser_AsOtherUser_Returns401)}",
+                password: "S3cure!",
+                confirmEmail: true);
             await appFixture.TestHelper.Authenticate(client.Users, isAdmin: false);
 
             // Act
-            var result = await client.Users.DeleteUser(registerResult.Data.RegisteredUserId);
+            var result = await client.Users.DeleteUser(userId);
 
             // Assert
             Assert.False(result.Succeeded);
@@ -114,19 +83,15 @@ namespace WebApiTests.EndToEndTests
         {
             // Arrange
             var client = appFixture.Client;
-            var registerRequest = new RegisterUserRequest
-            {
-                Name = "Mary Sommersville",
-                Email = $"newuser@newuser.{nameof(DeleteUser_Unauthed_Returns401)}",
-                Password = "S3cure!",
-                Captcha = "dummy"
-            };
-            var registerResult = await client.Users.Register(registerRequest);
-
+            var userId = await appFixture.TestHelper.RegisterUser(
+                client.Users,
+                email: $"newuser@newuser.{nameof(DeleteUser_Unauthed_Returns401)}",
+                password: "S3cure!",
+                confirmEmail: true);
             await appFixture.TestHelper.Logout();
 
             // Act
-            var result = await client.Users.DeleteUser(registerResult.Data.RegisteredUserId);
+            var result = await client.Users.DeleteUser(userId);
 
             // Assert
             Assert.False(result.Succeeded);

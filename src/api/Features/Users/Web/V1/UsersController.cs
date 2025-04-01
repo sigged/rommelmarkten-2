@@ -59,7 +59,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
 
 
         [HttpPost("register")]
-        [AllowAnonymous]
         [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(CreateUserResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -78,7 +77,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         }
 
         [HttpPost("login")]
-        [AllowAnonymous]
         [ProducesResponseType(typeof(AccessTokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -93,7 +91,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         }
 
         [HttpPost("exchange-refresh-token")]
-        [AllowAnonymous]
         [ProducesResponseType(typeof(AccessTokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -125,7 +122,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         }
 
         [HttpPost("confirm-email")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> ConfirmEmail(ConfirmEmailCommand command)
@@ -139,7 +135,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         }
 
         [HttpPost("resend-confirmation-email")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> ConfirmEmail(ResendConfirmationEmailCommand command)
         {
@@ -147,8 +142,25 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
             return NoContent();
         }
 
+        [HttpPut("change-role")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> ChangeRole()
+        {
+            //await Mediator.Send(command);
+            throw new NotImplementedException();
+            //return NoContent();
+        }
+
+        [HttpPut("force-logout")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> ForceLogout()
+        {
+            //await Mediator.Send(command);
+            throw new NotImplementedException();
+            //return NoContent();
+        }
+
         [HttpPost("forgot-password")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordCommand command)
@@ -172,7 +184,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         }
 
         [HttpPost("reset-password")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> ForgotPassword(ResetPasswordCommand command)
@@ -187,7 +198,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
 
 
         //[HttpPost("manage-2fa")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         private async Task<ActionResult> ManageTwoFactorAuthentication(ManageTwoFactorAuthenticationCommand command)
