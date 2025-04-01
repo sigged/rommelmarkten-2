@@ -1,14 +1,24 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Moq;
+using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.WebApi;
 
 namespace WebApiTests.EndToEndTests
 {
     public class RommelmarktenWebApi : WebApplicationFactory<Program>
     {
-        private HttpClient client;
+        private HttpClient client = default!;
+
+        public class ServiceMocks
+        {
+            public Mock<IMailer> MailerMock { get; private set; } = new Mock<IMailer>();
+        }
+
+        public ServiceMocks Mocks { get; set; } = new();
 
         public new HttpClient CreateClient()
         {
@@ -24,7 +34,6 @@ namespace WebApiTests.EndToEndTests
         
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            
             builder.UseEnvironment("Testing");
 
             builder.ConfigureTestServices(services =>
@@ -36,6 +45,8 @@ namespace WebApiTests.EndToEndTests
 
 
                 // Additional service configurations or mocks can be added here
+                services.AddTransient<IMailer>((provider) => Mocks.MailerMock.Object);
+
 
             });
         }

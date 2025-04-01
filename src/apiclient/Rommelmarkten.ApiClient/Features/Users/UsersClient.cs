@@ -31,6 +31,9 @@ namespace Rommelmarkten.ApiClient.Features.Users
         public async Task<ApiResult<EmailConfirmTokenResult, ProblemDetails>> GetEmailConfirmationToken(string userId)
             => await GetFromJsonAsync<EmailConfirmTokenResult>($"/api/v1/users/get-email-confirm-token?userId={userId}");
 
+        public async Task<ApiResult<EmptyResult, ProblemDetails>> ResendConfirmationEmail(ResendConfirmationEmailCommand resendConfirmationEmailCommand)
+            => await PostAsJsonAsync<EmptyResult, ResendConfirmationEmailCommand>(resendConfirmationEmailCommand, $"/api/v1/users/resend-confirmation-email");
+
         public async Task<ApiResult<EmptyResult, ProblemDetails>> ConfirmEmailToken(ConfirmEmailCommand confirmEmail)
             => await PostAsJsonAsync<EmptyResult, ConfirmEmailCommand>(confirmEmail, $"/api/v1/users/confirm-email");
 
@@ -39,6 +42,7 @@ namespace Rommelmarkten.ApiClient.Features.Users
 
         public async Task<ApiResult<EmptyResult, ProblemDetails>> DeleteUser(string userId)
             => await DeleteFromJsonAsync<EmptyResult>($"/api/v1/users/{userId}");
+
 
         public async Task<ApiResult<TResult, ProblemDetails>> GetFromJsonAsync<TResult>(string endpoint)
         {

@@ -1,4 +1,6 @@
-﻿using Rommelmarkten.ApiClient.Common.Payloads;
+﻿using Moq;
+using Rommelmarkten.Api.Common.Domain;
+using Rommelmarkten.ApiClient.Common.Payloads;
 using Rommelmarkten.EndToEndTests.WebApi.Common;
 using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
@@ -135,6 +137,36 @@ namespace WebApiTests.EndToEndTests
             Assert.Equal(422, result?.Error.Status);
             Assert.Null(result?.Data);
             Assert.IsType<ValidationProblemDetails>(result?.Error);
+        }
+
+
+        [Fact]
+        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        public async Task ResendConfirmationEmail_AsAdmin_Returns204()
+        {
+            // Arrange
+            appFixture.RommelmarktenApi.Mocks.MailerMock.Reset();
+            
+
+            var email = $"newuser@newuser.{nameof(ResendConfirmationEmail_AsAdmin_Returns204)}";
+            var client = appFixture.Client;
+            var userId = await appFixture.TestHelper.RegisterUser(
+                client.Users,
+                email,
+                password: "S3cure!",
+                confirmEmail: false);
+
+            await appFixture.TestHelper.Authenticate(client.Users, isAdmin: true);
+
+            //Act
+            var result = await client.Users.ResendConfirmationEmail(new ResendConfirmationEmailCommand
+            {
+                UserId = userId
+            });
+
+            // Assert
+            Assert.True(result?.Succeeded);
+            appFixture.RommelmarktenApi.Mocks.MailerMock.Verify(m => m.SendEmailConfirmationLink(It.IsAny<IUser>(), It.IsAny<string>()), Times.Once);
         }
     }
 }

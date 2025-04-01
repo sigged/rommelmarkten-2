@@ -136,7 +136,7 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
 
         [HttpPost("resend-confirmation-email")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> ConfirmEmail(ResendConfirmationEmailCommand command)
+        public async Task<ActionResult> ResentConfirmationEmail(ResendConfirmationEmailCommand command)
         {
             await Mediator.Send(command);
             return NoContent();
