@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Application.Security;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.ResendConfirmationEmail
 {
+    [Authorize(Policy = CorePolicies.MustBeAdmin)]
     public class ResendConfirmationEmailCommand : IRequest
     {
         public required string UserId { get; set; }

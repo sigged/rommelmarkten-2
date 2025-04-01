@@ -136,6 +136,8 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
 
         [HttpPost("resend-confirmation-email")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> ResentConfirmationEmail(ResendConfirmationEmailCommand command)
         {
             await Mediator.Send(command);
