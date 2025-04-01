@@ -21,6 +21,7 @@ namespace WebApiTests.EndToEndTests
             // Assert
             Assert.True(result.Succeeded);
             Assert.NotNull(result.Data);
+            Assert.Null(result.Error);
         }
 
 
@@ -38,6 +39,7 @@ namespace WebApiTests.EndToEndTests
             // Assert
             Assert.False(result.Succeeded);
             Assert.Null(result.Data);
+            Assert.NotNull(result.Error);
             Assert.Equal(401, result.Error.Status);
         }
     }

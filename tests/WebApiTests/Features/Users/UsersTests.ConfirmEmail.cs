@@ -1,4 +1,5 @@
-﻿using Rommelmarkten.EndToEndTests.WebApi.Common;
+﻿using Rommelmarkten.ApiClient.Common.Payloads;
+using Rommelmarkten.EndToEndTests.WebApi.Common;
 using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
 namespace WebApiTests.EndToEndTests
@@ -25,9 +26,10 @@ namespace WebApiTests.EndToEndTests
             var result = await client.Users.GetEmailConfirmationToken(registerResult.Data.RegisteredUserId);
 
             // Assert
-            Assert.False(result?.Succeeded);
-            Assert.Null(result?.Data);
-            Assert.Equal(401, result?.Error.Status);
+            Assert.False(result.Succeeded);
+            Assert.Null(result.Data);
+            Assert.NotNull(result.Error);
+            Assert.Equal(401, result.Error.Status);
         }
 
         [Fact]
@@ -50,9 +52,10 @@ namespace WebApiTests.EndToEndTests
             var result = await client.Users.GetEmailConfirmationToken(registerResult.Data.RegisteredUserId);
 
             // Assert
-            Assert.False(result?.Succeeded);
-            Assert.Null(result?.Data);
-            Assert.Equal(403, result?.Error.Status);
+            Assert.False(result.Succeeded);
+            Assert.Null(result.Data);
+            Assert.NotNull(result.Error);
+            Assert.Equal(403, result.Error.Status);
         }
 
         [Fact]
@@ -77,6 +80,7 @@ namespace WebApiTests.EndToEndTests
             // Assert
             Assert.True(result?.Succeeded);
             Assert.NotNull(result?.Data.Token);
+            Assert.Null(result.Error);
         }
 
 
@@ -140,6 +144,8 @@ namespace WebApiTests.EndToEndTests
             // Assert
             Assert.False(result?.Succeeded);
             Assert.Equal(422, result?.Error.Status);
+            Assert.Null(result?.Data);
+            Assert.IsType<ValidationProblemDetails>(result?.Error);
         }
     }
 }

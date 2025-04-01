@@ -1,4 +1,5 @@
-﻿using Rommelmarkten.EndToEndTests.WebApi.Common;
+﻿using Rommelmarkten.ApiClient.Common.Payloads;
+using Rommelmarkten.EndToEndTests.WebApi.Common;
 using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
 namespace WebApiTests.EndToEndTests
@@ -25,8 +26,9 @@ namespace WebApiTests.EndToEndTests
             var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.True(result?.Succeeded);
-            Assert.NotNull(result?.Data.RegisteredUserId);
+            Assert.True(result.Succeeded);
+            Assert.NotNull(result.Data.RegisteredUserId);
+            Assert.Null(result.Error);
         }
 
         [Fact]
@@ -51,6 +53,7 @@ namespace WebApiTests.EndToEndTests
             // Assert
             Assert.True(result?.Succeeded);
             Assert.NotNull(result?.Data.RegisteredUserId);
+            Assert.Null(result.Error);
         }
 
         [Fact]
@@ -73,8 +76,9 @@ namespace WebApiTests.EndToEndTests
             var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.True(result?.Succeeded);
-            Assert.NotNull(result?.Data.RegisteredUserId);
+            Assert.True(result.Succeeded);
+            Assert.Null(result.Error);
+            Assert.NotNull(result.Data.RegisteredUserId);
         }
 
 
@@ -98,8 +102,11 @@ namespace WebApiTests.EndToEndTests
             var result = await client.Users.Register(registerRequest);
 
             // Assert
-            Assert.False(result?.Succeeded);
-            Assert.Equal(422, result?.Error.Status);
+            Assert.False(result.Succeeded);
+            Assert.Null(result.Data);
+            Assert.NotNull(result.Error);
+            Assert.Equal(422, result.Error.Status);
+            Assert.IsType<ValidationProblemDetails>(result?.Error);
         }
 
         [Fact]
@@ -124,6 +131,7 @@ namespace WebApiTests.EndToEndTests
             // Assert
             Assert.False(result?.Succeeded);
             Assert.Equal(422, result?.Error.Status);
+            Assert.IsType<ValidationProblemDetails>(result?.Error);
         }
     }
 }

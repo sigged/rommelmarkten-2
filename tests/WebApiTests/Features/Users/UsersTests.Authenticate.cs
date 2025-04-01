@@ -22,6 +22,7 @@ namespace WebApiTests.EndToEndTests
             Assert.True(result?.Succeeded);
             Assert.NotNull(result?.Data.AccessToken);
             Assert.NotNull(result?.Data.RefreshToken);
+            Assert.Null(result.Error);
         }
 
         [Fact]

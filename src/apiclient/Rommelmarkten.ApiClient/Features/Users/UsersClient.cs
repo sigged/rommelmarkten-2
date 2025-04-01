@@ -71,7 +71,16 @@ namespace Rommelmarkten.ApiClient.Features.Users
                 }
                 else
                 {
-                    var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content, ApiSerializerOptions.Default)!;
+                    ProblemDetails problemDetails = default!;
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.UnprocessableContent)
+                    {
+                        problemDetails = JsonSerializer.Deserialize<ValidationProblemDetails>(content, ApiSerializerOptions.Default)!;
+                    }
+                    else {
+                        problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content, ApiSerializerOptions.Default)!;
+                    }
+
                     problemDetails.Title = response.ReasonPhrase;
                     problemDetails.Status = (int)response.StatusCode;
                     return new ApiResult<TResult, ProblemDetails>
@@ -80,6 +89,7 @@ namespace Rommelmarkten.ApiClient.Features.Users
                         Error = problemDetails,
                         Succeeded = false
                     };
+
                 }
             }
             else
