@@ -22,7 +22,6 @@ namespace WebApiTests.EndToEndTests
             return client;
         }
         
-
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             
@@ -37,6 +36,7 @@ namespace WebApiTests.EndToEndTests
 
 
                 // Additional service configurations or mocks can be added here
+
             });
         }
     }
