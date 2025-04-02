@@ -19,29 +19,32 @@ namespace Rommelmarkten.ApiClient.Features.Users
             this.configuration = configuration;
         }
 
-        public async Task<ApiResult<AuthenticationResult, ProblemDetails>> Authenticate(LoginRequest loginRequest)
-            => await PostAsJsonAsync<AuthenticationResult, LoginRequest>(loginRequest, $"/api/v1/users/login");
+        public Task<ApiResult<AuthenticationResult, ProblemDetails>> Authenticate(LoginRequest loginRequest)
+            => PostAsJsonAsync<AuthenticationResult, LoginRequest>(loginRequest, $"/api/v1/users/login");
 
         public Task<ApiResult<PaginatedList<UserProfileResult>, ProblemDetails>> GetPaged(PaginatedRequest pagedRequest)
             => GetFromJsonAsync<PaginatedList<UserProfileResult>>($"/api/v1/users?pageNumber={pagedRequest.PageNumber}&pageSize={pagedRequest.PageSize}");
 
-        public async Task<ApiResult<RegisteredResult, ProblemDetails>> Register(RegisterUserRequest registerRequest)
-            => await PostAsJsonAsync<RegisteredResult, RegisterUserRequest>(registerRequest, $"/api/v1/users/register");
+        public Task<ApiResult<RegisteredResult, ProblemDetails>> Register(RegisterUserRequest registerRequest)
+            => PostAsJsonAsync<RegisteredResult, RegisterUserRequest>(registerRequest, $"/api/v1/users/register");
 
-        public async Task<ApiResult<EmailConfirmTokenResult, ProblemDetails>> GetEmailConfirmationToken(string userId)
-            => await GetFromJsonAsync<EmailConfirmTokenResult>($"/api/v1/users/get-email-confirm-token?userId={userId}");
+        public Task<ApiResult<EmailConfirmTokenResult, ProblemDetails>> GetEmailConfirmationToken(string userId)
+            => GetFromJsonAsync<EmailConfirmTokenResult>($"/api/v1/users/get-email-confirm-token?userId={userId}");
 
-        public async Task<ApiResult<EmptyResult, ProblemDetails>> ResendConfirmationEmail(ResendConfirmationEmailCommand resendConfirmationEmailCommand)
-            => await PostAsJsonAsync<EmptyResult, ResendConfirmationEmailCommand>(resendConfirmationEmailCommand, $"/api/v1/users/resend-confirmation-email");
+        public Task<ApiResult<EmptyResult, ProblemDetails>> ResendConfirmationEmail(ResendConfirmationEmailCommand resendConfirmationEmailCommand)
+            => PostAsJsonAsync<EmptyResult, ResendConfirmationEmailCommand>(resendConfirmationEmailCommand, $"/api/v1/users/resend-confirmation-email");
 
-        public async Task<ApiResult<EmptyResult, ProblemDetails>> ConfirmEmailToken(ConfirmEmailCommand confirmEmail)
-            => await PostAsJsonAsync<EmptyResult, ConfirmEmailCommand>(confirmEmail, $"/api/v1/users/confirm-email");
+        public Task<ApiResult<EmptyResult, ProblemDetails>> ConfirmEmailToken(ConfirmEmailCommand confirmEmail)
+            => PostAsJsonAsync<EmptyResult, ConfirmEmailCommand>(confirmEmail, $"/api/v1/users/confirm-email");
 
-        public async Task<ApiResult<UserProfileResult, ProblemDetails>> GetCurrentUser()
-            => await GetFromJsonAsync<UserProfileResult>($"/api/v1/users/current");
+        public Task<ApiResult<EmptyResult, ProblemDetails>> ForgotPassword(ForgotPasswordCommand forgotPasswordCommand)
+            => PostAsJsonAsync<EmptyResult, ForgotPasswordCommand>(forgotPasswordCommand, $"/api/v1/users/forgot-password");
 
-        public async Task<ApiResult<EmptyResult, ProblemDetails>> DeleteUser(string userId)
-            => await DeleteFromJsonAsync<EmptyResult>($"/api/v1/users/{userId}");
+        public Task<ApiResult<UserProfileResult, ProblemDetails>> GetCurrentUser()
+            => GetFromJsonAsync<UserProfileResult>($"/api/v1/users/current");
+
+        public Task<ApiResult<EmptyResult, ProblemDetails>> DeleteUser(string userId)
+            => DeleteFromJsonAsync<EmptyResult>($"/api/v1/users/{userId}");
 
 
         public async Task<ApiResult<TResult, ProblemDetails>> GetFromJsonAsync<TResult>(string endpoint)

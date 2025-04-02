@@ -3,7 +3,6 @@ using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Features.Captchas.Application.Gateways;
-using Rommelmarkten.Api.Features.Captchas.Infrastructure.Captcha;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword
 {
@@ -19,12 +18,14 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword
         private readonly IIdentityService identityService;
         private readonly IDomainEventService domainEventService;
         private readonly ICaptchaProvider captchaProvider;
+        private readonly IMailer mailer;
 
-        public ForgotPasswordCommandHandler(IIdentityService identityService, IDomainEventService domainEventService, ICaptchaProvider captchaProvider)
+        public ForgotPasswordCommandHandler(IIdentityService identityService, IDomainEventService domainEventService, ICaptchaProvider captchaProvider, IMailer mailer)
         {
             this.identityService = identityService;
             this.domainEventService = domainEventService;
             this.captchaProvider = captchaProvider;
+            this.mailer = mailer;
         }
 
         public async Task<Result> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
@@ -37,8 +38,9 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword
 
                     var resetCode = await identityService.GeneratePasswordResetTokenAsync(request.Email);
 
-                    //todo: send email
-                    //await SendForgotPasswordEmail(user.Email, user);
+                    var user = await identityService.FindByEmail(request.Email);
+
+                    await mailer.SendPasswordResetLink(user, resetCode);
 
                     return Result.Success();
                 }
