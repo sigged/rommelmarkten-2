@@ -40,6 +40,12 @@ namespace Rommelmarkten.ApiClient.Features.Users
         public Task<ApiResult<EmptyResult, ProblemDetails>> ForgotPassword(ForgotPasswordCommand forgotPasswordCommand)
             => PostAsJsonAsync<EmptyResult, ForgotPasswordCommand>(forgotPasswordCommand, $"/api/v1/users/forgot-password");
 
+        public Task<ApiResult<PasswordResetTokenResult, ProblemDetails>> GetPasswordResetToken(string userId)
+            => GetFromJsonAsync<PasswordResetTokenResult>($"/api/v1/users/get-password-reset-token?userId={userId}");
+
+        public Task<ApiResult<EmptyResult, ProblemDetails>> ResetPassword(ResetPasswordCommand resetPasswordCommand)
+            => PostAsJsonAsync<EmptyResult, ResetPasswordCommand>(resetPasswordCommand, $"/api/v1/users/reset-password");
+
         public Task<ApiResult<UserProfileResult, ProblemDetails>> GetCurrentUser()
             => GetFromJsonAsync<UserProfileResult>($"/api/v1/users/current");
 

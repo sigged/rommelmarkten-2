@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
+using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Features.Users.Application.Models;
 
 namespace Rommelmarkten.Api.Features.Users.Application.Queries
@@ -9,7 +11,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries
     [Authorize(Policy = CorePolicies.MustBeAdmin)]
     public class GeneratePasswordResetCommand : IRequest<TokenResult>
     {
-        public required string Email { get; set; }
+        public required string UserId { get; set; }
     }
     public class GeneratePasswordResetCommandHandler : IRequestHandler<GeneratePasswordResetCommand, TokenResult>
     {
@@ -24,7 +26,9 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries
 
         public async Task<TokenResult> Handle(GeneratePasswordResetCommand request, CancellationToken cancellationToken)
         {
-            var result = await _identityService.GeneratePasswordResetTokenAsync(request.Email);
+            var user = await _identityService.FindById(request.UserId);
+
+            var result = await _identityService.GeneratePasswordResetTokenAsync(user.Email!);
             return new TokenResult(true, [])
             {
                 Token = result

@@ -127,10 +127,6 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         public async Task<ActionResult> ConfirmEmail(ConfirmEmailCommand command)
         {
             var result = await Mediator.Send(command);
-
-            //if (!result.Succeeded)
-            //    return BadRequest(result);
-
             return NoContent();
         }
 
@@ -175,9 +171,11 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         [ProducesResponseType(typeof(TokenResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GeneratePasswordResetToken(GeneratePasswordResetCommand command)
+        public async Task<ActionResult> GeneratePasswordResetToken(string userId)
         {
-            var result = await Mediator.Send(command);
+            var result = await Mediator.Send(new GeneratePasswordResetCommand { 
+                UserId = userId 
+            });
 
             if (!result.Succeeded)
                 return BadRequest(result);
@@ -187,14 +185,10 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
 
         [HttpPost("reset-password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> ForgotPassword(ResetPasswordCommand command)
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> ResetPassword(ResetPasswordCommand command)
         {
             var result = await Mediator.Send(command);
-
-            if (!result.Succeeded)
-                return BadRequest(result);
-
             return NoContent();
         }
 

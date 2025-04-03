@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 
@@ -26,6 +27,7 @@ namespace Rommelmarkten.Api.Features.Users.Application.Commands.ResetPassword
         public async Task<Result> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
         {
             var result = await _identityService.ResetPasswordAsync(request.Email, request.ResetCode, request.NewPassword);
+            ValidationException.ThrowWhenFailedResult(result);
             return result;
         }
     }
