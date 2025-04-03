@@ -9,7 +9,7 @@ namespace WebApiTests.EndToEndTests
     public partial class UsersTests 
     {
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task GetEmailTokenByUrl_Unauthed_Returns401()
         {
             // Arrange
@@ -32,7 +32,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task GetEmailTokenByUrl_AsNonAdmin_Returns403()
         {
             // Arrange
@@ -56,7 +56,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Administrator)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task GetEmailTokenByUrl_AsAdmin_Returns200()
         {
             // Arrange
@@ -80,7 +80,7 @@ namespace WebApiTests.EndToEndTests
 
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task ConfirmEmail_WithProperToken_Returns204()
         {
             // Arrange
@@ -111,7 +111,7 @@ namespace WebApiTests.EndToEndTests
 
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task ConfirmEmail_WithFaultyToken_Returns422()
         {
             // Arrange
@@ -142,7 +142,7 @@ namespace WebApiTests.EndToEndTests
 
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Administrator)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task ResendConfirmationEmail_AsAdmin_Returns204()
         {
             // Arrange
@@ -171,7 +171,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task ResendConfirmationEmail_AsNonAdmin_Returns403()
         {
             // Arrange
@@ -198,7 +198,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ConfirmEmail)]
         public async Task ResendConfirmationEmail_UnAuthed_Returns401()
         {
             // Arrange

@@ -1,10 +1,12 @@
-﻿using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
+﻿using Rommelmarkten.EndToEndTests.WebApi.Common;
+using static Rommelmarkten.ApiClient.Features.Users.UsersClient;
 
 namespace WebApiTests.EndToEndTests
 {
     public partial class UsersTests 
     {
         [Fact]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_Authenticate)]
         public async Task Authenticate_ValidCredentials_Returns200()
         {
             // Arrange
@@ -26,6 +28,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_Authenticate)]
         public async Task Authenticate_WithInvalidCredentials_Returns401()
         {
             // Arrange

@@ -9,7 +9,7 @@ namespace WebApiTests.EndToEndTests
     {
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_ResetPassword)]
         public async Task ForgotPassword_UnAuthed_Returns204()
         {
             // Arrange

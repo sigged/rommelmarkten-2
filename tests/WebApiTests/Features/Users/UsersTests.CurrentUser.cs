@@ -8,7 +8,7 @@ namespace WebApiTests.EndToEndTests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_GetCurrentUser)]
         public async Task GetCurrentUser_Authed_Returns200(bool isAdminUser)
         {
             // Arrange
@@ -26,7 +26,7 @@ namespace WebApiTests.EndToEndTests
 
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_GetCurrentUser)]
         public async Task GetCurrentUser_Unauthed_Returns401()
         {
             // Arrange

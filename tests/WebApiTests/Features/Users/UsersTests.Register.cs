@@ -7,7 +7,7 @@ namespace WebApiTests.EndToEndTests
     public partial class UsersTests 
     {
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Administrator)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_Register)]
         public async Task RegisterNewUser_AsAdmin_Returns201()
         {
             // Arrange
@@ -32,7 +32,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_Register)]
         public async Task RegisterNewUser_AsEndUser_Returns201()
         {
             // Arrange
@@ -57,7 +57,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_Register)]
         public async Task RegisterNewUser_Unauthed_Returns201()
         {
             // Arrange
@@ -83,7 +83,7 @@ namespace WebApiTests.EndToEndTests
 
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_Register)]
         public async Task RegisterNewUser_InvalidEmail_Returns422()
         {
             // Arrange
@@ -110,7 +110,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_Register)]
         public async Task RegisterNewUser_InvalidName_Returns422()
         {
             // Arrange

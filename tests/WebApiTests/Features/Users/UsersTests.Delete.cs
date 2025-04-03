@@ -6,7 +6,7 @@ namespace WebApiTests.EndToEndTests
     public partial class UsersTests 
     {
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Administrator)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_DeleteUser)]
         public async Task DeleteUser_AsAdmin_Returns204()
         {
             // Arrange
@@ -28,7 +28,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_DeleteUser)]
         public async Task DeleteUser_AsSelf_Returns204()
         {
             // Arrange
@@ -55,7 +55,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_DeleteUser)]
         public async Task DeleteUser_AsOtherUser_Returns401()
         {
             // Arrange
@@ -78,7 +78,7 @@ namespace WebApiTests.EndToEndTests
         }
 
         [Fact]
-        [Trait(TestConstants.Category, TestConstants.Trait_Enduser)]
+        [Trait(TestConstants.Trait_Users, TestConstants.Trait_Users_DeleteUser)]
         public async Task DeleteUser_Unauthed_Returns401()
         {
             // Arrange
