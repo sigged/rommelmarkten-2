@@ -194,23 +194,28 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
 
 
         //[HttpPost("manage-2fa")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        private async Task<ActionResult> ManageTwoFactorAuthentication(ManageTwoFactorAuthenticationCommand command)
-        {
-            var result = await Mediator.Send(command);
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+        //private async Task<ActionResult> ManageTwoFactorAuthentication(ManageTwoFactorAuthenticationCommand command)
+        //{
+        //    var result = await Mediator.Send(command);
 
-            if (!result.Succeeded)
-                return BadRequest(result);
+        //    if (!result.Succeeded)
+        //        return BadRequest(result);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         [HttpPut("profile")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Update(UpdateProfileCommand command)
         {
             await Mediator.Send(command);
-
             return NoContent();
         }
 
@@ -232,40 +237,40 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
             return NoContent();
         }
 
-        [HttpPut("avatar")]
-        [Authorize] //prevent anonymous spammers
-        [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, "image/jpeg")]
-        [RequestSizeLimit(5 * 1024 * 1024)] //5 MiB
-        public async Task<ActionResult> Update(IFormFile avatarFile)
-        {
-            byte[] buffer = new byte[avatarFile.Length];
-            using (var memoryStream = new MemoryStream())
-            {
-                await avatarFile.CopyToAsync(memoryStream);
-                memoryStream.Position = 0;
-                await memoryStream.WriteAsync(buffer, 0, buffer.Length);
-            }
+        //[HttpPut("avatar")]
+        //[Authorize] //prevent anonymous spammers
+        //[ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, "image/jpeg")]
+        //[RequestSizeLimit(5 * 1024 * 1024)] //5 MiB
+        //public async Task<ActionResult> Update(IFormFile avatarFile)
+        //{
+        //    byte[] buffer = new byte[avatarFile.Length];
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        await avatarFile.CopyToAsync(memoryStream);
+        //        memoryStream.Position = 0;
+        //        await memoryStream.WriteAsync(buffer, 0, buffer.Length);
+        //    }
 
-            var command = new UpdateAvatarCommand
-            {
-                Avatar = new BlobDto
-                {
-                    Content = buffer,
-                    Name = avatarFile.FileName,
-                    Type = avatarFile.ContentType
-                }
-            };
-            await Mediator.Send(command);
+        //    var command = new UpdateAvatarCommand
+        //    {
+        //        Avatar = new BlobDto
+        //        {
+        //            Content = buffer,
+        //            Name = avatarFile.FileName,
+        //            Type = avatarFile.ContentType
+        //        }
+        //    };
+        //    await Mediator.Send(command);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        [HttpDelete("avatar")]
-        public async Task<ActionResult> Delete()
-        {
-            await Mediator.Send(new UpdateAvatarCommand { Avatar = null });
+        //[HttpDelete("avatar")]
+        //public async Task<ActionResult> Delete()
+        //{
+        //    await Mediator.Send(new UpdateAvatarCommand { Avatar = null });
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
     }
 }

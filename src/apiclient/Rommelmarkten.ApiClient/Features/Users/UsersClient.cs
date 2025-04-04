@@ -52,6 +52,8 @@ namespace Rommelmarkten.ApiClient.Features.Users
         public Task<ApiResult<EmptyResult, ProblemDetails>> DeleteUser(string userId)
             => DeleteFromJsonAsync<EmptyResult>($"/api/v1/users/{userId}");
 
+        public Task<ApiResult<EmptyResult, ProblemDetails>> UpdateProfile(UpdateProfileCommand updateProfileCommand)
+            => PutAsJsonAsync<EmptyResult, UpdateProfileCommand>(updateProfileCommand, $"/api/v1/users/profile");
 
         public async Task<ApiResult<TResult, ProblemDetails>> GetFromJsonAsync<TResult>(string endpoint)
         {
@@ -65,6 +67,13 @@ namespace Rommelmarkten.ApiClient.Features.Users
         {
             var client = httpClientFactory.CreateClient(Constants.ClientName);
             var response = await client.PostAsJsonAsync(endpoint, request);
+            return await ReadResponseBody<TResult>(response);
+        }
+
+        public async Task<ApiResult<TResult, ProblemDetails>> PutAsJsonAsync<TResult, TRequest>(TRequest request, string endpoint)
+        {
+            var client = httpClientFactory.CreateClient(Constants.ClientName);
+            var response = await client.PutAsJsonAsync(endpoint, request);
             return await ReadResponseBody<TResult>(response);
         }
 
