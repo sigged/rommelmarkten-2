@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Exceptions;
 using Rommelmarkten.Api.Common.Application.Interfaces;

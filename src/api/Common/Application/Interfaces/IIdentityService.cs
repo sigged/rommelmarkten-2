@@ -1,4 +1,5 @@
-﻿using Rommelmarkten.Api.Common.Application.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Domain;
 using System.Security.Claims;
 
@@ -33,5 +34,7 @@ namespace Rommelmarkten.Api.Common.Application.Interfaces
         Task<IUser> FindById(string id);
         Task<Result> UpdateUser(IUser user);
         Task<Result> InvalidateEmail(IUser user);
+        Task<Result> ChangeRoleAsync(string userId, string roleId);
+        IEnumerable<IdentityRole> GetRoles();
     }
 }

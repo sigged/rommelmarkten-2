@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Pagination;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
@@ -54,4 +56,9 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries
         public required UserProfile Profile { get; init; }
     }
 
+    public class UserProfileAndUserAndRole
+    {
+        public required IdentityRole Role { get; init; }
+        public required UserProfileAndUser UserProfileAndUser { get; init; }
+    }
 }

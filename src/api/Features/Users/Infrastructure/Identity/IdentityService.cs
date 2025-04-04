@@ -6,6 +6,7 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Features.Users.Domain;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
@@ -292,12 +293,36 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
             var appUser = await _userManager.FindByIdAsync(user.Id);
 
             if (appUser == null)
-                throw new NotFoundException(nameof(IUser), nameof(IUser.Email));
+                throw new NotFoundException(nameof(IUser), nameof(IUser.Id));
 
             appUser.EmailConfirmed = false;
 
             var result = await _userManager.UpdateAsync(appUser);
             return result.ToApplicationResult();
+        }
+
+        public async Task<Result> ChangeRoleAsync(string userId, string roleId)
+        {
+            var appUser = await _userManager.FindByIdAsync(userId);
+            if (appUser == null)
+                throw new NotFoundException(nameof(IUser), nameof(IUser.Id));
+
+            var appRole = await _roleManager.FindByIdAsync(roleId);
+            if (appRole == null)
+                throw new NotFoundException(nameof(IdentityRole), nameof(IdentityRole.Id));
+            
+            if(await _userManager.IsInRoleAsync(appUser, appRole.Name!))
+            {
+                return Result.Success();
+            }
+
+            await _userManager.AddToRoleAsync(appUser, appRole.Name!);
+            return Result.Success();
+        }
+
+        public IEnumerable<IdentityRole> GetRoles()
+        {
+            return _roleManager.Roles;
         }
     }
 }

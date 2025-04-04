@@ -55,6 +55,12 @@ namespace Rommelmarkten.ApiClient.Features.Users
         public Task<ApiResult<EmptyResult, ProblemDetails>> UpdateProfile(UpdateProfileCommand updateProfileCommand)
             => PutAsJsonAsync<EmptyResult, UpdateProfileCommand>(updateProfileCommand, $"/api/v1/users/profile");
 
+        public Task<ApiResult<EmptyResult, ProblemDetails>> ChangeRole(ChangeRoleCommand command)
+            => PutAsJsonAsync<EmptyResult, ChangeRoleCommand>(command, $"/api/v1/users/change-role");
+
+        public Task<ApiResult<EmptyResult, ProblemDetails>> ForceLogout(ForceLogoutCommand command)
+            => PostAsJsonAsync<EmptyResult, ForceLogoutCommand>(command, $"/api/v1/users/force-logout");
+
         public async Task<ApiResult<TResult, ProblemDetails>> GetFromJsonAsync<TResult>(string endpoint)
         {
             var client = httpClientFactory.CreateClient(Constants.ClientName);

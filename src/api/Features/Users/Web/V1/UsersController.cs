@@ -9,10 +9,12 @@ using Rommelmarkten.Api.Common.Application.Pagination;
 using Rommelmarkten.Api.Common.Web.Controllers;
 using Rommelmarkten.Api.Common.Web.Middlewares;
 using Rommelmarkten.Api.Features.Users.Application.Commands.AuthenticateUser;
+using Rommelmarkten.Api.Features.Users.Application.Commands.ChangeRole;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ConfirmEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.CreateUser;
 using Rommelmarkten.Api.Features.Users.Application.Commands.DeleteUser;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ExchangeRefreshToken;
+using Rommelmarkten.Api.Features.Users.Application.Commands.ForceLogout;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ResendConfirmationEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ResetPassword;
@@ -142,20 +144,20 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
 
         [HttpPut("change-role")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> ChangeRole()
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> ChangeRole(ChangeRoleCommand command)
         {
-            //await Mediator.Send(command);
-            throw new NotImplementedException();
-            //return NoContent();
+            await Mediator.Send(command);
+            return NoContent();
         }
 
-        [HttpPut("force-logout")]
+        [HttpPost("force-logout")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> ForceLogout()
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> ForceLogout(ForceLogoutCommand command)
         {
-            //await Mediator.Send(command);
-            throw new NotImplementedException();
-            //return NoContent();
+            await Mediator.Send(command);
+            return NoContent();
         }
 
         [HttpPost("forgot-password")]
@@ -236,6 +238,7 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
             await Mediator.Send(new DeleteUserCommand { UserId = id });
             return NoContent();
         }
+
 
         //[HttpPut("avatar")]
         //[Authorize] //prevent anonymous spammers

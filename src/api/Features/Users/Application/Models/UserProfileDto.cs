@@ -75,7 +75,7 @@ public class UserProfileDto
     public required string? VAT { get; set; }
     public required int ActivationRemindersSent { get; set; }
     public required DateTimeOffset? LastActivationMailSendDate { get; set; }
-    public required  DateTimeOffset? ActivationDate { get; set; }
+    public required DateTimeOffset? ActivationDate { get; set; }
     public required DateTimeOffset? LastActivityDate { get; set; }
     public required DateTimeOffset? LastPasswordResetDate { get; set; }
     public required DateTime Created { get; set; }
