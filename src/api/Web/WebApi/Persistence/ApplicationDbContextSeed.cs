@@ -2,6 +2,7 @@
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
 using System.Security.Claims;
 
@@ -9,10 +10,10 @@ namespace Rommelmarkten.Api.WebApi.Persistence
 {
     internal static class ApplicationDbContextSeed
     {
-        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, UsersDbContext context)
+        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, UsersDbContext context)
         {
-            var administratorRole = new IdentityRole("Administrator");
-            var userRole = new IdentityRole("User");
+            var administratorRole = new ApplicationRole("Administrator");
+            var userRole = new ApplicationRole("User");
 
             var avatarGenerator = new AvatarGenerator();
 

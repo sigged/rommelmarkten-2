@@ -13,6 +13,7 @@ using Rommelmarkten.Api.Features.ShoppingLists;
 using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users;
 using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Persistence;
 using Rommelmarkten.Api.MigrationsAggregator;
 using Rommelmarkten.Api.WebApi.Persistence;
 using Rommelmarkten.Api.WebApi.Services;
@@ -104,7 +105,7 @@ namespace Rommelmarkten.Api.WebApi
                         var userDbContext = scopedServices.GetRequiredService<UsersDbContext>();
                         var shoppingListsDbContext = scopedServices.GetRequiredService<ShoppingListsDbContext>();
                         var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
-                        var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
+                        var roleManager = scopedServices.GetRequiredService<RoleManager<ApplicationRole>>();
 
                         if (userDbContext.Database.IsSqlServer())
                         {

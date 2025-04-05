@@ -199,7 +199,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AffiliateAds");
+                    b.ToTable("AffiliateAds", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.FAQs.Domain.FAQCategory", b =>
@@ -218,7 +218,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FAQCategories");
+                    b.ToTable("FAQCategories", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.FAQs.Domain.FAQItem", b =>
@@ -246,7 +246,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("FAQItems");
+                    b.ToTable("FAQItems", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.BannerType", b =>
@@ -273,7 +273,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BannerTypes");
+                    b.ToTable("BannerTypes", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.Market", b =>
@@ -331,7 +331,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Markets");
+                    b.ToTable("Markets", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketConfiguration", b =>
@@ -370,7 +370,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MarketConfigurations");
+                    b.ToTable("MarketConfigurations", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketDate", b =>
@@ -404,7 +404,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("ParentMarketId");
 
-                    b.ToTable("MarketDates");
+                    b.ToTable("MarketDates", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoice", b =>
@@ -434,7 +434,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("MarketId");
 
-                    b.ToTable("MarketInvoices");
+                    b.ToTable("MarketInvoices", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoiceLine", b =>
@@ -459,7 +459,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("ParentInvoiceId");
 
-                    b.ToTable("MarketInvoiceLines");
+                    b.ToTable("MarketInvoiceLines", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketInvoiceReminder", b =>
@@ -478,7 +478,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("ParentInvoiceId");
 
-                    b.ToTable("MarketInvoiceReminders");
+                    b.ToTable("MarketInvoiceReminders", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision", b =>
@@ -514,7 +514,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("RevisedMarketId");
 
-                    b.ToTable("MarketRevisions");
+                    b.ToTable("MarketRevisions", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketRevisionWithTheme", b =>
@@ -532,7 +532,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("MarketRevisionsWithThemes");
+                    b.ToTable("MarketRevisionsWithThemes", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketTheme", b =>
@@ -563,7 +563,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MarketThemes");
+                    b.ToTable("MarketThemes", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.MarketWithTheme", b =>
@@ -581,7 +581,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("MarketWithThemes");
+                    b.ToTable("MarketWithThemes", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Markets.Domain.Province", b =>
@@ -615,7 +615,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("Provinces");
+                    b.ToTable("Provinces", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.NewsArticles.Domain.NewsArticle", b =>
@@ -650,7 +650,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NewsArticles");
+                    b.ToTable("NewsArticles", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.Category", b =>
@@ -685,7 +685,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ListAssociate", b =>
@@ -701,7 +701,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("ListId", "AssociateId");
 
-                    b.ToTable("ListAssociates");
+                    b.ToTable("ListAssociates", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ListItem", b =>
@@ -744,7 +744,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("ListId");
 
-                    b.ToTable("ListItems");
+                    b.ToTable("ListItems", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.ShoppingLists.Domain.ShoppingList", b =>
@@ -778,7 +778,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShoppingLists");
+                    b.ToTable("ShoppingLists", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.ApplicationUser", b =>
@@ -879,7 +879,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshToken", (string)null);
                 });
 
             modelBuilder.Entity("Rommelmarkten.Api.Features.Users.Domain.UserProfile", b =>
@@ -947,7 +947,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                     b.HasKey("OwnedBy");
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("UserProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1029,7 +1029,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                         .HasForeignKey("ProvinceId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketImage", "Image", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Market.Image#Rommelmarkten.Api.Features.Markets.Domain.MarketImage", "Image", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1046,13 +1046,13 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketId");
 
-                            b1.ToTable("Markets");
+                            b1.ToTable("Markets", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketLocation", "Location", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Market.Location#Rommelmarkten.Api.Features.Markets.Domain.MarketLocation", "Location", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1090,13 +1090,13 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketId");
 
-                            b1.ToTable("Markets");
+                            b1.ToTable("Markets", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Organizer", "Organizer", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Market.Organizer#Rommelmarkten.Api.Features.Markets.Domain.Organizer", "Organizer", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1135,13 +1135,13 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketId");
 
-                            b1.ToTable("Markets");
+                            b1.ToTable("Markets", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketPricing", "Pricing", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Market.Pricing#Rommelmarkten.Api.Features.Markets.Domain.MarketPricing", "Pricing", b1 =>
                         {
                             b1.Property<Guid>("MarketId")
                                 .HasColumnType("uniqueidentifier");
@@ -1156,7 +1156,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketId");
 
-                            b1.ToTable("Markets");
+                            b1.ToTable("Markets", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketId");
@@ -1233,7 +1233,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketImage", "Image", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision.Image#Rommelmarkten.Api.Features.Markets.Domain.MarketImage", "Image", b1 =>
                         {
                             b1.Property<Guid>("MarketRevisionId")
                                 .HasColumnType("uniqueidentifier");
@@ -1250,13 +1250,13 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketRevisionId");
 
-                            b1.ToTable("MarketRevisions");
+                            b1.ToTable("MarketRevisions", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketRevisionId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketLocation", "Location", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision.Location#Rommelmarkten.Api.Features.Markets.Domain.MarketLocation", "Location", b1 =>
                         {
                             b1.Property<Guid>("MarketRevisionId")
                                 .HasColumnType("uniqueidentifier");
@@ -1294,13 +1294,13 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketRevisionId");
 
-                            b1.ToTable("MarketRevisions");
+                            b1.ToTable("MarketRevisions", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketRevisionId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.Organizer", "Organizer", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision.Organizer#Rommelmarkten.Api.Features.Markets.Domain.Organizer", "Organizer", b1 =>
                         {
                             b1.Property<Guid>("MarketRevisionId")
                                 .HasColumnType("uniqueidentifier");
@@ -1339,13 +1339,13 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketRevisionId");
 
-                            b1.ToTable("MarketRevisions");
+                            b1.ToTable("MarketRevisions", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketRevisionId");
                         });
 
-                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketPricing", "Pricing", b1 =>
+                    b.OwnsOne("Rommelmarkten.Api.Features.Markets.Domain.MarketRevision.Pricing#Rommelmarkten.Api.Features.Markets.Domain.MarketPricing", "Pricing", b1 =>
                         {
                             b1.Property<Guid>("MarketRevisionId")
                                 .HasColumnType("uniqueidentifier");
@@ -1360,7 +1360,7 @@ namespace Rommelmarkten.Api.MigrationsAggregator.Migrations
 
                             b1.HasKey("MarketRevisionId");
 
-                            b1.ToTable("MarketRevisions");
+                            b1.ToTable("MarketRevisions", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MarketRevisionId");

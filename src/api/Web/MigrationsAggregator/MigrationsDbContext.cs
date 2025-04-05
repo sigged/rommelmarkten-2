@@ -15,7 +15,7 @@ using Rommelmarkten.Api.Features.Users.Domain;
 
 namespace Rommelmarkten.Api.MigrationsAggregator
 {
-    public class MigrationsDbContext : IdentityDbContext<ApplicationUser>, 
+    public class MigrationsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, 
         IUsersDbContext, IShoppingListsDbContext, INewsArticlesDbContext, IMarketsDbContext, IFAQsDbContext, IAffiliatesDbContext
     {
         private Type[] ContextTypes = [

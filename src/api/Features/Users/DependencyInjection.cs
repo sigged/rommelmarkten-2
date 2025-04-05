@@ -6,10 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Security;
 using Rommelmarkten.Api.Common.Infrastructure.Services;
-using Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Identity;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Persistence;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Security;
 using Rommelmarkten.Api.Features.Users.Infrastructure.Services;
 using System.Reflection;
@@ -23,9 +23,7 @@ namespace Rommelmarkten.Api.Features.Users
         public static IServiceCollection AddUsersFeature(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            var pis = services.Where(e => e.ServiceType.FullName.Contains("FluentValidation")).ToList();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            var kak = services.Where(e => e.ServiceType.FullName.Contains("FluentValidation")).ToList();
 
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
@@ -51,7 +49,7 @@ namespace Rommelmarkten.Api.Features.Users
             services.AddUserAuthorization();
 
             services
-                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                .AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
                     options.SignIn.RequireConfirmedEmail = true;
                     options.Stores.ProtectPersonalData = false; //todo: true!

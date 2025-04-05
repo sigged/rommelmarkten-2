@@ -56,9 +56,4 @@ namespace Rommelmarkten.Api.Features.Users.Application.Queries
         public required UserProfile Profile { get; init; }
     }
 
-    public class UserProfileAndUserAndRole
-    {
-        public required IdentityRole Role { get; init; }
-        public required UserProfileAndUser UserProfileAndUser { get; init; }
-    }
 }

@@ -14,14 +14,14 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
         private readonly IAuthorizationService _authorizationService;
 
         public IdentityService(
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
             IAuthorizationService authorizationService)
@@ -188,7 +188,7 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
                 var role = await _roleManager.FindByNameAsync(roleName);
 
                 if (role == null)
-                    throw new NotFoundException(nameof(IdentityRole), nameof(IdentityRole.Name));
+                    throw new NotFoundException(nameof(ApplicationRole), nameof(ApplicationRole.Name));
 
                 claimsForIdentity.AddRange(await _roleManager.GetClaimsAsync(role));
             }
@@ -309,7 +309,7 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
 
             var appRole = await _roleManager.FindByIdAsync(roleId);
             if (appRole == null)
-                throw new NotFoundException(nameof(IdentityRole), nameof(IdentityRole.Id));
+                throw new NotFoundException(nameof(ApplicationRole), nameof(ApplicationRole.Id));
             
             if(await _userManager.IsInRoleAsync(appUser, appRole.Name!))
             {

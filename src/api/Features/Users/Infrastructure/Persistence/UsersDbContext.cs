@@ -6,9 +6,9 @@ using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
 using System.Reflection;
 
-namespace Rommelmarkten.Api.Features.ShoppingLists.Infrastructure.Persistence
+namespace Rommelmarkten.Api.Features.Users.Infrastructure.Persistence
 {
-    public class UsersDbContext : IdentityDbContext<ApplicationUser>, IUsersDbContext
+    public class UsersDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IUsersDbContext
     {
         protected readonly ICurrentUserService _currentUserService;
         protected readonly IDateTime _dateTime;
