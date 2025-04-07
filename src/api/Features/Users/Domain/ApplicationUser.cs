@@ -12,6 +12,11 @@ namespace Rommelmarkten.Api.Features.Users.Domain
         [PersonalData]
         public string? LastName { get; set; }
 
-        public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = [];
+
+        public virtual ICollection<ApplicationUserClaim> Claims { get; set; } = [];
+        public virtual ICollection<ApplicationUserLogin> Logins { get; set; } = [];
+        public virtual ICollection<ApplicationUserToken> Tokens { get; set; } = [];
+        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; } = [];
     }
 }

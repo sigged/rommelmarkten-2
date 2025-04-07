@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Features.Affiliates.Application.Gateways;
 using Rommelmarkten.Api.Features.Affiliates.Domain;
@@ -12,11 +13,21 @@ using Rommelmarkten.Api.Features.ShoppingLists.Application.Gateways;
 using Rommelmarkten.Api.Features.ShoppingLists.Domain;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Persistence.Configuration;
+using System.Reflection.Emit;
 
 namespace Rommelmarkten.Api.MigrationsAggregator
 {
-    public class MigrationsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, 
-        IUsersDbContext, IShoppingListsDbContext, INewsArticlesDbContext, IMarketsDbContext, IFAQsDbContext, IAffiliatesDbContext
+    public class MigrationsDbContext : IdentityDbContext<
+                                            ApplicationUser, ApplicationRole, string, 
+                                            ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
+                                            ApplicationRoleClaim, ApplicationUserToken>,
+                                        IUsersDbContext, 
+                                        IShoppingListsDbContext, 
+                                        INewsArticlesDbContext, 
+                                        IMarketsDbContext, 
+                                        IFAQsDbContext, 
+                                        IAffiliatesDbContext
     {
         private Type[] ContextTypes = [
             typeof(IUsersDbContext),
@@ -39,12 +50,21 @@ namespace Rommelmarkten.Api.MigrationsAggregator
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            foreach(var assembly in ContextTypes.Select(t => t.Assembly).DistinctBy(a => a.FullName))
+            // configure base identity models first
+            base.OnModelCreating(builder);
+
+            // ensure navigation properties in custom models are mapped
+            // warning! can't be done by using IEntityTypeConfiguration classes, so we use ModelBuilder directly
+            builder.ConfigureApplicationIdentityModels();
+
+            // now continue with all other configs
+            foreach (var assembly in ContextTypes.Select(t => t.Assembly).DistinctBy(a => a.FullName))
             {
                 builder.ApplyConfigurationsFromAssembly(assembly);
             }
+
             
-            base.OnModelCreating(builder);
+
         }
 
         public required DbSet<UserProfile> UserProfiles { get; set; }

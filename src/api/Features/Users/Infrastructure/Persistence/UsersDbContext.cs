@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Features.Users.Application.Gateways;
 using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.Features.Users.Infrastructure.Persistence.Configuration;
 using System.Reflection;
 
 namespace Rommelmarkten.Api.Features.Users.Infrastructure.Persistence
 {
-    public class UsersDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IUsersDbContext
+    public class UsersDbContext : IdentityDbContext<
+                                        ApplicationUser, ApplicationRole, string,
+                                        ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
+                                        ApplicationRoleClaim, ApplicationUserToken>,
+                                  IUsersDbContext
     {
         protected readonly ICurrentUserService _currentUserService;
         protected readonly IDateTime _dateTime;
@@ -62,9 +68,13 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
             base.OnModelCreating(builder);
+
+            // ensure navigation properties in custom models are mapped
+            // warning! can't be done by using IEntityTypeConfiguration classes, so we use ModelBuilder directly
+            builder.ConfigureApplicationIdentityModels();
+
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         protected async Task DispatchEvents()

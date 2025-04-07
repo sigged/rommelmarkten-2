@@ -4,7 +4,7 @@ namespace Rommelmarkten.Api.Features.Users.Domain
 {
     public class ApplicationRole : IdentityRole
     {
-        public ApplicationRole() : base()
+        public ApplicationRole()
         {
             
         }
@@ -13,5 +13,8 @@ namespace Rommelmarkten.Api.Features.Users.Domain
         {
             
         }
+
+        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; } = [];
+        public virtual ICollection<ApplicationRoleClaim> RoleClaims { get; set; } = [];
     }
 }
