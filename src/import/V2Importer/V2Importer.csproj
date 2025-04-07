@@ -8,8 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\api\Rommelmarkten.Api.Domain\Domain.csproj" />
-    <ProjectReference Include="..\..\api\Rommelmarkten.Api.Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\api\Common\Application\Application.csproj" />
+    <ProjectReference Include="..\..\api\Common\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\api\Common\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\api\Features\Affiliates\Affiliates.csproj" />
+    <ProjectReference Include="..\..\api\Features\BannerTypes\FAQs.csproj" />
+    <ProjectReference Include="..\..\api\Features\Captchas\Captchas.csproj" />
+    <ProjectReference Include="..\..\api\Features\Markets\Markets.csproj" />
+    <ProjectReference Include="..\..\api\Features\NewsArticles\NewsArticles.csproj" />
+    <ProjectReference Include="..\..\api\Features\ShoppingLists\ShoppingLists.csproj" />
+    <ProjectReference Include="..\..\api\Features\Users\Users.csproj" />
+    <ProjectReference Include="..\..\api\Web\MigrationsAggregator\MigrationsAggregator.csproj" />
   </ItemGroup>
 
 </Project>

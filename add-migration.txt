@@ -1,1 +1,4 @@
- dotnet ef --startup-project .\src\api\Rommelmarkten.Api.WebApi\ --project .\src\api\Rommelmarkten.Api.Infrastructure migrations add xyz
+dotnet ef --startup-project .\src\api\Rommelmarkten.Api.WebApi\ --project .\src\api\Rommelmarkten.Api.Infrastructure migrations add xyz
+
+
+dotnet ef --startup-project .\src\api\Web\WebApi\ --project .\src\api\Web\MigrationsAggregator\ migrations add Test --context MigrationsDbContext

@@ -1,20 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Affiliates;
-using Rommelmarkten.Api.Domain.Content;
-using Rommelmarkten.Api.Domain.Markets;
-using Rommelmarkten.Api.Domain.Users;
-using Rommelmarkten.Api.Infrastructure.Persistence;
-using System;
+using Rommelmarkten.Api.Features.Affiliates.Domain;
+using Rommelmarkten.Api.Features.Users.Domain;
 using System.Data;
 using System.Data.Common;
-using System.Text;
 
 namespace V2Importer.Importers
 {
-    
+
     public partial class Importer
     {
        
@@ -149,7 +142,7 @@ namespace V2Importer.Importers
                
                 var userProfile = new UserProfile
                 {
-                    UserId = parms["Id"]!,
+                    OwnedBy = parms["Id"]!,
                     Consented = true,
                     IsBanned = parms["IsBlocked"],
                     ActivationDate = parms["ActivationDate"],
@@ -202,6 +195,11 @@ namespace V2Importer.Importers
                 parms.Add("Id", row.Field<string>("Id"));
                 parms.Add("Name", row.Field<string>("Name"));
 
+                if(parms["Id"] == "_CMSADMIN")  //skip this role
+                {
+                    continue;
+                }
+
                 //construct insert for Identity records
                 string insertSql = $@"
                     INSERT INTO AspNetRoles (
@@ -216,7 +214,7 @@ namespace V2Importer.Importers
                     @Name,
                     @NormalizedName,
                     @ConcurrencyStamp
-                    )
+                    ) 
                     ";
 
                 target.Database.ExecuteSqlRaw(
@@ -226,6 +224,46 @@ namespace V2Importer.Importers
                         new SqlParameter("Name", parms["Name"] ?? DBNull.Value),
                         new SqlParameter("NormalizedName", Normalize(parms["Name"]) ?? DBNull.Value), //mimics default identity normalization
                         new SqlParameter("ConcurrencyStamp", Guid.NewGuid().ToString("N")), //mimics default identity concurrency stamp
+                    ]
+                );
+
+                //add new claims to old role
+                var roleClaimsParms = new Dictionary<string, dynamic?>();
+
+                //collect parameters from source record
+                roleClaimsParms.Add("RoleId", row.Field<string>("Id"));
+
+                if (roleClaimsParms["RoleId"] == "ADMIN")
+                {
+                    roleClaimsParms.Add("ClaimType", "IsAdmin");
+                    roleClaimsParms.Add("ClaimValue", "true");
+                }
+                else if(roleClaimsParms["RoleId"] == "USER")
+                {
+                    roleClaimsParms.Add("ClaimType", "IsUser");
+                    roleClaimsParms.Add("ClaimValue", "true");
+                }
+
+                string insertRoleClaimSql = $@"
+                    INSERT INTO AspNetRoleClaims (
+                    RoleId
+                    ,ClaimType
+                    ,ClaimValue
+                    ) 
+                    VALUES 
+                    (
+                    @RoleId,
+                    @ClaimType,
+                    @ClaimValue
+                    )
+                    ";
+
+                target.Database.ExecuteSqlRaw(
+                    insertRoleClaimSql,
+                    [
+                        new SqlParameter("RoleId", roleClaimsParms["RoleId"] ?? DBNull.Value),
+                        new SqlParameter("ClaimType", roleClaimsParms["ClaimType"] ?? DBNull.Value),
+                        new SqlParameter("ClaimValue", roleClaimsParms["ClaimValue"] ?? DBNull.Value),
                     ]
                 );
 
@@ -263,6 +301,11 @@ namespace V2Importer.Importers
                 //collect parameters from source record
                 parms.Add("UserId", row.Field<string>("UserId"));
                 parms.Add("RoleId", row.Field<string>("RoleId"));
+
+                if (parms["RoleId"] == "_CMSADMIN")  //skip this role
+                {
+                    continue;
+                }
 
                 //construct insert for Identity records
                 string insertSql = $@"

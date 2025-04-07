@@ -1,5 +1,5 @@
-﻿using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Common;
+﻿using Rommelmarkten.Api.Common.Application.Interfaces;
+using Rommelmarkten.Api.Common.Domain;
 
 namespace V2Importer
 {

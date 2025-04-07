@@ -1,11 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Rommelmarkten.Api.Application.Common.Interfaces;
-using Rommelmarkten.Api.Domain.Affiliates;
-using Rommelmarkten.Api.Domain.Content;
-using Rommelmarkten.Api.Domain.Markets;
-using Rommelmarkten.Api.Domain.Users;
-using Rommelmarkten.Api.Infrastructure.Persistence;
+using Rommelmarkten.Api.Features.Affiliates.Domain;
+using Rommelmarkten.Api.Features.FAQs.Domain;
+using Rommelmarkten.Api.Features.Markets.Domain;
+using Rommelmarkten.Api.Features.NewsArticles.Domain;
+using Rommelmarkten.Api.Features.Users.Domain;
+using Rommelmarkten.Api.MigrationsAggregator;
 using System.Data;
 using System.Data.Common;
 using V2Importer.Importers;
@@ -29,11 +29,11 @@ namespace V2Importer
     {
         public const string sourceDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV1;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
         public const string targetDatabase = "Server=.\\SQLEXPRESS;Database=RommelmarktenV2;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
-        private readonly ApplicationDbContext target;
+        private readonly MigrationsDbContext target;
         private readonly Importer importer;
 
         public App(
-            ApplicationDbContext target,
+            MigrationsDbContext target,
             Importer importer
         )
         {
@@ -102,11 +102,9 @@ namespace V2Importer
         //    sourceCommand.ExecuteNonQuery();
         //}
 
-        public void DeleteAllRecords(DbConnection target, ApplicationDbContext targetContext)
+        public void DeleteAllRecords(DbConnection target, MigrationsDbContext targetContext)
         {
-            var d = targetContext.GetTableName<AffiliateAd>();
-
-            Console.Write("Deleting all record in database...");
+            Console.Write($"Deleting all record in database {targetContext.Database.GetDbConnection().Database}...");
 
             var sourceCommand = target.CreateCommand();
             sourceCommand.CommandText = @$"

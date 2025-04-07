@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Rommelmarkten.Api.Features.Affiliates</AssemblyName>
+		<RootNamespace>Rommelmarkten.Api.Features.Affiliates</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>1591</NoWarn>
+	</PropertyGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Common\Application\Application.csproj" />
+	  <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\..\Common\Infrastructure\Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Common\Web\Web.csproj" />
+	</ItemGroup>
+
+</Project>

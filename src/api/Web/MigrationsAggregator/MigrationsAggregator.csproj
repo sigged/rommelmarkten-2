@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <AssemblyName>Rommelmarkten.Api.MigrationsAggregator</AssemblyName>
+	  <RootNamespace>Rommelmarkten.Api.MigrationsAggregator</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Features\Affiliates\Affiliates.csproj" />
+    <ProjectReference Include="..\..\Features\BannerTypes\FAQs.csproj" />
+    <ProjectReference Include="..\..\Features\Captchas\Captchas.csproj" />
+    <ProjectReference Include="..\..\Features\Markets\Markets.csproj" />
+    <ProjectReference Include="..\..\Features\NewsArticles\NewsArticles.csproj" />
+    <ProjectReference Include="..\..\Features\ShoppingLists\ShoppingLists.csproj" />
+    <ProjectReference Include="..\..\Features\Users\Users.csproj" />
+  </ItemGroup>
+
+</Project>

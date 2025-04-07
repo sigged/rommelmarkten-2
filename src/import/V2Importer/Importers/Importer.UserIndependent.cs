@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
-using Rommelmarkten.Api.Domain.Content;
-using Rommelmarkten.Api.Domain.Markets;
+using Rommelmarkten.Api.Features.FAQs.Domain;
+using Rommelmarkten.Api.Features.Markets.Domain;
 using System.Data;
 using System.Data.Common;
 
