@@ -6,7 +6,6 @@ using Rommelmarkten.Api.Common.Application.Interfaces;
 using Rommelmarkten.Api.Common.Application.Models;
 using Rommelmarkten.Api.Common.Domain;
 using Rommelmarkten.Api.Features.Users.Domain;
-using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
@@ -320,9 +319,9 @@ namespace Rommelmarkten.Api.Features.Users.Infrastructure.Identity
             return Result.Success();
         }
 
-        public IEnumerable<IdentityRole> GetRoles()
+        public Task<IEnumerable<IRole>> GetRolesAsync()
         {
-            return _roleManager.Roles;
+            return Task.FromResult(_roleManager.Roles.AsEnumerable<IRole>());
         }
     }
 }

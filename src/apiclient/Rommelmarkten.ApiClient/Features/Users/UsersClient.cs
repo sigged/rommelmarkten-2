@@ -25,6 +25,9 @@ namespace Rommelmarkten.ApiClient.Features.Users
         public Task<ApiResult<PaginatedList<UserProfileResult>, ProblemDetails>> GetPaged(PaginatedRequest pagedRequest)
             => GetFromJsonAsync<PaginatedList<UserProfileResult>>($"/api/v1/users?pageNumber={pagedRequest.PageNumber}&pageSize={pagedRequest.PageSize}");
 
+        public Task<ApiResult<PaginatedList<RoleResult>, ProblemDetails>> GetPagedRoles(PaginatedRequest pagedRequest)
+            => GetFromJsonAsync<PaginatedList<RoleResult>>($"/api/v1/users/roles?pageNumber={pagedRequest.PageNumber}&pageSize={pagedRequest.PageSize}");
+
         public Task<ApiResult<RegisteredResult, ProblemDetails>> Register(RegisterUserRequest registerRequest)
             => PostAsJsonAsync<RegisteredResult, RegisterUserRequest>(registerRequest, $"/api/v1/users/register");
 

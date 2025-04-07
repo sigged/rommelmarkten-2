@@ -35,6 +35,6 @@ namespace Rommelmarkten.Api.Common.Application.Interfaces
         Task<Result> UpdateUser(IUser user);
         Task<Result> InvalidateEmail(IUser user);
         Task<Result> ChangeRoleAsync(string userId, string roleId);
-        IEnumerable<IdentityRole> GetRoles();
+        Task<IEnumerable<IRole>> GetRolesAsync();
     }
 }

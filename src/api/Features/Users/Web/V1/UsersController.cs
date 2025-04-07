@@ -1,5 +1,4 @@
 ﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -18,7 +17,6 @@ using Rommelmarkten.Api.Features.Users.Application.Commands.ForceLogout;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ForgotPassword;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ResendConfirmationEmail;
 using Rommelmarkten.Api.Features.Users.Application.Commands.ResetPassword;
-using Rommelmarkten.Api.Features.Users.Application.Commands.UpdateAvatar;
 using Rommelmarkten.Api.Features.Users.Application.Commands.UpdateProfile;
 using Rommelmarkten.Api.Features.Users.Application.Models;
 using Rommelmarkten.Api.Features.Users.Application.Queries;
@@ -42,6 +40,19 @@ namespace Rommelmarkten.Api.Features.Users.Web.V1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<UserProfileDto>>> GetPagedProfiles([FromQuery] GetPagedProfilesRequest query)
+        {
+            return await Mediator.Send(query);
+        }
+
+        [HttpGet("roles")]
+        [OutputCache(Tags = [CacheTagNames.Users])]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(PaginatedList<UserProfileDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<PaginatedList<RoleDto>>> GetPagedProfiles([FromQuery] GetPagedRolesRequest query)
         {
             return await Mediator.Send(query);
         }

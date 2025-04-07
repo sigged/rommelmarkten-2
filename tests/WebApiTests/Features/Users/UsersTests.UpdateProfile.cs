@@ -102,6 +102,8 @@ namespace WebApiTests.EndToEndTests
             };
 
 
+            throw new NotImplementedException();
+
             // Act
             var result = await client.Users.UpdateProfile(updateProfileCommand);
 

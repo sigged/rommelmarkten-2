@@ -4,7 +4,6 @@
     public partial class UsersClient
     {
 
-
         public class UserProfileResult
         {
             public string? Id { get; set; }
